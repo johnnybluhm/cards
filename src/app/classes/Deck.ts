@@ -1,12 +1,14 @@
-import { Card } from "./card";
+import { Face } from "../enums/Face";
+import { Suit } from "../enums/Suits";
+import { Card } from "./Card";
 
 export class Deck {
     cards: Card[];
 
     constructor() {
         this.cards = [];
-        const suits: Suit[] = ['H', 'D', 'C', 'S'];
-        const faces: Face[] = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+        const suits: Suit[] = [Suit.Hearts, Suit.Diamonds, Suit.Clubs, Suit.Spades]; // Use Suit enum
+        const faces: Face[] = [Face.Two, Face.Three, Face.Four, Face.Five, Face.Six, Face.Seven, Face.Eight, Face.Nine, Face.Ten, Face.Jack, Face.Queen, Face.King, Face.Ace]; // Use Face enum
 
         for (const suit of suits) {
             for (const face of faces) {
@@ -14,7 +16,11 @@ export class Deck {
             }
         }
     }
-}
 
-export type Face = '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | 'J' | 'Q' | 'K' | 'A';
-export type Suit = 'H' | 'D' | 'C' | 'S';
+    shuffle() {
+        for (let i = this.cards.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
+        }
+    }
+}
