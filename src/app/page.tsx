@@ -1,7 +1,14 @@
+'use client'
 import Image from "next/image";
 import styles from "./page.module.css";
 
 export default function Home() {
+
+  function fetchData(){
+    fetch("/api/game")
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+  }
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -90,6 +97,7 @@ export default function Home() {
           Go to nextjs.org →
         </a>
       </footer>
+      <button onClick={fetchData}>Fetch Data</button>
     </div>
   );
 }
