@@ -3,9 +3,9 @@ import { Card } from "../src/app/classes/Card";
 import { Suit } from "../src/app/enums/Suits";
 import { Face } from "../src/app/enums/Face";
 
+let deck: Deck;
 describe('Deck', () => {
-    let deck: Deck;
-
+    
     beforeEach(() => {
         deck = new Deck();
     });
