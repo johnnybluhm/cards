@@ -2,7 +2,7 @@ import { Deck } from "./Deck";
 import { Player } from "./Player";
 import { Round } from "./Round";
 
-export class Game {
+export default class Game {
     playerToStartId: string 
     deck: Deck;
     players: Player[];
