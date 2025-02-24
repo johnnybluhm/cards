@@ -1,5 +1,5 @@
 'use client';
-
+//https://www.pedroalonso.net/blog/websockets-nextjs-part-1/
 import { useEffect } from 'react';
 import io from 'socket.io-client';
 
