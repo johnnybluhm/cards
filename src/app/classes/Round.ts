@@ -1,16 +1,14 @@
 import { Deck } from "./Deck";
 import { Player } from "./Player";
 
-export class Game {
-    playerToStartId: string 
-    deck: Deck;
+export class Round {
     players: Player[];
+    deck: Deck;
 
     constructor(playerNames: string[]) {
         this.players = playerNames.map(name => new Player(name));
         this.deck = new Deck();
         this.deck.shuffle();
-        this.playerToStartId = this.players[0].id; // Set the first player to start
     }
 
     start() {
@@ -27,8 +25,9 @@ export class Game {
         }
     }
 
-    determineWinner(): Player | null {
-        // Implement logic to determine the winner
-        return null;
+    updatePoints() {
+        for (const player of this.players) {
+            player.updatePoints();
+        }
     }
 }

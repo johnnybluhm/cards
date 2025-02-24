@@ -1,17 +1,19 @@
 import { Card } from "./Card";
 import { Trick } from "./Trick";
-
+import { v4 as uuidv4 } from 'uuid';
 export class Player {
     name: string;
     hand: Card[];
     tricksWon: Trick[];
     totalPoints: number;
+    id: string
 
     constructor(name: string) {
         this.name = name;
         this.hand = [];
         this.tricksWon = [];
         this.totalPoints = 0;
+        this.id = uuidv4();
     }
 
     addCard(card: Card) {
