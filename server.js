@@ -14,10 +14,10 @@ app.prepare().then(() => {
 
   const io = new Server(server);
 
-  io.on('connection', socket => {
+  io.on('connection', client => {
     console.log('Client connected');
 
-    socket.on('disconnect', () => {
+    client.on('disconnect', () => {
       console.log('Client disconnected');
     });
   });
