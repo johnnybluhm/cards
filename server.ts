@@ -4,7 +4,7 @@ import next from 'next';
 import { Server } from "socket.io";
 import Game from './src/app/classes/Game'; // Assuming you have a game.js file that exports the Game class
 import { Card } from '@/app/classes/Card';
-import { Events } from '@/app/events/events';
+import { Events } from '@/app/events/Events';
 
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
