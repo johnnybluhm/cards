@@ -2,14 +2,16 @@
 //https://www.pedroalonso.net/blog/websockets-nextjs-part-1/
 import { useEffect } from 'react';
 import io from 'socket.io-client';
+import { Events, EventsCallbacks } from './events/events';
 
 export default function Home() {
   useEffect(() => {
     const socket = io();
-    
+
     socket.on('connect', () => {
       console.log('Connected to server');
     });
+    socket.on(Events.message, EventsCallbacks.message);
 
     return () => {
       socket.disconnect();
