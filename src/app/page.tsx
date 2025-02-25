@@ -1,9 +1,10 @@
 'use client';
 //https://www.pedroalonso.net/blog/websockets-nextjs-part-1/
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'; // Adjust the path as necessary
 import io, { Socket } from 'socket.io-client';
 import { Events, EventsCallbacks } from './events/Events';
 import { DefaultEventsMap } from 'socket.io';
+import { Button } from '@mui/material';
 
 export default function Home() {
   const [socket, setSocket] = useState(io());
@@ -27,12 +28,10 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <h1 className="text-4xl font-bold">WebSocket Test</h1>
-      <button 
+      <Button 
         onClick={joinRoom}
-        className="bg-blue-500 text-white font-bold py-4 px-8 rounded-lg mt-4"
-      >
-        Join Room
-      </button>
+      >Join Room</Button>
+        
     </main>
   );
 }
