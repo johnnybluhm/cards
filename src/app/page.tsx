@@ -1,45 +1,16 @@
 'use client';
 //https://www.pedroalonso.net/blog/websockets-nextjs-part-1/
 import { Button, TextField } from '@mui/material';
-import { useEffect, useState } from 'react'; // Adjust the path as necessary
-import io from 'socket.io-client';
-import { Events } from './events/Events';
+import { useSocket } from './hooks/useSocket';
 
 export default function Home() {
-  const [socket, setSocket] = useState(io());
-  const [room, setRoom] = useState<string | null>(null);
-  useEffect(() => {
-    socket.on('connect', () => {
-      console.log('Connected to server');
-    });
-    socket.on(Events.message, (message) => {
-      console.log('Message from server', message);
-    });
-    socket.on(Events.joinRoom, (room) => {
-      console.log('Joined room:', room);
-      console.log('Room:', room);
-      setRoom(room);
-    });
-    setSocket(socket);
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
-
-  function joinRoom() {
-    if (socket) {
-      socket.emit(Events.joinRoom, 'room1');
-    }
-  }
+  const { room, joinRoom, messages, sendMessage } = useSocket();
 
   function SendMessage(event: React.ChangeEvent<HTMLInputElement>) {
-    console.log('SendMessage', event.target.value);
-    console.log(socket)
-    if (socket) {
-      socket.emit(Events.message, event.target.value, room);
-    }
+    sendMessage(event.target.value);
   }
 
+  console.log('Message Array', messages)
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <h1 className="text-4xl font-bold">WebSocket Test</h1>
@@ -52,6 +23,12 @@ export default function Home() {
       <TextField onChange={SendMessage} label="Name" variant="outlined">
 
       </TextField>
+      Messages:
+      <div>
+        {messages.map((message, index) => (
+          <p key={index}>{message}</p>
+        ))}
+      </div>
     </main >
   );
 }

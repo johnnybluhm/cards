@@ -38,9 +38,7 @@ app.prepare().then(() => {
         return;
       }
       io.to(room).emit(Events.message, message);
-      console.log(`Client joined room: ${room}`);
-      io.to(room).emit(Events.message, `A new player has joined the room: ${room}`); // Notify other players in the room
-      io.to(room).emit(Events.joinRoom, room);
+      console.log(`Message from client in room ${room}: ${message}`);
     });
 
     socket.on('play-card', (card: Card) => {

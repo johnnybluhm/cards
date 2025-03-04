@@ -1,38 +1,42 @@
 import { useEffect, useState } from 'react';
-import io, { Socket } from 'socket.io-client';
+import io from 'socket.io-client';
+import { Events } from '../events/Events';
 
 export const useSocket = () => {
-    const [socket, setSocket] = useState<Socket | null>(null);
-    const [isConnected, setIsConnected] = useState(false);
+    const [socket, setSocket] = useState(io());
+    const [room, setRoom] = useState<string | null>(null);
     const [messages, setMessages] = useState<string[]>([]);
-
     useEffect(() => {
-        const socketIo = io();
-
-        socketIo.on('connect', () => {
-            setIsConnected(true);
+        socket.on('connect', () => {
+            console.log('Connected to server');
         });
-
-        socketIo.on('disconnect', () => {
-            setIsConnected(false);
+        socket.on(Events.message, (message: string) => {
+            console.log('Message from server', message);
+            messages.push(message);
+            setMessages((prevMessages) => [...prevMessages, message])
         });
-
-        socketIo.on('chat message', (msg: string) => {
-            setMessages((prevMessages) => [...prevMessages, msg]);
+        socket.on(Events.joinRoom, (room) => {
+            console.log('Joined room:', room);
+            console.log('Room:', room);
+            setRoom(room);
         });
-
-        setSocket(socketIo);
-
+        setSocket(socket);
         return () => {
-            socketIo.disconnect();
+            socket.disconnect();
         };
     }, []);
 
     const sendMessage = (message: string) => {
         if (socket) {
-            socket.emit('chat message', message);
+            socket.emit(Events.message, message, room);
         }
     };
 
-    return { isConnected, messages, sendMessage };
+    function joinRoom() {
+        if (socket) {
+            socket.emit(Events.joinRoom, 'room1');
+        }
+    }
+
+    return { room, joinRoom, messages, sendMessage };
 };
