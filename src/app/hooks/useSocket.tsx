@@ -7,7 +7,6 @@ export const useSocket = () => {
     const [room, setRoom] = useState<string | null>(null);
     const [messages, setMessages] = useState<string[]>([]);
     useEffect(() => {
-        console.log('useEffect', socket);
         socket.on('connect', () => {
             console.log('Connected to server');
         });
@@ -17,8 +16,6 @@ export const useSocket = () => {
             setMessages((prevMessages) => [...prevMessages, message])
         });
         socket.on(Events.joinRoom, (room) => {
-            console.log('Joined room:', room);
-            console.log('Room:', room);
             setRoom(room);
         });
         setSocket(socket);
@@ -26,7 +23,6 @@ export const useSocket = () => {
             socket.disconnect();
         };
     }, []);
-    console.log("RE redner", socket)
     const sendMessage = (message: string) => {
         if (socket) {
             socket.emit(Events.message, message, room);

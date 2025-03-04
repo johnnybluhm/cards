@@ -18,18 +18,18 @@ app.prepare().then(() => {
   const io = new Server(server);
 
   io.on('connection', socket => {
-    console.log('Client connected, idk why this runs everytime');
-    console.log('connections', io.engine.clientsCount);
+    console.log('Client connected total clients:', io.engine.clientsCount);
     socket.on('disconnect', () => {
       console.log('Client disconnected');
     });
+
     socket.on(Events.joinRoom, (room: string) => {
       socket.join(room);
       console.log(`Client joined room: ${room}`);
       io.to(room).emit(Events.message, `A new player has joined the room: ${room}`); // Notify other players in the room
       io.to(room).emit(Events.joinRoom, room);
     });
-
+    
     socket.on(Events.message, (message: string, room: string) => {
       console.log('In server message', message)
       if (!room) {

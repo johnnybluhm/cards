@@ -10,7 +10,6 @@ export default function Home() {
     sendMessage(event.target.value);
   }
 
-  console.log('Message Array', messages)
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <h1 className="text-4xl font-bold">WebSocket Test</h1>
