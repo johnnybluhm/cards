@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import { Events } from '../events/Events';
-
+const client = io();
 export const useSocket = () => {
-    const [socket, setSocket] = useState(io());
+    const [socket, setSocket] = useState(client);
     const [room, setRoom] = useState<string | null>(null);
     const [messages, setMessages] = useState<string[]>([]);
     useEffect(() => {
+        console.log('useEffect', socket);
         socket.on('connect', () => {
             console.log('Connected to server');
         });
@@ -25,7 +26,7 @@ export const useSocket = () => {
             socket.disconnect();
         };
     }, []);
-
+    console.log("RE redner", socket)
     const sendMessage = (message: string) => {
         if (socket) {
             socket.emit(Events.message, message, room);

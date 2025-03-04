@@ -18,8 +18,8 @@ app.prepare().then(() => {
   const io = new Server(server);
 
   io.on('connection', socket => {
-    console.log('Client connected');
-
+    console.log('Client connected, idk why this runs everytime');
+    console.log('connections', io.engine.clientsCount);
     socket.on('disconnect', () => {
       console.log('Client disconnected');
     });
@@ -46,7 +46,6 @@ app.prepare().then(() => {
       game.beginNewRound(); // Start a new round
       console.log(card.face, card.suit); // Log the card played
     });
-    socket.broadcast.emit(Events.message, 'Hello from server!');
   });
 
   server.listen(3000, () => {
