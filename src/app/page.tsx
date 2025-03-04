@@ -1,10 +1,9 @@
 'use client';
 //https://www.pedroalonso.net/blog/websockets-nextjs-part-1/
-import { useEffect, useState } from 'react'; // Adjust the path as necessary
-import io, { Socket } from 'socket.io-client';
-import { Events, EventsCallbacks } from './events/Events';
-import { DefaultEventsMap } from 'socket.io';
 import { Button } from '@mui/material';
+import { useEffect, useState } from 'react'; // Adjust the path as necessary
+import io from 'socket.io-client';
+import { Events, EventsCallbacks } from './events/Events';
 
 export default function Home() {
   const [socket, setSocket] = useState(io());
@@ -13,6 +12,7 @@ export default function Home() {
       console.log('Connected to server');
     });
     socket.on(Events.message, EventsCallbacks.message);
+    socket.on(Events.joinRoom, EventsCallbacks.message);
     setSocket(socket);
     return () => {
       socket.disconnect();
@@ -31,7 +31,6 @@ export default function Home() {
       <Button 
         onClick={joinRoom}
       >Join Room</Button>
-        
     </main>
   );
 }

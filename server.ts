@@ -26,7 +26,8 @@ app.prepare().then(() => {
     socket.on(Events.joinRoom, (room: string) => {
       socket.join(room);
       console.log(`Client joined room: ${room}`);
-      io.to(room).emit('message', `A new player has joined the room: ${room}`); // Notify other players in the room
+      io.to(room).emit(Events.message, `A new player has joined the room: ${room}`); // Notify other players in the room
+      io.to(room).emit(Events.joinRoom, room); 
     });
 
     socket.on('play-card', (card: Card) => {
@@ -34,7 +35,7 @@ app.prepare().then(() => {
       game.beginNewRound(); // Start a new round
       console.log(card.face, card.suit); // Log the card played
     });
-    socket.broadcast.emit('message', 'Hello from server!');
+    socket.broadcast.emit(Events.message, 'Hello from server!');
   });
 
   server.listen(3000, () => {
