@@ -3,7 +3,9 @@ import '../styles/card.css';
 import { Card as CardModel } from '../classes/Card';
 import { Face } from '../enums/Face';
 import { Suit } from '../enums/Suits';
-import { Card } from '@mui/material';
+import { Card } from '@mui/material'; // Import Grid from @mui/material
+import Grid from '@mui/material/Grid2';
+
 type Props = {
     card: CardModel;
 }
@@ -12,13 +14,17 @@ type Props = {
 export default function PlayingCard({ card }: Readonly<Props>) {
     return (
         <Card variant='outlined' className="card">
-            <div className="grid-container">
-                <div className="grid-item top-left">Top Left</div>
-                <div className="grid-item top-right">Top Right</div>
-                <div className="grid-item bottom-left">Bottom Left</div>
-                <div className="grid-item bottom-right">Bottom Right</div>
-                <div className="grid-item center">Center</div>
-            </div>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                <Grid size={4} >Top Left</Grid>
+                <Grid size={4}></Grid>
+                <Grid size={4}>Top Right</Grid>
+                <Grid size={4}></Grid>
+                <Grid size={4} >Center</Grid>
+                <Grid size={4}></Grid>
+                <Grid size={4} >Bottom Left</Grid>
+                <Grid size={4}></Grid>
+                <Grid size={4} >Bottom Right</Grid>
+            </Grid>
         </Card>
 
     );
