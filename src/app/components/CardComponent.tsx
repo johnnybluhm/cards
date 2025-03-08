@@ -12,17 +12,41 @@ type Props = {
 
 export default function PlayingCard({ card }: Readonly<Props>) {
     return (
-        <Card variant='outlined' className="card" sx={{ width: 100, height: 100}}>
+        <Card variant='outlined' className="card" sx={{ width: 100, height: 100 }}>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                <Grid size={4} >A</Grid>
+                <Grid size={4} >
+                    <span style={{ color: getColor(card.suit) }}>
+                        {FaceString[card.face]}
+                    </span>
+                </Grid>
                 <Grid size={4}></Grid>
-                <Grid size={4}>A</Grid>
+                <Grid size={4} >
+                    <span style={{ color: getColor(card.suit) }}>
+                        {FaceString[card.face]}
+                    </span>
+                </Grid>
+
+
                 <Grid size={4}></Grid>
-                <Grid size={4} >♡</Grid>
+                <Grid size={4} >
+                    <span style={{ color: getColor(card.suit) }}>
+                        {SuitString[card.suit]}
+                    </span>
+                </Grid>
                 <Grid size={4}></Grid>
-                <Grid size={4} >A</Grid>
+
+
+                <Grid size={4} >
+                    <span style={{ color: getColor(card.suit) }}>
+                        {FaceString[card.face]}
+                    </span>
+                </Grid>
                 <Grid size={4}></Grid>
-                <Grid size={4} >A</Grid>
+                <Grid size={4} >
+                    <span style={{ color: getColor(card.suit) }}>
+                        {FaceString[card.face]}
+                    </span>
+                </Grid>
             </Grid>
         </Card>
 
