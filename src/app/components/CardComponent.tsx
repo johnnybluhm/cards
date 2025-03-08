@@ -16,19 +16,19 @@ export default function Card({ card }: Readonly<Props>) {
 };
 
 const FaceString = {
-    [Face.Ace]: "Ace",
-    [Face.Two]: "Two",
-    [Face.Three]: "Three",
-    [Face.Four]: "Four",
-    [Face.Five]: "Five",
-    [Face.Six]: "Six",
-    [Face.Seven]: "Seven",
-    [Face.Eight]: "Eight",
-    [Face.Nine]: "Nine",
-    [Face.Ten]: "Ten",
-    [Face.Jack]: "Jack",
-    [Face.Queen]: "Queen",
-    [Face.King]: "King"
+    [Face.Ace]: "A",
+    [Face.Two]: "2",
+    [Face.Three]: "3",
+    [Face.Four]: "4",
+    [Face.Five]: "5",
+    [Face.Six]: "6",
+    [Face.Seven]: "7",
+    [Face.Eight]: "8",
+    [Face.Nine]: "9",
+    [Face.Ten]: "T",
+    [Face.Jack]: "J",
+    [Face.Queen]: "Q",
+    [Face.King]: "K"
 };
 
 const SuitString = {
@@ -37,3 +37,19 @@ const SuitString = {
     [Suit.Clubs]: "♣",
     [Suit.Spades]: "♠"
 };
+
+const getColor = (suit: Suit): string => {
+    if (suit === Suit.Hearts) {
+        return "red";
+    }
+    else if (suit === Suit.Clubs) {
+        return "green";
+    }
+    else if (suit === Suit.Spades) {
+        return "black";
+    }
+    else if (suit === Suit.Diamonds) {
+        return "blue";
+    }
+    throw new Error("Invalid suit");
+}
