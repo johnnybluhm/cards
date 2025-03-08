@@ -10,20 +10,19 @@ type Props = {
     card: CardModel;
 }
 
-
 export default function PlayingCard({ card }: Readonly<Props>) {
     return (
-        <Card variant='outlined' className="card">
+        <Card variant='outlined' className="card" sx={{ width: 100, height: 100}}>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                <Grid size={4} >Top Left</Grid>
+                <Grid size={4} >A</Grid>
                 <Grid size={4}></Grid>
-                <Grid size={4}>Top Right</Grid>
+                <Grid size={4}>A</Grid>
                 <Grid size={4}></Grid>
-                <Grid size={4} >Center</Grid>
+                <Grid size={4} >♡</Grid>
                 <Grid size={4}></Grid>
-                <Grid size={4} >Bottom Left</Grid>
+                <Grid size={4} >A</Grid>
                 <Grid size={4}></Grid>
-                <Grid size={4} >Bottom Right</Grid>
+                <Grid size={4} >A</Grid>
             </Grid>
         </Card>
 
