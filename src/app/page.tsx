@@ -2,7 +2,7 @@
 //https://www.pedroalonso.net/blog/websockets-nextjs-part-1/
 import { Button, TextField } from '@mui/material';
 import { useSocket } from './hooks/useSocket';
-import Card from './components/CardComponent';
+import PlayingCard from './components/CardComponent';
 import { Face } from './enums/Face';
 import { Suit } from './enums/Suits';
 
@@ -35,12 +35,12 @@ export default function Home() {
         </div>
       </main >
 
-      <Card
+      <PlayingCard
         card={{
           face: Face.Ace, suit: Suit.Hearts
         }}>
 
-      </Card>
+      </PlayingCard>
     </>
   );
 }

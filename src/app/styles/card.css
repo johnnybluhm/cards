@@ -20,3 +20,51 @@
 .card .clubs, .card .spades {
     color: black;
 }
+
+.container {
+    width: 300px; /* Adjust the width as needed */
+    height: 300px; /* Adjust the height as needed */
+    margin: auto; /* Center the container in the parent */
+    border: 1px solid #000; /* Optional: Add a border to the container */
+}
+
+.grid-container {
+    display: grid;
+    grid-template-areas:
+        "top-left . top-right"
+        ". center ."
+        "bottom-left . bottom-right";
+    gap: 10px;
+    height: 100%;
+    width: 100%;
+}
+
+.grid-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #000;
+    padding: 10px; /* Adjust the padding as needed */
+    font-size: 14px; /* Adjust the font size as needed */
+    font-weight: bold;
+}
+
+.top-left {
+    grid-area: top-left;
+}
+
+.top-right {
+    grid-area: top-right;
+}
+
+.bottom-left {
+    grid-area: bottom-left;
+}
+
+.bottom-right {
+    grid-area: bottom-right;
+}
+
+.center {
+    grid-area: center;
+}

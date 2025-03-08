@@ -3,15 +3,24 @@ import '../styles/card.css';
 import { Card as CardModel } from '../classes/Card';
 import { Face } from '../enums/Face';
 import { Suit } from '../enums/Suits';
+import { Card } from '@mui/material';
 type Props = {
     card: CardModel;
 }
 
-export default function Card({ card }: Readonly<Props>) {
+
+export default function PlayingCard({ card }: Readonly<Props>) {
     return (
-        <div className="card">
-            {FaceString[card.face]} {SuitString[card.suit]}
-        </div>
+        <Card variant='outlined' className="card">
+            <div className="grid-container">
+                <div className="grid-item top-left">Top Left</div>
+                <div className="grid-item top-right">Top Right</div>
+                <div className="grid-item bottom-left">Bottom Left</div>
+                <div className="grid-item bottom-right">Bottom Right</div>
+                <div className="grid-item center">Center</div>
+            </div>
+        </Card>
+
     );
 };
 
