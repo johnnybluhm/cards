@@ -2,6 +2,9 @@
 //https://www.pedroalonso.net/blog/websockets-nextjs-part-1/
 import { Button, TextField } from '@mui/material';
 import { useSocket } from './hooks/useSocket';
+import Card from './components/CardComponent';
+import { Face } from './enums/Face';
+import { Suit } from './enums/Suits';
 
 export default function Home() {
   const { room, joinRoom, messages, sendMessage } = useSocket();
@@ -11,23 +14,33 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="text-4xl font-bold">WebSocket Test</h1>
-      <Button
-        onClick={joinRoom}
-      >Join Room</Button>
+    <>
 
-      <p>You are in room {room}</p>
+      <main className="flex min-h-screen flex-col items-center justify-between p-24">
+        <h1 className="text-4xl font-bold">WebSocket Test</h1>
+        <Button
+          onClick={joinRoom}
+        >Join Room</Button>
 
-      <TextField onChange={SendMessage} label="Name" variant="outlined">
+        <p>You are in room {room}</p>
 
-      </TextField>
-      Messages:
-      <div>
-        {messages.map((message, index) => (
-          <p key={index}>{message}</p>
-        ))}
-      </div>
-    </main >
+        <TextField onChange={SendMessage} label="Name" variant="outlined">
+
+        </TextField>
+        Messages:
+        <div>
+          {messages.map((message, index) => (
+            <p key={index}>{message}</p>
+          ))}
+        </div>
+      </main >
+
+      <Card
+        card={{
+          face: Face.Ace, suit: Suit.Hearts
+        }}>
+
+      </Card>
+    </>
   );
 }
