@@ -39,6 +39,39 @@ export default function Home() {
 
           ))}
         </ul >
+
+        <ul className="hand">
+          {cards.slice(0,13).map((card, cardIndex) => (
+            < li key={cardIndex}>
+              <PlayingCard card={card} />
+            </li>
+
+          ))}
+        </ul>
+        <ul className="hand">
+          {cards.slice(13,26).map((card, cardIndex) => (
+            < li key={cardIndex}>
+              <PlayingCard card={card} />
+            </li>
+
+          ))}
+        </ul>
+        <ul className="hand">
+          {cards.slice(26,39).map((card, cardIndex) => (
+            < li style={{margin:10}}key={cardIndex}>
+              <PlayingCard card={card} />
+            </li>
+
+          ))}
+        </ul>
+        <ul className="hand">
+          {cards.slice(39,52).map((card, cardIndex) => (
+            < li key={cardIndex}>
+              <PlayingCard card={card} />
+            </li>
+
+          ))}
+        </ul>
       </div>
     </>
   );
