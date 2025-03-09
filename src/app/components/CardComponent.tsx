@@ -50,8 +50,8 @@ const FaceString = {
 };
 
 const SuitString = {
-    [Suit.Hearts]: "♡",
-    [Suit.Diamonds]: "♢",
+    [Suit.Hearts]: "♥",
+    [Suit.Diamonds]: "♦",
     [Suit.Clubs]: "♣",
     [Suit.Spades]: "♠"
 };
