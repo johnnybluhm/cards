@@ -1,12 +1,15 @@
+import { UUID } from "crypto";
+import { Card } from "./Card";
 import { Deck } from "./Deck";
 import { Player } from "./Player";
 import { Round } from "./Round";
 
 export default class Game {
-    playerToStartId: string 
+    playerToStartId: string
     deck: Deck;
     players: Player[];
     round: Round
+    
 
     constructor(playerNames: string[]) {
         this.players = playerNames.map(name => new Player(name));
@@ -24,5 +27,13 @@ export default class Game {
     determineWinner(): Player | null {
         // Implement logic to determine the winner
         return null;
+    }
+
+    updateGame(card: Card, playerId: UUID) {
+        const player = this.players.find(p => p.id === playerId);
+        if(!player!.isTurn){
+            throw new Error("It's not your turn!");
+        }
+        this.round.addCardToTrick(card);
     }
 }
