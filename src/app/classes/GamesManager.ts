@@ -14,10 +14,11 @@ export default class GameManager {
         return game;
     }
 
-    getGame(playerId: UUID) {
+    getGame(playerId: UUID): Game {
         const game = this.games.find(game => game.players.some(player => player.id === playerId));
         if (!game) {
             throw new HttpError(`Game not found for player ${playerId}`, 400);
         }
+        return game;
     }
 }
