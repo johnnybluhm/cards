@@ -5,6 +5,7 @@ import { Server } from "socket.io";
 import Game from './src/app/classes/Game'; // Assuming you have a game.js file that exports the Game class
 import { Card } from '@/app/classes/Card';
 import { Events } from '@/app/events/Events';
+import { UUID } from 'crypto';
 
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
@@ -29,7 +30,7 @@ app.prepare().then(() => {
       io.to(room).emit(Events.message, `A new player has joined the room: ${room}`); // Notify other players in the room
       io.to(room).emit(Events.joinRoom, room);
     });
-    
+
     socket.on(Events.message, (message: string, room: string) => {
       console.log('In server message', message)
       if (!room) {
@@ -41,10 +42,9 @@ app.prepare().then(() => {
       console.log(`Message from client in room ${room}: ${message}`);
     });
 
-    socket.on('play-card', (card: Card) => {
-      const game = new Game(['Player1', 'Player2']); // Initialize game with player names
-      game.beginNewRound(); // Start a new round
-      console.log(card.face, card.suit); // Log the card played
+    socket.on('play-card', (card: Card, playerId: UUID) => {
+      const game = getGame(playerId);
+      //game.updateGame(card)
     });
   });
 
