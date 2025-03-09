@@ -8,6 +8,7 @@ type Props = {
 }
 
 export default function Hand({ cards, faceDown = false }: Readonly<Props>) {
+    sortHand(cards);
     return (
         <ul className="hand">
             {cards.map((card, cardIndex) => (
@@ -19,3 +20,12 @@ export default function Hand({ cards, faceDown = false }: Readonly<Props>) {
         </ul>
     );
 };
+
+function sortHand(cards: CardModel[]) {
+    cards.sort((a, b) => {
+        if (a.suit === b.suit) {
+            return a.face - b.face;
+        }
+        return a.suit - b.suit;
+    });
+}
