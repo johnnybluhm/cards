@@ -27,9 +27,9 @@ export default function Home() {
 
   return (
     <>
-      <h3>Deck of Cards</h3>
-      <h3>Deck of Cards</h3>
-      <h3>Deck of Cards</h3>
+      <h3>Play Hearts</h3>
+      <br />
+      <br />
 
       <div className="playingCards fourColours simpleCards">
         <Hand cards={cards.slice(0, 13)} />
