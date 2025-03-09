@@ -32,17 +32,27 @@ export default function Home() {
       <br />
       <br />
       <Grid container spacing={2}>
-        <Grid size={8}>
+        <Grid size={4}>
+        </Grid>
+        <Grid size={4}>
           <Hand cards={cards.slice(0, 13)} />
+        </Grid>
+        <Grid size={4}>
         </Grid>
         <Grid size={4}>
           <Hand cards={cards.slice(13, 26)} />
         </Grid>
         <Grid size={4}>
+        </Grid>
+        <Grid size={4}>
           <Hand cards={cards.slice(26, 39)} />
         </Grid>
-        <Grid size={8}>
+        <Grid size={4}>
+        </Grid>
+        <Grid size={4}>
           <Hand cards={cards.slice(39, 52)} />
+        </Grid>
+        <Grid size={6}>
         </Grid>
       </Grid>
 
