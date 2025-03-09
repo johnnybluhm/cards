@@ -13,7 +13,7 @@ export default function PlayingCard({ card }: Readonly<Props>) {
         <div className="playingCards fourColours simpleCards">
             <a className={`card rank-${FaceString[card.face].toLocaleLowerCase()} ${SuitString[card.suit]}`} onClick={() => console.log(SuitString[card.suit])}>
                 <span className="rank">{FaceString[card.face]}</span>
-                <span className="suit"></span>
+                <span className="suit">{SuitStringForSpan[card.suit]}</span>
             </a>
         </div >
     );
@@ -40,4 +40,11 @@ const SuitString = {
     [Suit.Diamonds]: "diams",
     [Suit.Clubs]: "clubs",
     [Suit.Spades]: "spades"
+};
+
+const SuitStringForSpan = {
+    [Suit.Hearts]: "♥",
+    [Suit.Diamonds]: "♦",
+    [Suit.Clubs]: "♣",
+    [Suit.Spades]: "♠"
 };
