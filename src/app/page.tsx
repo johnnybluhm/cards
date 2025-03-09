@@ -19,9 +19,16 @@ export default function Home() {
     setCards([...deck.cards]);
   }
 
+  function sortDeck() {
+    deck.sort();
+    console.log('sorted deck', deck.cards);
+    setCards([...deck.cards]);
+  }
+
   return (
     <>
       <Button onClick={shuffleDeck}>Shuffle Deck</Button>
+      <Button onClick={sortDeck}>Sort Deck</Button>
 
       <div className="playingCards">
         <ul className="table">

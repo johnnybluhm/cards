@@ -23,4 +23,13 @@ export class Deck {
             [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
         }
     }
+
+    sort() {
+        this.cards.sort((a, b) => {
+            if (a.suit === b.suit) {
+                return a.face - b.face;
+            }
+            return a.suit - b.suit;
+        });
+    }
 }

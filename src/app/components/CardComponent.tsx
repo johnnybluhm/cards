@@ -11,10 +11,10 @@ export default function PlayingCard({ card }: Readonly<Props>) {
     console.log(`&${SuitString[card.suit]};`)
     return (
         <div className="playingCards fourColours simpleCards">
-            <div className={`card rank-${FaceString[card.face].toLocaleLowerCase()} ${SuitString[card.suit]}`} onClick={() => console.log(SuitString[card.suit])}>
+            <a className={`card rank-${FaceString[card.face].toLocaleLowerCase()} ${SuitString[card.suit]}`} onClick={() => console.log(SuitString[card.suit])}>
                 <span className="rank">{FaceString[card.face]}</span>
                 <span className="suit"></span>
-            </div>
+            </a>
         </div >
     );
 };
@@ -41,26 +41,3 @@ const SuitString = {
     [Suit.Clubs]: "clubs",
     [Suit.Spades]: "spades"
 };
-
-const SuitStringForSpan = {
-    [Suit.Hearts]: "♥",
-    [Suit.Diamonds]: "♦",
-    [Suit.Clubs]: "♣",
-    [Suit.Spades]: "♠"
-};
-
-const getColor = (suit: Suit): string => {
-    if (suit === Suit.Hearts) {
-        return "red";
-    }
-    else if (suit === Suit.Clubs) {
-        return "green";
-    }
-    else if (suit === Suit.Spades) {
-        return "black";
-    }
-    else if (suit === Suit.Diamonds) {
-        return "blue";
-    }
-    throw new Error("Invalid suit");
-}
