@@ -1,6 +1,6 @@
 'use client';
 //https://www.pedroalonso.net/blog/websockets-nextjs-part-1/
-import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
+import { Button } from '@mui/material';
 import { useState } from 'react';
 import { Card } from './classes/Card';
 import { Deck } from './classes/Deck';
@@ -18,19 +18,9 @@ export default function Home() {
 
   return (
     <>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableBody>
-            <TableRow>
-              {cards.map((card, cardIndex) => (
-                <TableCell key={cardIndex}>
-                  <PlayingCard card={card} />
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {cards.map((card, cardIndex) => (
+        <PlayingCard key={cardIndex} card={card} />
+      ))}
 
       <Button onClick={shuffleDeck}>Shuffle Deck</Button>
     </>
