@@ -2,9 +2,9 @@
 //https://www.pedroalonso.net/blog/websockets-nextjs-part-1/
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 import { useState } from 'react';
-import { Card } from './classes/Card';
-import { Deck } from './classes/Deck';
-import PlayingCard from './components/CardComponent';
+import { Card } from '../../classes/Card';
+import { Deck } from '../../classes/Deck';
+import PlayingCard from '../../components/CardComponent';
 const deck = new Deck();
 export default function Home() {
   const [cards, setCards] = useState<Card[]>(deck.cards);
