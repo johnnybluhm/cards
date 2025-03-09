@@ -1,11 +1,11 @@
 'use client';
 //https://www.pedroalonso.net/blog/websockets-nextjs-part-1/
-import { Button, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
+import { Button } from '@mui/material';
 import { useState } from 'react';
 import './card-styles/cards.css';
 import { Card } from './classes/Card';
 import { Deck } from './classes/Deck';
-import PlayingCard from './components/CardComponent';
+import Hand from './components/HandComponent';
 const deck = new Deck();
 
 export default function Home() {
@@ -27,52 +27,18 @@ export default function Home() {
 
   return (
     <>
-      <Button onClick={shuffleDeck}>Shuffle Deck</Button>
-      <Button onClick={sortDeck}>Sort Deck</Button>
+      <h3>Deck of Cards</h3>
+      <h3>Deck of Cards</h3>
+      <h3>Deck of Cards</h3>
 
-      <div className="playingCards">
-        <ul className="table">
-          {cards.map((card, cardIndex) => (
-            < li key={cardIndex}>
-              <PlayingCard card={card} />
-            </li>
-
-          ))}
-        </ul >
-
-        <ul className="hand">
-          {cards.slice(0,13).map((card, cardIndex) => (
-            < li key={cardIndex}>
-              <PlayingCard card={card} />
-            </li>
-
-          ))}
-        </ul>
-        <ul className="hand">
-          {cards.slice(13,26).map((card, cardIndex) => (
-            < li key={cardIndex}>
-              <PlayingCard card={card} />
-            </li>
-
-          ))}
-        </ul>
-        <ul className="hand">
-          {cards.slice(26,39).map((card, cardIndex) => (
-            < li style={{margin:10}}key={cardIndex}>
-              <PlayingCard card={card} />
-            </li>
-
-          ))}
-        </ul>
-        <ul className="hand">
-          {cards.slice(39,52).map((card, cardIndex) => (
-            < li key={cardIndex}>
-              <PlayingCard card={card} />
-            </li>
-
-          ))}
-        </ul>
-      </div>
+      <div className="playingCards fourColours simpleCards">
+        <Hand cards={cards.slice(0, 13)} />
+        <Hand cards={cards.slice(13, 26)} />
+        <Hand cards={cards.slice(26, 39)} />
+        <Hand cards={cards.slice(39, 52)} />
+        <Button onClick={shuffleDeck}>Shuffle Deck</Button>
+        <Button onClick={sortDeck}>Sort Deck</Button>
+      </div >
     </>
   );
 }

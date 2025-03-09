@@ -10,12 +10,10 @@ type Props = {
 export default function PlayingCard({ card }: Readonly<Props>) {
     console.log(`&${SuitString[card.suit]};`)
     return (
-        <div className="playingCards fourColours simpleCards">
-            <a className={`card rank-${FaceString[card.face].toLocaleLowerCase()} ${SuitString[card.suit]}`} onClick={() => console.log(SuitString[card.suit])}>
-                <span className="rank">{FaceString[card.face]}</span>
-                <span className="suit">{SuitStringForSpan[card.suit]}</span>
-            </a>
-        </div >
+        <a className={`card rank-${FaceString[card.face].toLocaleLowerCase()} ${SuitString[card.suit]}`} onClick={() => console.log(SuitString[card.suit])}>
+            <span className="rank">{FaceString[card.face]}</span>
+            <span className="suit">{SuitStringForSpan[card.suit]}</span>
+        </a>
     );
 };
 
