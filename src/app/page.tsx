@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Card } from './classes/Card';
 import { Deck } from './classes/Deck';
 import PlayingCard from './components/CardComponent';
-
+import './card-styles/cards.css';
 const deck = new Deck();
 
 export default function Home() {
@@ -26,6 +26,17 @@ export default function Home() {
 
   return (
     <>
+      <div className="playingCards">
+        <div className="card rank-7 spades">
+          <span className="rank">7</span>
+          <span className="suit">&spades;</span>
+        </div>
+        <a className="card rank-q hearts" href="#">
+          <span className="rank">Q</span>
+          <span className="suit">&hearts;</span>
+        </a>
+      </div>
+
       <Button onClick={shuffleDeck}>Shuffle Deck</Button>
       <TableContainer component={Paper}>
         <Table>

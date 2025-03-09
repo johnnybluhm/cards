@@ -10,25 +10,13 @@ type Props = {
 }
 
 export default function PlayingCard({ card }: Readonly<Props>) {
+    console.log(`&${SuitString[card.suit]};`)
     return (
-        <div className="card">
-            <div className="grid-container">
-                <div className="grid-item top-left"><span style={{ color: getColor(card.suit) }}>
-                    {FaceString[card.face]}
-                </span></div>
-                <div className="grid-item top-right"><span style={{ color: getColor(card.suit) }}>
-                    {FaceString[card.face]}
-                </span></div>
-                <div className="grid-item bottom-left"><span style={{ color: getColor(card.suit) }}>
-                    {FaceString[card.face]}
-                </span></div>
-                <div className="grid-item bottom-right"><span style={{ color: getColor(card.suit) }}>
-                    {FaceString[card.face]}
-                </span></div>
-                <div className="grid-item center"><span style={{ color: getColor(card.suit) }}>
-                    {SuitString[card.suit]}
-                </span></div>
-            </div>
+        <div className="playingCards fourColours simpleCards">
+            <a className={`card rank-${FaceString[card.face].toLocaleLowerCase()} ${SuitString[card.suit]}`} href="#">
+                <span className="rank">{FaceString[card.face]}</span>
+                <span className="suit">{`&${SuitString[card.suit]};`}</span>
+            </a>
         </div>
     );
 };
@@ -43,17 +31,17 @@ const FaceString = {
     [Face.Seven]: "7",
     [Face.Eight]: "8",
     [Face.Nine]: "9",
-    [Face.Ten]: "T",
+    [Face.Ten]: "10",
     [Face.Jack]: "J",
     [Face.Queen]: "Q",
     [Face.King]: "K"
 };
 
 const SuitString = {
-    [Suit.Hearts]: "♥",
-    [Suit.Diamonds]: "♦",
-    [Suit.Clubs]: "♣",
-    [Suit.Spades]: "♠"
+    [Suit.Hearts]: "hearts",
+    [Suit.Diamonds]: "diams",
+    [Suit.Clubs]: "clubs",
+    [Suit.Spades]: "spades"
 };
 
 const getColor = (suit: Suit): string => {
