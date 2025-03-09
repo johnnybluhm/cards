@@ -27,47 +27,49 @@ export default function Home() {
   }
 
   return (
-    <div className="playingCards fourColours simpleCards" style={{ backgroundColor: 'green' }}>
-      <h3>Play Hearts</h3>
-      <br />
-      <br />
-      <Grid container spacing={2}>
+    <>
 
-        {/*TOP*/}
-        <Grid size={5}>
-        </Grid>
-        <Grid size={4}>
-          <Hand cards={cards.slice(0, 13)} faceDown={true} />
-        </Grid>
-        <Grid size={3}>
-        </Grid>
+      <div className="playingCards fourColours simpleCards" style={{ backgroundColor: 'green' }}>
+        <h3>Play Hearts</h3>
+        <br />
+        <br />
+        <Grid container spacing={2}>
 
-        {/*LEFT*/}
-        <Grid size={2}>
-        </Grid>
-        <Grid size={4}>
-          <Hand cards={cards.slice(13, 26)} faceDown={true} />
-        </Grid>
-        <Grid size={2}>
-        </Grid>
+          {/*TOP*/}
+          <Grid size={5}>
+          </Grid>
+          <Grid size={4}>
+            <Hand cards={cards.slice(0, 13)} faceDown={true} />
+          </Grid>
+          <Grid size={3}>
+          </Grid>
 
-        {/*RIGHT*/}
-        <Grid size={4}>
-          <Hand cards={cards.slice(26, 39)} faceDown={true} />
-        </Grid>
+          {/*LEFT*/}
+          <Grid size={2}>
+          </Grid>
+          <Grid size={4}>
+            <Hand cards={cards.slice(13, 26)} faceDown={true} />
+          </Grid>
+          <Grid size={2}>
+          </Grid>
 
-        {/*BOTTOM*/}
-        <Grid size={5}>
-        </Grid>
-        <Grid size={4}>
-          <Hand cards={cards.slice(39, 52)} />
-        </Grid>
-        <Grid size={3}>
-        </Grid>
-      </Grid>
+          {/*RIGHT*/}
+          <Grid size={4}>
+            <Hand cards={cards.slice(26, 39)} faceDown={true} />
+          </Grid>
 
+          {/*BOTTOM*/}
+          <Grid size={5}>
+          </Grid>
+          <Grid size={4}>
+            <Hand cards={cards.slice(39, 52)} />
+          </Grid>
+          <Grid size={3}>
+          </Grid>
+        </Grid>
+      </div >
       <Button onClick={shuffleDeck}>Shuffle Deck</Button>
       <Button onClick={sortDeck}>Sort Deck</Button>
-    </div >
+    </>
   );
 }
