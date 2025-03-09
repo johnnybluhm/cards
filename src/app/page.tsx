@@ -27,7 +27,7 @@ export default function Home() {
   }
 
   return (
-    <div className="playingCards fourColours simpleCards">
+    <div className="playingCards fourColours simpleCards" style={{ backgroundColor: 'green' }}>
       <h3>Play Hearts</h3>
       <br />
       <br />
@@ -35,17 +35,17 @@ export default function Home() {
         <Grid size={4}>
         </Grid>
         <Grid size={4}>
-          <Hand cards={cards.slice(0, 13)} />
+          <Hand cards={cards.slice(0, 13)} faceDown={true} />
         </Grid>
         <Grid size={4}>
         </Grid>
         <Grid size={4}>
-          <Hand cards={cards.slice(13, 26)} />
+          <Hand cards={cards.slice(13, 26)} faceDown={true} />
         </Grid>
         <Grid size={4}>
         </Grid>
         <Grid size={4}>
-          <Hand cards={cards.slice(26, 39)} />
+          <Hand cards={cards.slice(26, 39)} faceDown={true} />
         </Grid>
         <Grid size={4}>
         </Grid>
