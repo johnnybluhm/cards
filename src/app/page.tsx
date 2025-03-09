@@ -32,6 +32,8 @@ export default function Home() {
       <br />
       <br />
       <Grid container spacing={2}>
+
+        {/*TOP*/}
         <Grid size={4}>
         </Grid>
         <Grid size={4}>
@@ -39,14 +41,22 @@ export default function Home() {
         </Grid>
         <Grid size={4}>
         </Grid>
+
+        {/*LEFT*/}
+        <Grid size={1}>
+        </Grid>
         <Grid size={4}>
           <Hand cards={cards.slice(13, 26)} faceDown={true} />
         </Grid>
-        <Grid size={4}>
+        <Grid size={2}>
         </Grid>
-        <Grid size={4}>
+
+        {/*RIGHT*/}
+        <Grid size={5}>
           <Hand cards={cards.slice(26, 39)} faceDown={true} />
         </Grid>
+
+        {/*BOTTOM*/}
         <Grid size={4}>
         </Grid>
         <Grid size={4}>
