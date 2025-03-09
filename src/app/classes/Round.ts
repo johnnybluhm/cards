@@ -1,33 +1,29 @@
+import { Card } from "./Card";
 import { Deck } from "./Deck";
 import { Player } from "./Player";
+import { Trick } from "./Trick";
 
 export class Round {
-    players: Player[];
-    deck: Deck;
-
-    constructor(playerNames: string[]) {
-        this.players = playerNames.map(name => new Player(name));
-        this.deck = new Deck();
-        this.deck.shuffle();
+    completedTricks: Trick[];
+    currentTrick: Trick;
+    cards: Card[];
+    constructor(cards: Card[]) {
+        this.cards = cards;
+        this.completedTricks = [];
+        this.currentTrick = new Trick();
     }
 
-    start() {
-        this.dealCards();
+    addCardToTrick(card: Card) {
+        this.currentTrick.addCard(card);
     }
 
-    dealCards() {
-        const numPlayers = this.players.length;
-        const numCards = this.deck.cards.length;
-        this.deck.shuffle(); // Shuffle the deck before dealing
-        for (let i = 0; i < numCards; i++) {
-            const player = this.players[i % numPlayers];
-            player.addCard(this.deck.cards[i]);
-        }
+    isTrickComplete(): boolean {
+        return this.currentTrick.cards.length === 4;
     }
 
-    updatePoints() {
-        for (const player of this.players) {
-            player.updatePoints();
-        }
+    moveToNextTrick() {
+        this.completedTricks.push(this.currentTrick);
+        this.currentTrick = new Trick();
     }
+}
 }
