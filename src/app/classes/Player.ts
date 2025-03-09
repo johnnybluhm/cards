@@ -6,7 +6,9 @@ export class Player {
     hand: Card[];
     tricksWon: Trick[];
     totalPoints: number;
-    id: string
+    id: string;
+    isTurn: boolean;
+    startedTrick: boolean;
 
     constructor(name: string) {
         this.name = name;
@@ -14,19 +16,12 @@ export class Player {
         this.tricksWon = [];
         this.totalPoints = 0;
         this.id = uuidv4();
+        this.isTurn = false;
+        this.startedTrick = false;
     }
 
     addCard(card: Card) {
         this.hand.push(card);
-    }
-
-    playCard(card: Card): boolean {
-        const index = this.hand.indexOf(card);
-        if (index > -1) {
-            this.hand.splice(index, 1);
-            return true;
-        }
-        return false;
     }
 
     addTrickWon(trick: Trick) {
@@ -39,4 +34,14 @@ export class Player {
         }
         this.tricksWon = []; // Reset tricks won after calculating points
     }
+
+    removeCard(card: Card) {
+        const index = this.hand.indexOf(card);
+        if (index > -1) {
+            this.hand.splice(index, 1);
+            return true;
+        }
+        return false;
+    }
+
 }
