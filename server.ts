@@ -1,11 +1,11 @@
-import { createServer } from 'http';
-import { parse } from 'url';
-import next from 'next';
-import { Server } from "socket.io";
-import Game from './src/app/classes/Game'; // Assuming you have a game.js file that exports the Game class
 import { Card } from '@/app/classes/Card';
+import GameManager from '@/app/classes/GamesManager';
 import { Events } from '@/app/events/Events';
 import { UUID } from 'crypto';
+import { createServer } from 'http';
+import next from 'next';
+import { Server } from "socket.io";
+import { parse } from 'url';
 
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
@@ -17,6 +17,7 @@ app.prepare().then(() => {
   });
 
   const io = new Server(server);
+  const gameManager = new GameManager();
 
   io.on('connection', socket => {
     console.log('Client connected total clients:', io.engine.clientsCount);
@@ -43,8 +44,7 @@ app.prepare().then(() => {
     });
 
     socket.on('play-card', (card: Card, playerId: UUID) => {
-      const game = getGame(playerId);
-      //game.updateGame(card)
+      gameManager.getGame(playerId).updateGame(card, playerId);
     });
   });
 
