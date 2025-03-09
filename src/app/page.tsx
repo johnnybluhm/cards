@@ -33,9 +33,6 @@ export default function Home() {
           ))}
         </ul >
       </div>
-
-
-      <Button onClick={shuffleDeck}>Shuffle Deck</Button>
     </>
   );
 }
