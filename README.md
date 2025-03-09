@@ -1,3 +1,10 @@
+Initially got websockets all set up. I know how to send messages now. Still need to design how that will work, but I want to move on to having cards. I think it will make it easier to test when I have to add the websocket logic. 
+
+
+I was able to get a surprisingly decent looking card already. I just need to figure out how to get them to properly scale to the container they are in. Then I can start adding some more functionality.
+
+![alt text](./images/cardLookVersion1.png)
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
