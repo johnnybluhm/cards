@@ -1,12 +1,12 @@
 'use client';
 //https://www.pedroalonso.net/blog/websockets-nextjs-part-1/
 import { Button } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 import { useState } from 'react';
 import './card-styles/cards.css';
 import { Card } from './classes/Card';
 import { Deck } from './classes/Deck';
 import Hand from './components/HandComponent';
-import Grid from '@mui/material/Grid2';
 const deck = new Deck();
 
 export default function Home() {
