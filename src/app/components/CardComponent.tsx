@@ -10,7 +10,7 @@ type Props = {
 export default function PlayingCard({ card }: Readonly<Props>) {
     console.log(`&${SuitString[card.suit]};`)
     return (
-        <a className={`card rank-${FaceString[card.face].toLocaleLowerCase()} ${SuitString[card.suit]}`} onClick={() => console.log(SuitString[card.suit])}>
+        <a className={`card ${SuitString[card.suit]}`} onClick={() => console.log(SuitString[card.suit])}>
             <span className="rank">{FaceString[card.face]}</span>
             <span className="suit">{SuitStringForSpan[card.suit]}</span>
         </a>
@@ -27,7 +27,7 @@ const FaceString = {
     [Face.Seven]: "7",
     [Face.Eight]: "8",
     [Face.Nine]: "9",
-    [Face.Ten]: "10",
+    [Face.Ten]: "T",
     [Face.Jack]: "J",
     [Face.Queen]: "Q",
     [Face.King]: "K"

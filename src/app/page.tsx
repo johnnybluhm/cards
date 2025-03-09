@@ -29,7 +29,7 @@ export default function Home() {
   return (
     <>
 
-      <div className="playingCards fourColours simpleCards" style={{ backgroundColor: 'green' }}>
+      <div className="playingCards fourColours" style={{ backgroundColor: 'green' }}>
         <h3>Play Hearts</h3>
         <br />
         <br />
