@@ -3,8 +3,7 @@ import '../styles/card.css';
 import { Card as CardModel } from '../classes/Card';
 import { Face } from '../enums/Face';
 import { Suit } from '../enums/Suits';
-import { Card } from '@mui/material'; // Import Grid from @mui/material
-import Grid from '@mui/material/Grid2';
+import { Card } from '@mui/material'; // Import div from @mui/material
 
 type Props = {
     card: CardModel;
@@ -12,44 +11,25 @@ type Props = {
 
 export default function PlayingCard({ card }: Readonly<Props>) {
     return (
-        <Card variant='outlined' className="card" sx={{ width: 100, height: 100 }}>
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                <Grid size={4} >
-                    <span style={{ color: getColor(card.suit) }}>
-                        {FaceString[card.face]}
-                    </span>
-                </Grid>
-                <Grid size={4}></Grid>
-                <Grid size={4} >
-                    <span style={{ color: getColor(card.suit) }}>
-                        {FaceString[card.face]}
-                    </span>
-                </Grid>
-
-
-                <Grid size={4}></Grid>
-                <Grid size={4} >
-                    <span style={{ color: getColor(card.suit) }}>
-                        {SuitString[card.suit]}
-                    </span>
-                </Grid>
-                <Grid size={4}></Grid>
-
-
-                <Grid size={4} >
-                    <span style={{ color: getColor(card.suit) }}>
-                        {FaceString[card.face]}
-                    </span>
-                </Grid>
-                <Grid size={4}></Grid>
-                <Grid size={4} >
-                    <span style={{ color: getColor(card.suit) }}>
-                        {FaceString[card.face]}
-                    </span>
-                </Grid>
-            </Grid>
-        </Card>
-
+        <div className="card">
+            <div className="grid-container">
+                <div className="grid-item top-left"><span style={{ color: getColor(card.suit) }}>
+                    {FaceString[card.face]}
+                </span></div>
+                <div className="grid-item top-right"><span style={{ color: getColor(card.suit) }}>
+                    {FaceString[card.face]}
+                </span></div>
+                <div className="grid-item bottom-left"><span style={{ color: getColor(card.suit) }}>
+                    {FaceString[card.face]}
+                </span></div>
+                <div className="grid-item bottom-right"><span style={{ color: getColor(card.suit) }}>
+                    {FaceString[card.face]}
+                </span></div>
+                <div className="grid-item center"><span style={{ color: getColor(card.suit) }}>
+                    {SuitString[card.suit]}
+                </span></div>
+            </div>
+        </div>
     );
 };
 
