@@ -7,6 +7,7 @@ export class Player {
     tricksWon: Trick[];
     totalPoints: number;
     id: string;
+    isTurn: boolean;
 
     constructor(name: string) {
         this.name = name;
@@ -14,6 +15,7 @@ export class Player {
         this.tricksWon = [];
         this.totalPoints = 0;
         this.id = uuidv4();
+        this.isTurn = false;
     }
 
     addCard(card: Card) {
