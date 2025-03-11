@@ -31,9 +31,8 @@ export class Player {
 
     updatePoints() {
         for (const trick of this.tricksWon) {
-            this.totalPoints += trick.getPoints();
+            this.totalPoints += trick.points;
         }
-        this.tricksWon = []; // Reset tricks won after calculating points
     }
 
     removeCard(card: Card) {
@@ -43,6 +42,13 @@ export class Player {
             return true;
         }
         return false;
+    }
+
+    reset() {
+        this.hand = [];
+        this.tricksWon = [];
+        this.isTurn = false;
+        this.startedTrick = false;
     }
 
 }
