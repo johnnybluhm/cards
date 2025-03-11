@@ -30,4 +30,8 @@ describe('Deck', () => {
         deck.shuffle();
         expect(deck.cards).not.toEqual(originalOrder);
     });
+
+    test('new deck has no owners', () => {
+        expect(deck.cards.every(card => card.ownerId === undefined)).toBe(true);
+    });
 });
