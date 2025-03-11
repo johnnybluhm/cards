@@ -12,13 +12,12 @@ export class Deck {
 
         for (const suit of suits) {
             for (const face of faces) {
-                this.cards.push(new Card(suit, face));
+                this.cards.push(new Card(face, suit));
             }
         }
     }
 
     shuffle() {
-        this.resetOwners();
         for (let i = this.cards.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
@@ -26,16 +25,11 @@ export class Deck {
     }
 
     sort() {
-        this.resetOwners();
         this.cards.sort((a, b) => {
             if (a.suit === b.suit) {
                 return a.face - b.face;
             }
             return a.suit - b.suit;
         });
-    }
-
-    resetOwners() {
-        this.cards.forEach(card => card.removeOwner());
     }
 }
