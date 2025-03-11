@@ -1,3 +1,4 @@
+import { UUID } from "crypto";
 import { Card } from "./Card";
 import { Trick } from "./Trick";
 import { v4 as uuidv4 } from 'uuid';
@@ -21,6 +22,7 @@ export class Player {
     }
 
     addCard(card: Card) {
+        card.addOwner(this.id);
         this.hand.push(card);
     }
 
