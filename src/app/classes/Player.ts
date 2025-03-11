@@ -45,6 +45,7 @@ export class Player {
     reset() {
         this.hand = [];
         this.tricksWon = [];
+        this.isTurn = false;
     }
 
 }
