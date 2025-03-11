@@ -38,8 +38,8 @@ export default class Game {
         if (!player!.isTurn) {
             throw new Error("It's not your turn!");
         }
-        player!.removeCard(card);
         this.round.addCardToTrick(card, player!.hand);
+        player!.removeCard(card);
         if (this.round.isTrickComplete()) {
             this.addTrickToWinningPlayer();
             this.round.moveToNextTrick();
