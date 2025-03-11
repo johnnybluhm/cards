@@ -1,3 +1,5 @@
+import { Face } from "../enums/Face";
+import { Suit } from "../enums/Suits";
 import { Card } from "./Card";
 import { Deck } from "./Deck";
 import { Player } from "./Player";
@@ -19,6 +21,7 @@ export default class Game {
         this.deck = new Deck();
         this.deck.shuffle();
         this.dealCards();
+        this.players.find(player => player.hand.some(card => card.face === Face.Two && card.suit === Suit.Clubs))!.isTurn = true;
         this.round = new Round();
     }
 
@@ -47,6 +50,7 @@ export default class Game {
     }
 
     dealCards() {
+        this.players.forEach(player => player.reset());
         for (const [index, card] of this.deck.cards.entries()) {
             const player = this.players[index % this.players.length];
             player?.addCard(card);
