@@ -5,7 +5,7 @@ import { Face } from "../src/app/enums/Face";
 
 let deck: Deck;
 describe('Deck', () => {
-    
+
     beforeEach(() => {
         deck = new Deck();
     });
@@ -20,7 +20,7 @@ describe('Deck', () => {
 
         for (const suit of suits) {
             for (const face of faces) {
-                expect(deck.cards).toContainEqual(new Card(suit, face));
+                expect(deck.cards).toContainEqual(new Card(face, suit));
             }
         }
     });
