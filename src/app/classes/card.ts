@@ -6,7 +6,7 @@ export class Card {
     face: Face;
     ownerId?: string;
 
-    constructor(suit: Suit, face: Face) {
+    constructor(face: Face, suit: Suit) {
         this.suit = suit;
         this.face = face;
     }
