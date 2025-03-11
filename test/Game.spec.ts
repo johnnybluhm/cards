@@ -7,4 +7,10 @@ describe('Game', () => {
     test('should create players with names', () => {
         expect(game.players.map(player => player.name)).toEqual(playerNames);
     });
+
+    test('begin new round should deal cards', () => {
+        game.beginNewRound();
+        expect(game.players.every(player => player.hand.length === 13)).toBe(true);
+        console.log(game.players);
+    });
 });
