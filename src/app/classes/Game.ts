@@ -33,7 +33,7 @@ export default class Game {
         winningPlayer.isTurn = true;
     }
 
-    updateGame(card: Card, playerId: string) {
+    updateGame(card: Card, playerId: string): this {
         const player = this.players.find(p => p.id === playerId);
         if (!player!.isTurn) {
             throw new Error("It's not your turn!");
@@ -47,6 +47,7 @@ export default class Game {
         player!.isTurn = false;
         const nextPlayerIndex = (this.players.indexOf(player!) + 1) % this.players.length;
         this.players[nextPlayerIndex].isTurn = true;
+        return this;
     }
 
     dealCards() {
