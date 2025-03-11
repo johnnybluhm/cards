@@ -4,7 +4,6 @@ import { Player } from "./Player";
 import { Round } from "./Round";
 
 export default class Game {
-    playerToStartIndex: number
     deck: Deck;
     players: Player[];
     round: Round
@@ -13,7 +12,6 @@ export default class Game {
         this.players = playerNames.map(name => new Player(name));
         this.deck = new Deck();
         this.deck.shuffle();
-        this.playerToStartIndex = Math.floor(Math.random() * this.players.length);
         this.round = new Round();
     }
 
