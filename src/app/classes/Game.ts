@@ -20,7 +20,10 @@ export default class Game {
     }
 
     beginNewRound() {
-        this.round = new Round(this.players.map(player => player.name));
+        this.deck = new Deck();
+        this.deck.shuffle();
+        this.dealCards();
+        this.round = new Round(this.deck.cards);
         this.round.start();
     }
 
@@ -40,6 +43,13 @@ export default class Game {
             this.addTrickToWinningPlayer();
             this.round.moveToNextTrick();
             player?.isTurn
+        }
+    }
+
+    dealCards() {
+        for (const [index, card] of this.deck.cards.entries()) {
+            const player = this.players[index % this.players.length];
+            player?.addCard(card);
         }
     }
 }
