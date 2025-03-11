@@ -20,9 +20,16 @@ describe('Game', () => {
         const playerWith2ofClubs = game.players.find(player =>
             player.hand.some(card => card.face === Face.Two && card.suit === Suit.Clubs));
         const remainingPlayers = game.players.filter(player => player !== playerWith2ofClubs);
-        console.log(playerWith2ofClubs);
-        console.log(remainingPlayers);
         expect(playerWith2ofClubs?.isTurn).toBe(true);
         expect(remainingPlayers.every(player => !player.isTurn)).toBe(true);
+    });
+
+    test('update game removes card from player', () => {
+        game.beginNewRound();
+        const startingPlayer = game.players.find(player => player.isTurn);
+        const startingPlayerIndex = game.players.indexOf(startingPlayer!);
+        const updatedGame = game.updateGame(startingPlayer!.hand.find(card => card.face === Face.Two && card.suit === Suit.Clubs)!, startingPlayer!.id);
+        expect(updatedGame.players[startingPlayerIndex].hand.length).toBe(12);
+        expect(updatedGame.players[(startingPlayerIndex+ 1) % 4 ].isTurn).toBe(true);
     });
 });
