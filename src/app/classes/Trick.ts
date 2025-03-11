@@ -6,12 +6,17 @@ export class Trick {
     cards: Card[] = [];
     points: number = 0;
     trickSuit?: Suit;
-    addCard(card: Card) {
+    addCard(card: Card, playerCardsInHand: Card[]): void {
         if (this.cards.length === 0) {
             this.trickSuit = card.suit;
         }
-        this.cards.push(card);
-        this.getPoints();
+        if (this.cards.length > 0) {
+            if (card.suit !== this.trickSuit && playerCardsInHand.some(c => c.suit === this.trickSuit)) {
+                throw new Error("You must follow the trick suit");
+            }
+            this.cards.push(card);
+            this.updatePoints();
+        }
     }
 
     getWinningCard(): Card {
@@ -28,7 +33,7 @@ export class Trick {
         return winningCard;
     }
 
-    private getPoints(): void {
+    private updatePoints(): void {
         let points = 0;
         for (const card of this.cards) {
             if (card.suit === Suit.Hearts) {
