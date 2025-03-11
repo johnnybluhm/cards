@@ -12,11 +12,11 @@ export class Card {
         this.face = face;
     }
 
-    addOwner(ownerId: UUID) {
+    addOwner(ownerId: UUID): void {
         this.ownerId = ownerId;
     }
 
-    removeOwner() {
+    removeOwner(): void {
         this.ownerId = undefined;
     }
 }
