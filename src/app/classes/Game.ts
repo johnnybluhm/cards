@@ -9,7 +9,7 @@ export default class Game {
     deck: Deck;
     players: Player[];
     round: Round
-    
+
 
     constructor(playerNames: string[]) {
         this.players = playerNames.map(name => new Player(name));
@@ -24,16 +24,22 @@ export default class Game {
         this.round.start();
     }
 
-    determineWinner(): Player | null {
-        // Implement logic to determine the winner
-        return null;
+    addTrickToWinningPlayer(): void {
+        const winningCard = this.round.currentTrick.getWinningCard();
+        this.players.find(player => player.id === winningCard.ownerId)!.addTrickWon(this.round.currentTrick);
     }
 
     updateGame(card: Card, playerId: UUID) {
         const player = this.players.find(p => p.id === playerId);
-        if(!player!.isTurn){
+        if (!player!.isTurn) {
             throw new Error("It's not your turn!");
         }
+        player!.removeCard(card);
         this.round.addCardToTrick(card);
+        if (this.round.isTrickComplete()) {
+            this.addTrickToWinningPlayer();
+            this.round.moveToNextTrick();
+            player?.isTurn
+        }
     }
 }
