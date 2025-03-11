@@ -1,14 +1,10 @@
 import { Card } from "./Card";
-import { Deck } from "./Deck";
-import { Player } from "./Player";
 import { Trick } from "./Trick";
 
 export class Round {
     completedTricks: Trick[];
     currentTrick: Trick;
-    cards: Card[];
-    constructor(cards: Card[]) {
-        this.cards = cards;
+    constructor() {
         this.completedTricks = [];
         this.currentTrick = new Trick();
     }
@@ -25,5 +21,4 @@ export class Round {
         this.completedTricks.push(this.currentTrick);
         this.currentTrick = new Trick();
     }
-}
 }
