@@ -9,8 +9,8 @@ export class Round {
         this.currentTrick = new Trick();
     }
 
-    addCardToTrick(card: Card) {
-        this.currentTrick.addCard(card);
+    addCardToTrick(card: Card, playerCardsInHand: Card[]): void {
+        this.currentTrick.addCard(card, playerCardsInHand);
     }
 
     isTrickComplete(): boolean {
