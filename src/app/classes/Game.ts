@@ -1,4 +1,3 @@
-import { UUID } from "crypto";
 import { Card } from "./Card";
 import { Deck } from "./Deck";
 import { Player } from "./Player";
@@ -32,7 +31,7 @@ export default class Game {
         this.players.find(player => player.id === winningCard.ownerId)!.addTrickWon(this.round.currentTrick);
     }
 
-    updateGame(card: Card, playerId: UUID) {
+    updateGame(card: Card, playerId: string) {
         const player = this.players.find(p => p.id === playerId);
         if (!player!.isTurn) {
             throw new Error("It's not your turn!");

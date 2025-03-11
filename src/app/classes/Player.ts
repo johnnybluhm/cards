@@ -1,7 +1,6 @@
-import { UUID } from "crypto";
+import { v4 as uuidv4 } from 'uuid';
 import { Card } from "./Card";
 import { Trick } from "./Trick";
-import { v4 as uuidv4 } from 'uuid';
 export class Player {
     name: string;
     hand: Card[];

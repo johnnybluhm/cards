@@ -1,7 +1,6 @@
 import { Card } from '@/app/classes/Card';
 import GameManager from '@/app/classes/GamesManager';
 import { Events } from '@/app/events/Events';
-import { UUID } from 'crypto';
 import { createServer } from 'http';
 import next from 'next';
 import { Server } from "socket.io";
@@ -43,7 +42,7 @@ app.prepare().then(() => {
       console.log(`Message from client in room ${room}: ${message}`);
     });
 
-    socket.on('play-card', (card: Card, playerId: UUID) => {
+    socket.on('play-card', (card: Card, playerId: string) => {
       gameManager.getGame(playerId).updateGame(card, playerId);
     });
   });

@@ -1,18 +1,17 @@
-import { UUID } from "crypto";
 import { Face } from "../enums/Face";
 import { Suit } from "../enums/Suits";
 
 export class Card {
     suit: Suit;
     face: Face;
-    ownerId?: UUID;
+    ownerId?: string;
 
     constructor(suit: Suit, face: Face) {
         this.suit = suit;
         this.face = face;
     }
 
-    addOwner(ownerId: UUID): void {
+    addOwner(ownerId: string): void {
         this.ownerId = ownerId;
     }
 

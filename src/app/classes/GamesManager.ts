@@ -1,4 +1,3 @@
-import { UUID } from "crypto";
 import Game from "./Game";
 import HttpError from "./HttpError";
 
@@ -14,7 +13,7 @@ export default class GameManager {
         return game;
     }
 
-    getGame(playerId: UUID): Game {
+    getGame(playerId: string): Game {
         const game = this.games.find(game => game.players.some(player => player.id === playerId));
         if (!game) {
             throw new HttpError(`Game not found for player ${playerId}`, 400);
