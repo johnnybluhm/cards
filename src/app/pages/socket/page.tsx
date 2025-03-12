@@ -7,33 +7,26 @@ import { Deck } from '../../classes/Deck';
 import PlayingCard from '../../components/CardComponent';
 const deck = new Deck();
 export default function Home() {
-  const [cards, setCards] = useState<Card[]>(deck.cards);
+    const [cards, setCards] = useState<Card[]>(deck.cards);
 
-  console.log('in component deck:', deck.cards);
-  function shuffleDeck() {
-    deck.shuffle();
-    console.log('shuffled deck', deck.cards)
-    setCards([...deck.cards]);
-  }
+    console.log('in component deck:', deck.cards);
+    function shuffleDeck() {
+        deck.shuffle();
+        console.log('shuffled deck', deck.cards)
+        setCards([...deck.cards]);
+    }
 
-  return (
+    return ( 
     <>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableBody>
-            <TableRow>
-              {cards.map((card, cardIndex) => (
-                <TableCell key={cardIndex}>
-                  <PlayingCard card={card} />
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+            <main className="flex min-h-screen flex-col items-center justify-between p-24">
+                <h1 className="text-4xl font-bold">WebSocket Test</h1>
+                <Button
+                    onClick={joinRoom}
+                >Join Room</Button>
 
-      <Button onClick={shuffleDeck}>Shuffle Deck</Button>
-    </>
+                <p>You are in room {room}</p>
+            </>
 
-  );
+            )
+            
 }

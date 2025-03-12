@@ -10,13 +10,13 @@ export class Trick {
         if (this.cards.length === 0) {
             this.trickSuit = card.suit;
         }
-        if (this.cards.length > 0) {
-            if (card.suit !== this.trickSuit && playerCardsInHand.some(c => c.suit === this.trickSuit)) {
-                throw new Error("You must follow the trick suit");
-            }
-            this.cards.push(card);
-            this.updatePoints();
+        if (this.cards.length > 0 &&
+            card.suit !== this.trickSuit &&
+            playerCardsInHand.some(c => c.suit === this.trickSuit)) {
+            throw new Error("You must follow the trick suit");
         }
+        this.cards.push(card);
+        this.updatePoints();
     }
 
     getWinningCard(): Card {

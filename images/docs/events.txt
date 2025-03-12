@@ -1,0 +1,12 @@
+On join room
+    Join room and tell others new player
+    on 4th player to join start game
+
+on card play
+    check if its their turn
+    play move
+    update game state and broadcast to room
+
+on card pass
+update card passing
+
