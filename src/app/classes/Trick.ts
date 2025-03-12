@@ -25,7 +25,7 @@ export class Trick {
         }
         let winningCard = this.cards[0];
         for (const card of this.cards) {
-            if (card.face > winningCard.face) {
+            if (card.face > winningCard.face && card.suit === this.trickSuit) {
                 winningCard = card;
             }
         }
