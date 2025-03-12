@@ -43,6 +43,33 @@ describe('Game', () => {
         game.players[1].hand = [
             new Card(Face.Ace, Suit.Hearts, game.players[1].id),
         ]
+        // Player 2 should win the trick
+        game.players[2].hand = [
+            new Card(Face.King, Suit.Clubs, game.players[2].id),
+        ]
+        game.players[3].hand = [
+            new Card(Face.Queen, Suit.Spades, game.players[3].id),
+        ]
+        game.players.forEach(player => player.isTurn = false);
+        game.players[0].isTurn = true;
+        for (let i = 0; i < 4; i++) {
+            game.updateGame(game.players[i].hand[0], game.players[i].id);
+        }
+        expect(game.players[2].totalPoints).toBe(14);
+        expect(game.players[2].tricksWon.length).toBe(1);
+        expect(game.players[2].isTurn).toBe(true);
+    });
+
+    test('Player cannot play invalid card', () => {
+        game.beginNewRound();
+
+        game.players[0].hand = [
+            new Card(Face.Two, Suit.Clubs, game.players[0].id),
+        ]
+        game.players[1].hand = [
+            new Card(Face.Ace, Suit.Hearts, game.players[1].id),
+        ]
+        // Player 2 should win the trick
         game.players[2].hand = [
             new Card(Face.King, Suit.Clubs, game.players[2].id),
         ]
