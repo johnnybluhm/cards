@@ -30,9 +30,9 @@ describe('Game', () => {
         game.beginNewRound();
         const startingPlayer = game.players.find(player => player.isTurn);
         const startingPlayerIndex = game.players.indexOf(startingPlayer!);
-        const updatedGame = game.updateGame(startingPlayer!.hand.find(card => card.face === Face.Two && card.suit === Suit.Clubs)!, startingPlayer!.id);
-        expect(updatedGame.players[startingPlayerIndex].hand.length).toBe(12);
-        expect(updatedGame.players[(startingPlayerIndex + 1) % 4].isTurn).toBe(true);
+        game.updateGame(startingPlayer!.hand.find(card => card.face === Face.Two && card.suit === Suit.Clubs)!, startingPlayer!.id);
+        expect(game.players[startingPlayerIndex].hand.length).toBe(12);
+        expect(game.players[(startingPlayerIndex + 1) % 4].isTurn).toBe(true);
     });
 
     test('After round, winningPlayer has points', () => {
