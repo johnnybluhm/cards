@@ -93,4 +93,40 @@ describe('Game', () => {
             expect(error.message).toBe("You must follow the trick suit");
         }
     });
+
+    test('test out of turn play throws', () => {
+        game.beginNewRound();
+
+        game.players[0].hand = [
+            new Card(Face.Two, Suit.Clubs, game.players[0].id),
+            new Card(Face.Jack, Suit.Hearts, game.players[1].id),
+        ]
+        //should win second trick
+        game.players[1].hand = [
+            new Card(Face.Ace, Suit.Hearts, game.players[1].id),
+            new Card(Face.Ace, Suit.Diamonds, game.players[1].id),
+        ]
+        //should win first trick
+        game.players[2].hand = [
+            new Card(Face.King, Suit.Clubs, game.players[2].id),
+            new Card(Face.King, Suit.Diamonds, game.players[2].id),
+        ]
+        game.players[3].hand = [
+            new Card(Face.Queen, Suit.Spades, game.players[3].id),
+            new Card(Face.King, Suit.Spades, game.players[3].id),
+        ]
+        game.players.forEach(player => player.isTurn = false);
+        game.players[0].isTurn = true;
+        try {
+            game.updateGame(game.players[1].hand[0], game.players[1].id);
+            throw new Error("Player 1 should not be able to play out of turn");
+        }
+        catch (e) {
+            const error = e as HttpError;
+            expect(error.message).toBe("It's not your turn!");
+        }
+        
+
+
+    });
 });
