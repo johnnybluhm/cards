@@ -125,8 +125,5 @@ describe('Game', () => {
             const error = e as HttpError;
             expect(error.message).toBe("It's not your turn!");
         }
-        
-
-
     });
 });
