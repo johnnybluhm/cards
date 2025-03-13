@@ -10,7 +10,7 @@ export default function Socket() {
     const router = useRouter();
 
     const handleNavigation = () => {
-        router.push('/pages/test');
+        router.push('/pages/socket');
     };
 
     function SendMessage(event: React.ChangeEvent<HTMLInputElement>) {
