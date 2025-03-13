@@ -1,10 +1,10 @@
-import { Card } from '@/app/classes/Card';
-import GameManager from '@/app/classes/GamesManager';
-import { Events } from '@/app/events/Events';
 import { createServer } from 'http';
 import next from 'next';
 import { Server } from "socket.io";
 import { parse } from 'url';
+import { Card } from './src/app/classes/Card';
+import GameManager from './src/app/classes/GamesManager';
+import { Events } from './src/app/events/Events';
 
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
