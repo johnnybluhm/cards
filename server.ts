@@ -2,8 +2,8 @@ import { createServer } from 'http';
 import next from 'next';
 import { Server } from "socket.io";
 import { parse } from 'url';
-import { Card } from './src/app/classes/Card';
 import GameManager from './src/app/classes/GamesManager';
+import SocketRoom from './src/app/classes/SocketRoom';
 import { Events } from './src/app/events/Events';
 
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
@@ -17,7 +17,7 @@ app.prepare().then(() => {
 
   const io = new Server(server);
   const gameManager = new GameManager();
-  const rooms: string[] = [];
+  const rooms: SocketRoom[] = [];
 
   io.on('connection', socket => {
     console.log('Client connected total clients:', io.engine.clientsCount);
@@ -25,12 +25,20 @@ app.prepare().then(() => {
       console.log('Client disconnected');
     });
 
-    socket.on(Events.joinRoom, (room: string) => {
+    socket.on(Events.joinRoom, (roomName: string, password: string, playerName: string, socketId: string) => {
       socket.join(room);
       rooms.push(room);
       console.log(`Client joined room: ${room}`);
       io.to(room).emit(Events.message, `A new player has joined the room: ${room}`); // Notify other players in the room
       io.to(room).emit(Events.joinRoom, room);
+    });
+
+    socket.on(Events.createRoom, (roomName: string, password: string, playerName: string, socketId: string) => {
+      const newRoom = new SocketRoom(roomName, password, socketId);
+      socket.join(newRoom.roomName);
+      rooms.push(newRoom);
+      console.log(`Client created room: ${newRoom.roomName}`);
+      io.to(socketId).emit(Events.createRoom, newRoom.roomName);
     });
 
     socket.on(Events.message, (message: string, room: string) => {
