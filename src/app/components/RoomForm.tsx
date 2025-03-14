@@ -13,7 +13,8 @@ const RoomForm: React.FC<RoomFormProps> = ({ onSubmit, existingRooms }) => {
     const [selectedRoom, setSelectedRoom] = React.useState('');
     const [isJoinRoom, setIsJoinRoom] = useState(false);
     const [roomName, setRoomName] = useState('');
-    const handleSubmit = (event: React.FormEvent) => {
+
+    function handleSubmit(event: React.FormEvent) {
         event.preventDefault();
         if (rooms.includes(roomName)) {
             setError('Room already exists');
@@ -22,7 +23,7 @@ const RoomForm: React.FC<RoomFormProps> = ({ onSubmit, existingRooms }) => {
         setRooms([...rooms, roomName]);
     };
 
-    const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    function handleRadioChange(event: React.ChangeEvent<HTMLInputElement>) {
         if (isJoinRoom) {
             setRoomName('');
         }
@@ -30,11 +31,12 @@ const RoomForm: React.FC<RoomFormProps> = ({ onSubmit, existingRooms }) => {
     };
 
 
-    const handleRoomOptionChange = (event: SelectChangeEvent) => {
+    function handleRoomOptionChange(event: SelectChangeEvent) {
         setRoomName(event.target.value as string);
         setIsJoinRoom(true);
         setSelectedRoom(event.target.value as string);
     };
+
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         setRoomName(event.target.value);
     }
