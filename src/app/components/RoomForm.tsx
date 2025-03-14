@@ -1,4 +1,4 @@
-import { Button, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, SelectChangeEvent, TextField } from '@mui/material';
+import { Button, FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, SelectChangeEvent, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import useErrorSnackbar from '../hooks/useErrorSnackBar';
 
@@ -47,7 +47,6 @@ const RoomForm: React.FC<RoomFormProps> = ({ onSubmit, existingRooms }) => {
             <ErrorSnackBar />
             <form onSubmit={handleSubmit}>
                 <FormControl fullWidth>
-                    <FormLabel id="demo-radio-buttons-group-label">Room</FormLabel>
                     <RadioGroup
                         aria-labelledby="demo-radio-buttons-group-label"
                         name="radio-buttons-group"
