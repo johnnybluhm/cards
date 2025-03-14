@@ -10,11 +10,8 @@ const RoomForm: React.FC<RoomFormProps> = ({ onSubmit, existingRooms }) => {
     existingRooms = ['Room 1', 'Room 2', 'Room 3'];
     const { setError, ErrorSnackBar } = useErrorSnackbar();
     const [rooms, setRooms] = useState(existingRooms);
-    const [age, setAge] = React.useState('');
-
+    const [selectedRoom, setSelectedRoom] = React.useState('');
     const [isJoinRoom, setIsJoinRoom] = useState(false);
-
-
     const [roomName, setRoomName] = useState('');
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
@@ -23,25 +20,24 @@ const RoomForm: React.FC<RoomFormProps> = ({ onSubmit, existingRooms }) => {
             return;
         }
         setRooms([...rooms, roomName]);
-        //createRoom with roomName
     };
 
     const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(event)
+        if (isJoinRoom) {
+            setRoomName('');
+        }
         setIsJoinRoom(!isJoinRoom);
     };
 
 
-    const handleAgeChange = (event: SelectChangeEvent) => {
+    const handleRoomOptionChange = (event: SelectChangeEvent) => {
         setRoomName(event.target.value as string);
         setIsJoinRoom(true);
-        setAge(event.target.value as string);
+        setSelectedRoom(event.target.value as string);
     };
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         setRoomName(event.target.value);
     }
-    console.log('roomName', roomName);
-    console.log('age', age);
     return (
         <>
             <ErrorSnackBar />
@@ -64,8 +60,8 @@ const RoomForm: React.FC<RoomFormProps> = ({ onSubmit, existingRooms }) => {
                             <Select
                                 labelId="select-label"
                                 label="Join Room"
-                                value={age}
-                                onChange={handleAgeChange}
+                                value={selectedRoom}
+                                onChange={handleRoomOptionChange}
                             >
                                 {rooms.map((room) => (
                                     <MenuItem key={room} value={room}>
