@@ -1,4 +1,4 @@
-import { Button, FormControl, FormControlLabel, FormLabel, MenuItem, Radio, RadioGroup, Select, SelectChangeEvent, TextField } from '@mui/material';
+import { Button, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, SelectChangeEvent, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import useErrorSnackbar from '../hooks/useErrorSnackBar';
 
@@ -58,25 +58,27 @@ const RoomForm: React.FC<RoomFormProps> = ({ onSubmit, existingRooms }) => {
                         <FormControlLabel value={true} control={<Radio />} label="Join Room" />
                         <FormControlLabel value={false} control={<Radio />} label="Create Room" />
                     </RadioGroup>
-                    <br />
-                    <br />
-                    {isJoinRoom && <>
-                        <Select
-                            value={age}
-                            label="Join Room"
-                            onChange={handleAgeChange}
-                        >
-                            {rooms.map((room) => (
-                                <MenuItem key={room} value={room}>
-                                    {room}
-                                </MenuItem>
-                            ))
-                            }
-                        </Select>
-                        <Button onClick={() => console.log('Join Room')} variant="contained" color="primary">
-                            Join Room
-                        </Button>
-                    </>}
+                    {isJoinRoom &&
+                        <FormControl fullWidth>
+
+                            <InputLabel id="select-label">Join Room</InputLabel>
+                            <Select
+                                labelId="select-label"
+                                label="Join Room"
+                                value={age}
+                                onChange={handleAgeChange}
+                            >
+                                {rooms.map((room) => (
+                                    <MenuItem key={room} value={room}>
+                                        {room}
+                                    </MenuItem>
+                                ))
+                                }
+                            </Select>
+                            <Button onClick={() => console.log('Join Room', roomName)} variant="contained" color="primary">
+                                Join Room
+                            </Button>
+                        </FormControl>}
 
                     {!isJoinRoom &&
                         <>
