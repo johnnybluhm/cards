@@ -3,6 +3,7 @@ export const Events = {
     connect: 'connect',
     disconnect: 'disconnect',
     joinRoom: 'join-room',
+    getRooms: 'get-rooms',
 };
 
 export const EventsCallbacks = {
