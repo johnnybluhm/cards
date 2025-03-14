@@ -40,6 +40,7 @@ const RoomForm: React.FC<RoomFormProps> = ({ onSubmit, existingRooms }) => {
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         setRoomName(event.target.value);
     }
+
     return (
         <>
             <ErrorSnackBar />
@@ -72,7 +73,7 @@ const RoomForm: React.FC<RoomFormProps> = ({ onSubmit, existingRooms }) => {
                                 ))
                                 }
                             </Select>
-                            <Button onClick={() => console.log('Join Room', roomName)} variant="contained" color="primary">
+                            <Button onClick={() => console.log('Join Room', selectedRoom)} variant="contained" color="primary">
                                 Join Room
                             </Button>
                         </FormControl>}
