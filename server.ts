@@ -17,6 +17,7 @@ app.prepare().then(() => {
 
   const io = new Server(server);
   const gameManager = new GameManager();
+  const rooms: string[] = [];
 
   io.on('connection', socket => {
     console.log('Client connected total clients:', io.engine.clientsCount);
@@ -26,6 +27,7 @@ app.prepare().then(() => {
 
     socket.on(Events.joinRoom, (room: string) => {
       socket.join(room);
+      rooms.push(room);
       console.log(`Client joined room: ${room}`);
       io.to(room).emit(Events.message, `A new player has joined the room: ${room}`); // Notify other players in the room
       io.to(room).emit(Events.joinRoom, room);
@@ -47,9 +49,10 @@ app.prepare().then(() => {
     });
 
     socket.on(Events.getRooms, (playerId: string) => {
-      const rooms = io.sockets.adapter.rooms;
-      const roomList = Array.from(rooms.keys());
-      io.to(playerId).emit(Events.getRooms, roomList);
+      console.log("In server getRooms", playerId);
+      console.log("Rooms:", rooms);
+
+      io.to(playerId).emit(Events.getRooms, rooms);
     });
   });
 

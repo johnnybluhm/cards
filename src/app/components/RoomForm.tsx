@@ -4,6 +4,7 @@ import useErrorSnackbar from '../hooks/useErrorSnackBar';
 
 interface RoomFormProps {
     onSubmit: (joinRoom: string, createRoom: string) => void;
+    existingRooms: string[];
 }
 
 const RoomForm: React.FC<RoomFormProps> = ({ onSubmit, existingRooms }) => {

@@ -6,6 +6,7 @@ export const useSocket = () => {
     const [socket, setSocket] = useState(client);
     const [room, setRoom] = useState<string | null>(null);
     const [messages, setMessages] = useState<string[]>([]);
+    const [rooms, setRooms] = useState<string[]>([]);
     useEffect(() => {
         socket.on('connect', () => {
             console.log('Connected to server');
@@ -17,6 +18,10 @@ export const useSocket = () => {
         });
         socket.on(Events.joinRoom, (room) => {
             setRoom(room);
+        });
+        socket.on(Events.getRooms, (rooms) => {
+            console.log('Seeting rooms on client', rooms);
+            setRooms(rooms);
         });
         setSocket(socket);
         return () => {
@@ -35,5 +40,12 @@ export const useSocket = () => {
         }
     }
 
-    return { room, joinRoom, messages, sendMessage };
+    function getRooms() {
+        console.log('client socket id', socket.id);
+        if (socket) {
+            socket.emit(Events.getRooms, socket.id);
+        }
+    }
+
+    return { room, joinRoom, rooms, getRooms, messages, sendMessage };
 };
