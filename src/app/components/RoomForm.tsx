@@ -1,6 +1,6 @@
-import { Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
+import { Button, FormControl, FormControlLabel, FormLabel, MenuItem, Radio, RadioGroup, Select, SelectChangeEvent, TextField } from '@mui/material';
 import React, { useState } from 'react';
-import useErrorSnackbar from './UseErrorSnackBar';
+import useErrorSnackbar from '../hooks/useErrorSnackBar';
 
 interface RoomFormProps {
     onSubmit: (joinRoom: string, createRoom: string) => void;
@@ -26,6 +26,12 @@ const RoomForm: React.FC<RoomFormProps> = ({ onSubmit, existingRooms }) => {
         //createRoom with roomName
     };
 
+    const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(event)
+        setIsJoinRoom(!isJoinRoom);
+    };
+
+
     const handleAgeChange = (event: SelectChangeEvent) => {
         setRoomName(event.target.value as string);
         setIsJoinRoom(true);
@@ -41,24 +47,36 @@ const RoomForm: React.FC<RoomFormProps> = ({ onSubmit, existingRooms }) => {
             <ErrorSnackBar />
             <form onSubmit={handleSubmit}>
                 <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Join Room</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={age}
-                        label="Join Room"
-                        onChange={handleAgeChange}
+                    <FormLabel id="demo-radio-buttons-group-label">Room</FormLabel>
+                    <RadioGroup
+                        aria-labelledby="demo-radio-buttons-group-label"
+                        name="radio-buttons-group"
+                        row={true}
+                        onChange={handleRadioChange}
+                        value={isJoinRoom}
                     >
-                        {rooms.map((room) => (
-                            <MenuItem key={room} value={room}>
-                                {room}
-                            </MenuItem>
-                        ))
-                        }
-                    </Select>
-                    {isJoinRoom && <Button onClick={() => setIsJoinRoom(false)} variant="contained" color="primary">
-                        Create Room
-                    </Button>}
+                        <FormControlLabel value={true} control={<Radio />} label="Join Room" />
+                        <FormControlLabel value={false} control={<Radio />} label="Create Room" />
+                    </RadioGroup>
+                    <br />
+                    <br />
+                    {isJoinRoom && <>
+                        <Select
+                            value={age}
+                            label="Join Room"
+                            onChange={handleAgeChange}
+                        >
+                            {rooms.map((room) => (
+                                <MenuItem key={room} value={room}>
+                                    {room}
+                                </MenuItem>
+                            ))
+                            }
+                        </Select>
+                        <Button onClick={() => console.log('Join Room')} variant="contained" color="primary">
+                            Join Room
+                        </Button>
+                    </>}
 
                     {!isJoinRoom &&
                         <>
