@@ -6,10 +6,7 @@ import { useCallback, useState } from 'react';
 export default function useErrorSnackbar() {
     const [error, setError] = useState<string | null>(null);
 
-    function handleClose(event: React.SyntheticEvent<Element, Event> | Event, reason: SnackbarCloseReason) {
-        if (reason === 'clickaway') {
-            return;
-        }
+    function handleClose(event: React.SyntheticEvent<Element, Event> | Event, reason?: SnackbarCloseReason) {
         setError(null);
     }
 
