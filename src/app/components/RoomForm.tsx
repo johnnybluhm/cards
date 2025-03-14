@@ -8,7 +8,6 @@ interface RoomFormProps {
 }
 
 const RoomForm: React.FC<RoomFormProps> = ({ onSubmit, existingRooms }) => {
-    existingRooms = ['Room 1', 'Room 2', 'Room 3'];
     const { setError, ErrorSnackBar } = useErrorSnackbar();
     const [rooms, setRooms] = useState(existingRooms);
     const [selectedRoom, setSelectedRoom] = React.useState('');

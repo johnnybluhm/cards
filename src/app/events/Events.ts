@@ -4,6 +4,7 @@ export const Events = {
     disconnect: 'disconnect',
     joinRoom: 'join-room',
     getRooms: 'get-rooms',
+    createRoom: 'create-room',
 };
 
 export const EventsCallbacks = {
