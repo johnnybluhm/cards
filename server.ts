@@ -45,6 +45,12 @@ app.prepare().then(() => {
     socket.on('play-card', (card: Card, playerId: string) => {
       gameManager.getGame(playerId).updateGame(card, playerId);
     });
+
+    socket.on(Events.getRooms, (playerId: string) => {
+      const rooms = io.sockets.adapter.rooms;
+      const roomList = Array.from(rooms.keys());
+      io.to(playerId).emit(Events.getRooms, roomList);
+    });
   });
 
   server.listen(3000, () => {
