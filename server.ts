@@ -28,15 +28,15 @@ app.prepare().then(() => {
 
     socket.on(Events.joinRoom, (roomName: string, password: string, playerName: string, socketId: string) => {
       const room = rooms.find(room => room.roomName === roomName && room.roomPassword === password);
-      if(!room) {
+      if (!room) {
         console.log(`Room ${roomName} not found or password incorrect`);
         io.to(socketId).emit(Events.joinRoom, null);
         return;
       }
-      rooms.push(room);
-      console.log(`Client joined room: ${room}`);
-      io.to(room).emit(Events.message, `A new player has joined the room: ${room}`); // Notify other players in the room
-      io.to(room).emit(Events.joinRoom, room);
+      room.joinRoom(playerName);
+      console.log(`Client joined room: ${room.roomName}`);
+      io.to(room.roomName).emit(Events.message, `A new player has joined the room: ${room.roomName}`); // Notify other players in the room
+      io.to(socketId).emit(Events.joinRoom, room);
     });
 
     socket.on(Events.createRoom, (roomName: string, password: string, playerName: string, socketId: string) => {
