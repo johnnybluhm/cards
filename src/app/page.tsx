@@ -7,23 +7,18 @@ import useMessageSnackbar from './hooks/useMessageSnackBar';
 import { useSocket } from './hooks/useSocket';
 
 export default function Home() {
-  const { rooms, getRooms, joinRoom, createRoom, messages } = useSocket();
-  const handleRoomSubmit = (joinRoom: string, createRoom: string) => {
-    console.log('Join Room:', joinRoom);
-    console.log('Create Room:', createRoom);
-    // Add logic to handle joining or creating a room
-  };
-  console.log('Messages in page', messages);
+  const { chosenRoom, joinRoom, createRoom, availableRooms, getRooms, messages } = useSocket();
   const {
     setMessage,
     MessageSnackBar
   } = useMessageSnackbar();
 
+  //we know we are in a room when room is
+
   useEffect(() => {
     console.log('Getting rooms')
-    joinRoom();
     getRooms();
-    console.log('Rooms:', rooms);
+    console.log('Rooms:', availableRooms);
   }, []);
 
   useEffect(() => {
@@ -31,7 +26,7 @@ export default function Home() {
     setMessage(messages[messages.length - 1]);
   }, [messages, setMessage]);
 
-  console.log('Rooms:', rooms);
+  console.log('Rooms:', availableRooms);
 
   return (
     <>
@@ -39,7 +34,7 @@ export default function Home() {
       <h3> Play Hearts</h3 >
       <br />
       <br />
-      <RoomForm createRoom={createRoom} existingRooms={rooms} />
+      <RoomForm createRoom={createRoom} existingRooms={availableRooms} />
 
     </>
   );

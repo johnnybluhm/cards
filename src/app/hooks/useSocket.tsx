@@ -1,29 +1,29 @@
 import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
-import { Events } from '../events/Events';
 import Message from '../classes/Message';
+import { SocketEvent } from '../events/Events';
 const client = io();
 export const useSocket = () => {
     const [socket, setSocket] = useState(client);
-    const [room, setRoom] = useState<string | null>(null);
+    const [chosenRoom, setChosenRoom] = useState<string | null>(null);
     const [messages, setMessages] = useState<Message[]>([]);
-    const [rooms, setRooms] = useState<string[]>([]);
+    const [availableRooms, setAvailableRooms] = useState<string[]>([]);
     useEffect(() => {
         socket.on('connect', () => {
             console.log('Connected to server');
         });
-        socket.on(Events.message, (message: Message) => {
+        socket.on(SocketEvent.Message, (message: Message) => {
             console.log('Message from server', message);
             messages.push(message);
             setMessages((prevMessages) => [...prevMessages, message])
         });
-        socket.on(Events.joinRoom, (room) => {
-            console.log('JoinRoom event emitted by server', room);
-            setRoom(room);
+        socket.on(SocketEvent.JoinRoom, (roomName) => {
+            console.log('JoinRoom event emitted by server', roomName);
+            setChosenRoom(chosenRoom);
         });
-        socket.on(Events.getRooms, (rooms) => {
+        socket.on(SocketEvent.GetRooms, (rooms) => {
             console.log('Seeting rooms on client', rooms);
-            setRooms(rooms);
+            setAvailableRooms(rooms);
         });
         setSocket(socket);
         return () => {
@@ -33,22 +33,22 @@ export const useSocket = () => {
 
     function joinRoom(roomName: string, password: string, playerName: string) {
         if (socket) {
-            socket.emit(Events.joinRoom, roomName, password, playerName);
+            socket.emit(SocketEvent.JoinRoom, roomName, password, playerName);
         }
     }
 
     function getRooms() {
         console.log('client socket id', socket.id);
         if (socket) {
-            socket.emit(Events.getRooms);
+            socket.emit(SocketEvent.GetRooms);
         }
     }
 
     function createRoom(roomName: string, password: string, playerName: string) {
         if (socket) {
-            socket.emit(Events.createRoom, roomName, password, playerName);
+            socket.emit(SocketEvent.CreateRoom, roomName, password, playerName);
         }
     }
 
-    return { room, joinRoom, rooms, getRooms, messages, createRoom };
+    return { chosenRoom, joinRoom, createRoom, availableRooms, getRooms, messages };
 };
