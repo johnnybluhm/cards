@@ -5,6 +5,7 @@ import { parse } from 'url';
 import GameManager from './src/app/classes/GamesManager';
 import SocketRoom from './src/app/classes/SocketRoom';
 import { Events } from './src/app/events/Events';
+import { Card } from './src/app/classes/Card';
 
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
@@ -26,7 +27,12 @@ app.prepare().then(() => {
     });
 
     socket.on(Events.joinRoom, (roomName: string, password: string, playerName: string, socketId: string) => {
-      socket.join(room);
+      const room = rooms.find(room => room.roomName === roomName && room.roomPassword === password);
+      if(!room) {
+        console.log(`Room ${roomName} not found or password incorrect`);
+        io.to(socketId).emit(Events.joinRoom, null);
+        return;
+      }
       rooms.push(room);
       console.log(`Client joined room: ${room}`);
       io.to(room).emit(Events.message, `A new player has joined the room: ${room}`); // Notify other players in the room

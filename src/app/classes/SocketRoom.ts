@@ -9,6 +9,9 @@ export default class SocketRoom {
         this.players.push(playerName);
         this.roomPassword = roomPassword;
         this.roomName = roomName;
+    }
 
+    joinRoom(playerName: string) {
+        this.players.push(playerName);
     }
 }
