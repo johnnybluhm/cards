@@ -30,22 +30,17 @@ export const useSocket = () => {
             socket.disconnect();
         };
     }, []);
-    const sendMessage = (message: string) => {
-        if (socket) {
-            socket.emit(Events.message, message, room);
-        }
-    };
 
-    function joinRoom() {
+    function joinRoom(roomName: string, password: string, playerName: string) {
         if (socket) {
-            socket.emit(Events.joinRoom, 'room1');
+            socket.emit(Events.joinRoom, roomName, password, playerName);
         }
     }
 
     function getRooms() {
         console.log('client socket id', socket.id);
         if (socket) {
-            socket.emit(Events.getRooms, socket.id);
+            socket.emit(Events.getRooms);
         }
     }
 
@@ -55,5 +50,5 @@ export const useSocket = () => {
         }
     }
 
-    return { room, joinRoom, rooms, getRooms, messages, sendMessage, createRoom };
+    return { room, joinRoom, rooms, getRooms, messages, createRoom };
 };

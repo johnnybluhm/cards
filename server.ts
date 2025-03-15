@@ -36,7 +36,7 @@ app.prepare().then(() => {
       }
       room.joinRoom(playerName);
       console.log(`Client joined room: ${room.roomName}`);
-      io.to(room.roomName).emit(Events.message, `A new player has joined the room: ${room.roomName}`); // Notify other players in the room
+      io.to(room.roomName).emit(Events.message, new Message(Severity.Info, `A new player ${playerName} has joined the room ${room.roomName}`)); // Notify other players in the room
       socket.emit(Events.message, new Message(Severity.Success, `You have joined the room: ${room.roomName}`));
     });
 
@@ -53,11 +53,17 @@ app.prepare().then(() => {
       socket.emit(Events.message, new Message(Severity.Success, `You have created the room: ${newRoom.roomName}`));
     });
 
+    socket.on(Events.getRooms, () => {
+      console.log("In server getRooms", socket.id);
+      console.log("Rooms:", rooms);
+      socket.emit(Events.getRooms, rooms);
+    });
+
     socket.on(Events.message, (message: string, room: string) => {
       console.log('In server message', message)
       if (!room) {
         console.log('Emitting message to client socketId', socket.id);
-        io.to(socket.id).emit(Events.message, "You need to join a room to send messages");
+        io.to(socket.id).emit(Events.message, new Message(Severity.Error, "You need to join a room to send messages"));
         return;
       }
       io.to(room).emit(Events.message, message);
@@ -66,13 +72,6 @@ app.prepare().then(() => {
 
     socket.on('play-card', (card: Card, playerId: string) => {
       gameManager.getGame(playerId).updateGame(card, playerId);
-    });
-
-    socket.on(Events.getRooms, (playerId: string) => {
-      console.log("In server getRooms", playerId);
-      console.log("Rooms:", rooms);
-
-      io.to(playerId).emit(Events.getRooms, rooms);
     });
   });
 
