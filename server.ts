@@ -3,10 +3,10 @@ import next from 'next';
 import { Server } from "socket.io";
 import { parse } from 'url';
 import GameManager from './src/app/classes/GamesManager';
+import Message, { Severity } from './src/app/classes/Message';
 import SocketRoom from './src/app/classes/SocketRoom';
 import { Events } from './src/app/events/Events';
 import { Card } from './src/app/classes/Card';
-import Message from './src/app/classes/Message';
 
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
@@ -37,20 +37,20 @@ app.prepare().then(() => {
       room.joinRoom(playerName);
       console.log(`Client joined room: ${room.roomName}`);
       io.to(room.roomName).emit(Events.message, `A new player has joined the room: ${room.roomName}`); // Notify other players in the room
-      socket.emit(Events.message, new Message('success', `You have joined the room: ${room.roomName}`));
+      socket.emit(Events.message, new Message(Severity.Success, `You have joined the room: ${room.roomName}`));
     });
 
     socket.on(Events.createRoom, (roomName: string, password: string, playerName: string) => {
       const newRoom = new SocketRoom(roomName, password, playerName);
       if (rooms.some(room => room.roomName === newRoom.roomName)) {
         console.log(`Room ${newRoom.roomName} already exists`);
-        socket.emit(Events.message, "Room already Exists. Please choose another name");
+        socket.emit(Events.message, new Message(Severity.Error, "Room already Exists. Please choose another name"));
         return;
       }
       socket.join(newRoom.roomName);
       rooms.push(newRoom);
       console.log(`Client created room: ${newRoom.roomName}`);
-      socket.emit(Events.joinRoom, newRoom.roomName);
+      socket.emit(Events.message, new Message(Severity.Success, `You have created the room: ${newRoom.roomName}`));
     });
 
     socket.on(Events.message, (message: string, room: string) => {

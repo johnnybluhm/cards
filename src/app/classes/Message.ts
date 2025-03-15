@@ -7,4 +7,9 @@ export default class Message {
     }
 }
 
-type Severity = "info" | "error" | "success" | "warning";
+export enum Severity {
+    Info = 'info',
+    Error = 'error',
+    Success = 'success',
+    Warning = 'warning'
+}
