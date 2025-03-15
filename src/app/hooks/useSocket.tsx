@@ -17,6 +17,7 @@ export const useSocket = () => {
             setMessages((prevMessages) => [...prevMessages, message])
         });
         socket.on(Events.joinRoom, (room) => {
+            console.log('JoinRoom event emitted by server', room);
             setRoom(room);
         });
         socket.on(Events.getRooms, (rooms) => {
@@ -47,5 +48,11 @@ export const useSocket = () => {
         }
     }
 
-    return { room, joinRoom, rooms, getRooms, messages, sendMessage };
+    function createRoom(roomName: string, password: string, playerName: string) {
+        if (socket) {
+            socket.emit(Events.createRoom, roomName, password, playerName);
+        }
+    }
+
+    return { room, joinRoom, rooms, getRooms, messages, sendMessage, createRoom };
 };

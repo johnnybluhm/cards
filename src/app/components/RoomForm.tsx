@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import useErrorSnackbar from '../hooks/useErrorSnackBar';
 
 interface RoomFormProps {
-    onSubmit: (joinRoom: string, createRoom: string) => void;
+    createRoom: (roomName: string, password: string, playerName: string) => void;
     existingRooms: string[];
 }
 
-const RoomForm: React.FC<RoomFormProps> = ({ onSubmit, existingRooms }) => {
+const RoomForm: React.FC<RoomFormProps> = ({ createRoom, existingRooms }) => {
     const { setError, ErrorSnackBar } = useErrorSnackbar();
     const [rooms, setRooms] = useState(existingRooms);
     const [selectedRoom, setSelectedRoom] = React.useState('');
@@ -22,7 +22,9 @@ const RoomForm: React.FC<RoomFormProps> = ({ onSubmit, existingRooms }) => {
             setError('Room already exists');
             return;
         }
-        setRooms([...rooms, roomName]);
+        createRoom(roomName, password, playerName);
+        console.log('Creating room:', roomName, password, playerName);
+        //setRooms([...rooms, roomName]);
     };
 
     function handleRadioChange(event: React.ChangeEvent<HTMLInputElement>) {

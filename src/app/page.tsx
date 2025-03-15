@@ -8,7 +8,7 @@ import { useSocket } from './hooks/useSocket';
 import { join } from 'path';
 
 export default function Home() {
-  const { rooms, getRooms, joinRoom } = useSocket();
+  const { rooms, getRooms, joinRoom, createRoom } = useSocket();
   const handleRoomSubmit = (joinRoom: string, createRoom: string) => {
     console.log('Join Room:', joinRoom);
     console.log('Create Room:', createRoom);
@@ -29,7 +29,7 @@ export default function Home() {
       <h3> Play Hearts</h3 >
       <br />
       <br />
-      <RoomForm onSubmit={handleRoomSubmit} existingRooms={rooms}/>
+      <RoomForm createRoom={createRoom} existingRooms={rooms}/>
  
     </>
   );
