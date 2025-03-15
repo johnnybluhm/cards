@@ -11,7 +11,7 @@ export default function useMessageSnackbar() {
         setMessage(null);
     }
 
-    const ErrorSnackBar = useCallback(() => {
+    const MessageSnackBar = useCallback(() => {
         return (
             <>
                 {message && <Snackbar
@@ -35,6 +35,6 @@ export default function useMessageSnackbar() {
 
     return {
         setMessage,
-        ErrorSnackBar
+        MessageSnackBar
     }
 }

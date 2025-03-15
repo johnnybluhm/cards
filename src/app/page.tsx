@@ -1,12 +1,10 @@
 'use client';
-import { use, useEffect } from 'react';
+import { useEffect } from 'react';
 //https://www.pedroalonso.net/blog/websockets-nextjs-part-1/
 import './card-styles/cards.css';
-import GameComponent from './components/GameComponent';
 import RoomForm from './components/RoomForm';
+import useMessageSnackbar from './hooks/useMessageSnackBar';
 import { useSocket } from './hooks/useSocket';
-import { join } from 'path';
-import useErrorSnackbar from './hooks/useErrorSnackBar';
 
 export default function Home() {
   const { rooms, getRooms, joinRoom, createRoom, messages } = useSocket();
@@ -17,9 +15,9 @@ export default function Home() {
   };
   console.log('Messages in page', messages);
   const {
-    setError,
-    ErrorSnackBar
-  } = useErrorSnackbar();
+    setMessage,
+    MessageSnackBar
+  } = useMessageSnackbar();
 
   useEffect(() => {
     console.log('Getting rooms')
@@ -30,14 +28,14 @@ export default function Home() {
 
   useEffect(() => {
     console.log('Use effect messages', messages);
-    setError(messages[messages.length - 1]?.content);
-  }, [messages, setError]);
+    setMessage(messages[messages.length - 1]);
+  }, [messages, setMessage]);
 
   console.log('Rooms:', rooms);
 
   return (
     <>
-      <ErrorSnackBar />
+      <MessageSnackBar />
       <h3> Play Hearts</h3 >
       <br />
       <br />
