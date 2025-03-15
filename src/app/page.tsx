@@ -36,7 +36,10 @@ export default function Home() {
       <h3> Play Hearts</h3 >
       <br />
       <br />
-      {!chosenRoom && <RoomForm createRoom={createRoom} existingRooms={availableRooms} />}
+      {!chosenRoom && <RoomForm
+        createRoom={createRoom}
+        joinRoom={joinRoom}
+        availableRooms={availableRooms} />}
 
     </>
   );

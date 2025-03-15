@@ -1,15 +1,13 @@
 import { Button, FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, SelectChangeEvent, TextField } from '@mui/material';
 import React, { useState } from 'react';
-import useErrorSnackbar from '../hooks/useErrorSnackBar';
 
 interface RoomFormProps {
     createRoom: (roomName: string, password: string, playerName: string) => void;
-    existingRooms: string[];
+    joinRoom: (roomName: string, password: string, playerName: string) => void;
+    availableRooms: string[];
 }
 
-const RoomForm: React.FC<RoomFormProps> = ({ createRoom, existingRooms }) => {
-    const { setError, ErrorSnackBar } = useErrorSnackbar();
-    const [rooms, setRooms] = useState(existingRooms);
+const RoomForm: React.FC<RoomFormProps> = ({ createRoom, joinRoom, availableRooms }) => {
     const [selectedRoom, setSelectedRoom] = React.useState('');
     const [isJoinRoom, setIsJoinRoom] = useState(false);
     const [roomName, setRoomName] = useState('');
@@ -18,13 +16,11 @@ const RoomForm: React.FC<RoomFormProps> = ({ createRoom, existingRooms }) => {
 
     function handleSubmit(event: React.FormEvent) {
         event.preventDefault();
-        if (rooms.includes(roomName)) {
-            setError('Room already exists');
+        if (isJoinRoom) {
+            joinRoom(roomName, password, playerName);
             return;
         }
         createRoom(roomName, password, playerName);
-        console.log('Creating room:', roomName, password, playerName);
-        //setRooms([...rooms, roomName]);
     };
 
     function handleRadioChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -54,92 +50,89 @@ const RoomForm: React.FC<RoomFormProps> = ({ createRoom, existingRooms }) => {
     }
 
     return (
-        <>
-            <ErrorSnackBar />
-            <form onSubmit={handleSubmit}>
-                <FormControl fullWidth>
-                    <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        name="radio-buttons-group"
-                        row={true}
-                        onChange={handleRadioChange}
-                        value={isJoinRoom}
-                    >
-                        <FormControlLabel value={true} control={<Radio />} label="Join Room" />
-                        <FormControlLabel value={false} control={<Radio />} label="Create Room" />
-                    </RadioGroup>
-                    {isJoinRoom &&
-                        <FormControl fullWidth>
+        <form onSubmit={handleSubmit}>
+            <FormControl fullWidth>
+                <RadioGroup
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    name="radio-buttons-group"
+                    row={true}
+                    onChange={handleRadioChange}
+                    value={isJoinRoom}
+                >
+                    <FormControlLabel value={true} control={<Radio />} label="Join Room" />
+                    <FormControlLabel value={false} control={<Radio />} label="Create Room" />
+                </RadioGroup>
+                {isJoinRoom &&
+                    <FormControl fullWidth>
 
-                            <InputLabel id="select-label">Room Name</InputLabel>
-                            <Select
-                                labelId="select-label"
-                                label="Room Name"
-                                value={selectedRoom}
-                                onChange={handleRoomOptionChange}
-                            >
-                                {rooms.map((room) => (
-                                    <MenuItem key={room} value={room}>
-                                        {room}
-                                    </MenuItem>
-                                ))
-                                }
-                            </Select>
-                            <TextField
-                                label="Password"
-                                variant="outlined"
-                                fullWidth
-                                value={password}
-                                onChange={handlePasswordChange}
-                                required
-                            />
-                            <TextField
-                                label="Player Name"
-                                variant="outlined"
-                                fullWidth
-                                value={playerName}
-                                onChange={handlePlayerNameChange}
-                                required
-                            />
-                            <Button onClick={() => console.log('Join Room', selectedRoom)} variant="contained" color="primary">
-                                Join Room
-                            </Button>
-                        </FormControl>}
+                        <InputLabel id="select-label">Room Name</InputLabel>
+                        <Select
+                            labelId="select-label"
+                            label="Room Name"
+                            value={selectedRoom}
+                            onChange={handleRoomOptionChange}
+                        >
+                            {availableRooms.map((room) => (
+                                <MenuItem key={room} value={room}>
+                                    {room}
+                                </MenuItem>
+                            ))
+                            }
+                        </Select>
+                        <TextField
+                            label="Password"
+                            variant="outlined"
+                            fullWidth
+                            value={password}
+                            onChange={handlePasswordChange}
+                            required
+                        />
+                        <TextField
+                            label="Player Name"
+                            variant="outlined"
+                            fullWidth
+                            value={playerName}
+                            onChange={handlePlayerNameChange}
+                            required
+                        />
+                        <Button type="submit" variant="contained" color="primary">
+                            Join Room
+                        </Button>
+                    </FormControl>}
 
-                    {!isJoinRoom &&
-                        <>
-                            <h3>Create a room</h3>
-                            <TextField
-                                label="Room Name"
-                                variant="outlined"
-                                fullWidth
-                                value={roomName}
-                                onChange={handleRoomNameChange}
-                                required
-                            />
-                            <TextField
-                                label="Password"
-                                variant="outlined"
-                                fullWidth
-                                value={password}
-                                onChange={handlePasswordChange}
-                                required
-                            />
-                            <TextField
-                                label="Player Name"
-                                variant="outlined"
-                                fullWidth
-                                value={playerName}
-                                onChange={handlePlayerNameChange}
-                                required
-                            />
-                            <Button type="submit" variant="contained" color="primary">
-                                Create Room
-                            </Button>
-                        </>}
-                </FormControl>
-            </form>
-        </>
+                {!isJoinRoom &&
+                    <>
+                        <h3>Create a room</h3>
+                        <TextField
+                            label="Room Name"
+                            variant="outlined"
+                            fullWidth
+                            value={roomName}
+                            onChange={handleRoomNameChange}
+                            required
+                        />
+                        <TextField
+                            label="Password"
+                            variant="outlined"
+                            fullWidth
+                            value={password}
+                            onChange={handlePasswordChange}
+                            required
+                        />
+                        <TextField
+                            label="Player Name"
+                            variant="outlined"
+                            fullWidth
+                            value={playerName}
+                            onChange={handlePlayerNameChange}
+                            required
+                        />
+                        <Button type="submit" variant="contained" color="primary">
+                            Create Room
+                        </Button>
+                    </>}
+            </FormControl>
+        </form>
     );
 };
 
