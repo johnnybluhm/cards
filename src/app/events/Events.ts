@@ -1,11 +1,9 @@
-export const Events = {
-    message: 'message',
-    connect: 'connect',
-    disconnect: 'disconnect',
-    joinRoom: 'join-room',
-    getRooms: 'get-rooms',
-    createRoom: 'create-room',
-};
+export enum SocketEvent {
+    Message = 'message',
+    JoinRoom = 'join-room',
+    GetRooms = 'get-rooms',
+    CreateRoom = 'create-room'
+}
 
 export const EventsCallbacks = {
     message: (message: string) => {

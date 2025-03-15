@@ -2,11 +2,9 @@ import { createServer } from 'http';
 import next from 'next';
 import { Server } from "socket.io";
 import { parse } from 'url';
-import GameManager from './src/app/classes/GamesManager';
 import Message, { Severity } from './src/app/classes/Message';
 import SocketRoom from './src/app/classes/SocketRoom';
-import { Events } from './src/app/events/Events';
-import { Card } from './src/app/classes/Card';
+import { SocketEvent } from './src/app/events/Events';
 
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
@@ -18,7 +16,7 @@ app.prepare().then(() => {
   });
 
   const io = new Server(server);
-  const gameManager = new GameManager();
+  //const gameManager = new GameManager();
   const rooms: SocketRoom[] = [];
 
   io.on('connection', socket => {
@@ -27,51 +25,36 @@ app.prepare().then(() => {
       console.log('Client disconnected');
     });
 
-    socket.on(Events.joinRoom, (roomName: string, password: string, playerName: string) => {
+    socket.on(SocketEvent.JoinRoom, (roomName: string, password: string, playerName: string) => {
       const room = rooms.find(room => room.roomName === roomName && room.roomPassword === password);
       if (!room) {
         console.log(`Room ${roomName} not found or password incorrect`);
-        socket.emit(Events.joinRoom, null);
+        socket.emit(SocketEvent.Message, new Message(Severity.Error, `Room ${roomName} not found or password incorrect`));
         return;
       }
       room.joinRoom(playerName);
       console.log(`Client joined room: ${room.roomName}`);
-      io.to(room.roomName).emit(Events.message, new Message(Severity.Info, `A new player ${playerName} has joined the room ${room.roomName}`)); // Notify other players in the room
-      socket.emit(Events.message, new Message(Severity.Success, `You have joined the room: ${room.roomName}`));
+      io.to(room.roomName).emit(SocketEvent.Message, new Message(Severity.Info, `A new player ${playerName} has joined the room ${room.roomName}`)); // Notify other players in the room
+      socket.emit(SocketEvent.Message, new Message(Severity.Success, `You have joined the room: ${room.roomName}`, SocketEvent.JoinRoom));
     });
 
-    socket.on(Events.createRoom, (roomName: string, password: string, playerName: string) => {
+    socket.on(SocketEvent.CreateRoom, (roomName: string, password: string, playerName: string) => {
       const newRoom = new SocketRoom(roomName, password, playerName);
       if (rooms.some(room => room.roomName === newRoom.roomName)) {
         console.log(`Room ${newRoom.roomName} already exists`);
-        socket.emit(Events.message, new Message(Severity.Error, "Room already Exists. Please choose another name"));
+        socket.emit(SocketEvent.Message, new Message(Severity.Error, "Room already Exists. Please choose another name"));
         return;
       }
       socket.join(newRoom.roomName);
       rooms.push(newRoom);
       console.log(`Client created room: ${newRoom.roomName}`);
-      socket.emit(Events.message, new Message(Severity.Success, `You have created the room: ${newRoom.roomName}`));
+      socket.emit(SocketEvent.Message, new Message(Severity.Success, `You have created the room: ${newRoom.roomName}`, SocketEvent.CreateRoom));
     });
 
-    socket.on(Events.getRooms, () => {
+    socket.on(SocketEvent.GetRooms, () => {
       console.log("In server getRooms", socket.id);
       console.log("Rooms:", rooms);
-      socket.emit(Events.getRooms, rooms);
-    });
-
-    socket.on(Events.message, (message: string, room: string) => {
-      console.log('In server message', message)
-      if (!room) {
-        console.log('Emitting message to client socketId', socket.id);
-        io.to(socket.id).emit(Events.message, new Message(Severity.Error, "You need to join a room to send messages"));
-        return;
-      }
-      io.to(room).emit(Events.message, message);
-      console.log(`Message from client in room ${room}: ${message}`);
-    });
-
-    socket.on('play-card', (card: Card, playerId: string) => {
-      gameManager.getGame(playerId).updateGame(card, playerId);
+      socket.emit(SocketEvent.GetRooms, rooms);
     });
   });
 

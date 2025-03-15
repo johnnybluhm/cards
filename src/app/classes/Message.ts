@@ -1,7 +1,11 @@
+import { SocketEvent } from "../events/Events";
+
 export default class Message {
     severity: Severity;
     content: string;
-    constructor(severity: Severity, content: string) {
+    event?: SocketEvent;
+    constructor(severity: Severity, content: string, event?: SocketEvent) {
+        this.event = event;
         this.severity = severity;
         this.content = content;
     }
