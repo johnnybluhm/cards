@@ -6,6 +6,7 @@ import GameManager from './src/app/classes/GamesManager';
 import SocketRoom from './src/app/classes/SocketRoom';
 import { Events } from './src/app/events/Events';
 import { Card } from './src/app/classes/Card';
+import Message from './src/app/classes/Message';
 
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
@@ -36,12 +37,12 @@ app.prepare().then(() => {
       room.joinRoom(playerName);
       console.log(`Client joined room: ${room.roomName}`);
       io.to(room.roomName).emit(Events.message, `A new player has joined the room: ${room.roomName}`); // Notify other players in the room
-      socket.emit(Events.joinRoom, room);
+      socket.emit(Events.message, new Message('success', `You have joined the room: ${room.roomName}`));
     });
 
     socket.on(Events.createRoom, (roomName: string, password: string, playerName: string) => {
       const newRoom = new SocketRoom(roomName, password, playerName);
-      if(rooms.some(room => room.roomName === newRoom.roomName)) {
+      if (rooms.some(room => room.roomName === newRoom.roomName)) {
         console.log(`Room ${newRoom.roomName} already exists`);
         socket.emit(Events.message, "Room already Exists. Please choose another name");
         return;

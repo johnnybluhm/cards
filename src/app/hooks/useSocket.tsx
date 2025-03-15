@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import { Events } from '../events/Events';
+import Message from '../classes/Message';
 const client = io();
 export const useSocket = () => {
     const [socket, setSocket] = useState(client);
     const [room, setRoom] = useState<string | null>(null);
-    const [messages, setMessages] = useState<string[]>([]);
+    const [messages, setMessages] = useState<Message[]>([]);
     const [rooms, setRooms] = useState<string[]>([]);
     useEffect(() => {
         socket.on('connect', () => {
             console.log('Connected to server');
         });
-        socket.on(Events.message, (message: string) => {
+        socket.on(Events.message, (message: Message) => {
             console.log('Message from server', message);
             messages.push(message);
             setMessages((prevMessages) => [...prevMessages, message])
