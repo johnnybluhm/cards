@@ -13,6 +13,8 @@ const RoomForm: React.FC<RoomFormProps> = ({ onSubmit, existingRooms }) => {
     const [selectedRoom, setSelectedRoom] = React.useState('');
     const [isJoinRoom, setIsJoinRoom] = useState(false);
     const [roomName, setRoomName] = useState('');
+    const [password, setPassword] = useState('');
+    const [playerName, setPlayerName] = useState('');
 
     function handleSubmit(event: React.FormEvent) {
         event.preventDefault();
@@ -37,8 +39,16 @@ const RoomForm: React.FC<RoomFormProps> = ({ onSubmit, existingRooms }) => {
         setSelectedRoom(event.target.value as string);
     };
 
-    function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    function handleRoomNameChange(event: React.ChangeEvent<HTMLInputElement>) {
         setRoomName(event.target.value);
+    }
+
+    function handlePasswordChange(event: React.ChangeEvent<HTMLInputElement>) {
+        setPassword(event.target.value);
+    }
+
+    function handlePlayerNameChange(event: React.ChangeEvent<HTMLInputElement>) {
+        setPlayerName(event.target.value);
     }
 
     return (
@@ -59,10 +69,10 @@ const RoomForm: React.FC<RoomFormProps> = ({ onSubmit, existingRooms }) => {
                     {isJoinRoom &&
                         <FormControl fullWidth>
 
-                            <InputLabel id="select-label">Join Room</InputLabel>
+                            <InputLabel id="select-label">Room Name</InputLabel>
                             <Select
                                 labelId="select-label"
-                                label="Join Room"
+                                label="Room Name"
                                 value={selectedRoom}
                                 onChange={handleRoomOptionChange}
                             >
@@ -73,6 +83,22 @@ const RoomForm: React.FC<RoomFormProps> = ({ onSubmit, existingRooms }) => {
                                 ))
                                 }
                             </Select>
+                            <TextField
+                                label="Password"
+                                variant="outlined"
+                                fullWidth
+                                value={password}
+                                onChange={handlePasswordChange}
+                                required
+                            />
+                            <TextField
+                                label="Player Name"
+                                variant="outlined"
+                                fullWidth
+                                value={playerName}
+                                onChange={handlePlayerNameChange}
+                                required
+                            />
                             <Button onClick={() => console.log('Join Room', selectedRoom)} variant="contained" color="primary">
                                 Join Room
                             </Button>
@@ -80,13 +106,29 @@ const RoomForm: React.FC<RoomFormProps> = ({ onSubmit, existingRooms }) => {
 
                     {!isJoinRoom &&
                         <>
+                            <h3>Create a room</h3>
                             <TextField
-                                label="Create Room"
+                                label="Room Name"
                                 variant="outlined"
                                 fullWidth
-                                name="username"
                                 value={roomName}
-                                onChange={handleChange}
+                                onChange={handleRoomNameChange}
+                                required
+                            />
+                            <TextField
+                                label="Password"
+                                variant="outlined"
+                                fullWidth
+                                value={password}
+                                onChange={handlePasswordChange}
+                                required
+                            />
+                            <TextField
+                                label="Player Name"
+                                variant="outlined"
+                                fullWidth
+                                value={playerName}
+                                onChange={handlePlayerNameChange}
                                 required
                             />
                             <Button type="submit" variant="contained" color="primary">
