@@ -26,25 +26,25 @@ app.prepare().then(() => {
       console.log('Client disconnected');
     });
 
-    socket.on(Events.joinRoom, (roomName: string, password: string, playerName: string, socketId: string) => {
+    socket.on(Events.joinRoom, (roomName: string, password: string, playerName: string) => {
       const room = rooms.find(room => room.roomName === roomName && room.roomPassword === password);
       if (!room) {
         console.log(`Room ${roomName} not found or password incorrect`);
-        io.to(socketId).emit(Events.joinRoom, null);
+        socket.emit(Events.joinRoom, null);
         return;
       }
       room.joinRoom(playerName);
       console.log(`Client joined room: ${room.roomName}`);
       io.to(room.roomName).emit(Events.message, `A new player has joined the room: ${room.roomName}`); // Notify other players in the room
-      io.to(socketId).emit(Events.joinRoom, room);
+      socket.emit(Events.joinRoom, room);
     });
 
-    socket.on(Events.createRoom, (roomName: string, password: string, playerName: string, socketId: string) => {
-      const newRoom = new SocketRoom(roomName, password, socketId);
+    socket.on(Events.createRoom, (roomName: string, password: string, playerName: string) => {
+      const newRoom = new SocketRoom(roomName, password, playerName);
       socket.join(newRoom.roomName);
       rooms.push(newRoom);
       console.log(`Client created room: ${newRoom.roomName}`);
-      io.to(socketId).emit(Events.createRoom, newRoom.roomName);
+      socket.emit(Events.createRoom, newRoom.roomName);
     });
 
     socket.on(Events.message, (message: string, room: string) => {
