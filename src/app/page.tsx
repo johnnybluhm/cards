@@ -28,13 +28,15 @@ export default function Home() {
 
   console.log('Rooms:', availableRooms);
 
+  console.log('Chosen room', chosenRoom);
+
   return (
     <>
       <MessageSnackBar />
       <h3> Play Hearts</h3 >
       <br />
       <br />
-      <RoomForm createRoom={createRoom} existingRooms={availableRooms} />
+      {!chosenRoom && <RoomForm createRoom={createRoom} existingRooms={availableRooms} />}
 
     </>
   );

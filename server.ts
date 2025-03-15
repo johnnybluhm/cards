@@ -49,6 +49,7 @@ app.prepare().then(() => {
       rooms.push(newRoom);
       console.log(`Client created room: ${newRoom.roomName}`);
       socket.emit(SocketEvent.Message, new Message(Severity.Success, `You have created the room: ${newRoom.roomName}`, SocketEvent.CreateRoom));
+      console.log('Emmitting event JoinRoom after create with', newRoom.roomName);
       socket.emit(SocketEvent.JoinRoom, newRoom.roomName);
     });
 

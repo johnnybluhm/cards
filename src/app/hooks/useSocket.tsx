@@ -19,7 +19,7 @@ export const useSocket = () => {
         });
         socket.on(SocketEvent.JoinRoom, (roomName) => {
             console.log('JoinRoom event emitted by server', roomName);
-            setChosenRoom(chosenRoom);
+            setChosenRoom(roomName);
         });
         socket.on(SocketEvent.GetRooms, (rooms) => {
             console.log('Seeting rooms on client', rooms);
