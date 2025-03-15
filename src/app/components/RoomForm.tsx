@@ -1,10 +1,11 @@
 import { Button, FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, SelectChangeEvent, TextField } from '@mui/material';
 import React, { useState } from 'react';
+import SocketRoom from '../classes/SocketRoom';
 
 interface RoomFormProps {
     createRoom: (roomName: string, password: string, playerName: string) => void;
     joinRoom: (roomName: string, password: string, playerName: string) => void;
-    availableRooms: string[];
+    availableRooms: SocketRoom[];
 }
 
 const RoomForm: React.FC<RoomFormProps> = ({ createRoom, joinRoom, availableRooms }) => {
@@ -48,7 +49,7 @@ const RoomForm: React.FC<RoomFormProps> = ({ createRoom, joinRoom, availableRoom
     function handlePlayerNameChange(event: React.ChangeEvent<HTMLInputElement>) {
         setPlayerName(event.target.value);
     }
-
+    console.log('available rooms', availableRooms);
     return (
         <form onSubmit={handleSubmit}>
             <FormControl fullWidth>
@@ -72,9 +73,9 @@ const RoomForm: React.FC<RoomFormProps> = ({ createRoom, joinRoom, availableRoom
                             value={selectedRoom}
                             onChange={handleRoomOptionChange}
                         >
-                            {availableRooms.map((room) => (
-                                <MenuItem key={room} value={room}>
-                                    {room}
+                            {availableRooms?.map((room) => (
+                                <MenuItem key={room.id} value={room.roomName}>
+                                    {room.roomName}
                                 </MenuItem>
                             ))
                             }
