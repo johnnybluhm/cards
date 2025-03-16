@@ -11,6 +11,8 @@ export class Player {
     isTurn: boolean;
     roundPoints: number;
     isReadyForNextRound: boolean;
+    cardsPassed: Card[] = [];
+    cardsReceived: Card[] = [];
 
     constructor(name: string, id: string) {
         this.name = name;
