@@ -7,6 +7,8 @@ import '../card-styles/cards.css';
 import { Card } from '../classes/Card';
 import { Deck } from '../classes/Deck';
 import Hand from './HandComponent';
+import Trick from './TrickComponent';
+import { Trick as CardTrick } from '../classes/Trick';
 const deck = new Deck();
 
 export default function Game() {
@@ -25,7 +27,11 @@ export default function Game() {
         console.log('sorted deck', deck.cards);
         setCards([...deck.cards]);
     }
-
+    const trick = new CardTrick();
+    trick.addCard(cards[0], cards.slice(0, 13));
+    trick.addCard(cards[1], cards.slice(0, 13));
+    trick.addCard(cards[2], cards.slice(0, 13));
+    trick.addCard(cards[3], cards.slice(0, 13));
     return (
         <>
 
@@ -44,11 +50,13 @@ export default function Game() {
 
                     {/*LEFT*/}
                     <Grid size={2}>
+
                     </Grid>
                     <Grid size={4}>
                         <Hand cards={cards.slice(13, 26)} faceDown={true} />
                     </Grid>
                     <Grid size={2}>
+                        <Trick trick={trick} />
                     </Grid>
 
                     {/*RIGHT*/}
@@ -56,7 +64,7 @@ export default function Game() {
                         <Hand cards={cards.slice(26, 39)} faceDown={true} />
                     </Grid>
 
-                    {/*BOTTOM*/}
+                    {/*BOTTOM and actual players hand*/}
                     <Grid size={5}>
                     </Grid>
                     <Grid size={4}>
