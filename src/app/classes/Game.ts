@@ -29,7 +29,6 @@ export default class Game {
         const winningCard = this.round.currentTrick.getWinningCard();
         const winningPlayer = this.players.find(player => player.id === winningCard.ownerId)!;
         winningPlayer.addTrickWon(this.round.currentTrick);
-        winningPlayer.updatePoints();
         winningPlayer.isTurn = true;
     }
 
@@ -57,7 +56,7 @@ export default class Game {
         this.players.forEach(player => player.reset());
         for (const [index, card] of this.deck.cards.entries()) {
             const player = this.players[index % this.players.length];
-            player?.addCard(card);
+            player.addCard(card);
         }
     }
 }

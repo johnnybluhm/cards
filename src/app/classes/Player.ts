@@ -26,9 +26,6 @@ export class Player {
 
     addTrickWon(trick: Trick) {
         this.tricksWon.push(trick);
-    }
-
-    updatePoints() {
         this.roundPoints = this.tricksWon.reduce((acc, trick) => acc + trick.points, 0);
     }
 
