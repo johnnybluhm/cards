@@ -48,9 +48,6 @@ export default class Game {
         if (this.round.isTrickComplete()) {
             this.addTrickToWinningPlayer();
             this.round.moveToNextTrick();
-            if (this.round.isCompleted()) {
-                this.beginNewRound();
-            }
         }
         else {
             const nextPlayerIndex = (this.players.indexOf(player!) + 1) % this.players.length;
