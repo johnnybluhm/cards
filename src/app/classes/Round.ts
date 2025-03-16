@@ -16,8 +16,8 @@ export class Round {
     addCardToTrick(card: Card, playerCardsInHand: Card[]): void {
         if (this.completedTricks.length === 0) {
             //logic for first trick of the round
-            if (this.currentTrick.cards.length === 0 && card.suit !== Suit.Clubs && card.face !== Face.Two) {
-                throw new Error("You must play the Two of Clubs to start the round");
+            if (this.currentTrick.cards.length === 0 && !(card.face === Face.Two && card.suit === Suit.Clubs)) {
+                throw new Error("You must play the Deuce of Clubs to start the round");
             }
             if (card.suit === Suit.Hearts) {
                 throw new Error("You cannot play hearts on the first trick");
