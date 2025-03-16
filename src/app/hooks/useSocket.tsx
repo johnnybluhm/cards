@@ -67,5 +67,11 @@ export const useSocket = () => {
         }
     }
 
-    return { socketId, chosenRoom, joinRoom, createRoom, availableRooms, getRooms, messages, game, updateGame };
+    function onRoundCompleted() {
+        if (socket) {
+            socket.emit(SocketEvent.RoundCompleted);
+        }
+    }
+
+    return { socketId, chosenRoom, joinRoom, createRoom, availableRooms, getRooms, messages, game, updateGame, onRoundCompleted };
 };

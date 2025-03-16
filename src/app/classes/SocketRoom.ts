@@ -16,4 +16,8 @@ export default class SocketRoom {
     addPlayer(playerName: string, socketId: string) {
         this.players.push(new Player(playerName, socketId));
     }
+
+    hasPlayer(playerId: string) {
+        return this.players.some(player => player.id === playerId);
+    }
 }

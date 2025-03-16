@@ -92,7 +92,7 @@ app.prepare().then(() => {
     socket.on(SocketEvent.UpdateGame, (cardPlayed: Card) => {
       const game = gameManager.getGame(socket.id);
       console.log('Got game', game);
-      const roomName = rooms.find(room => room.players.some(player => player.id === socket.id))!.roomName;
+      const roomName = rooms.find(room => room.hasPlayer(socket.id))!.roomName;
       try {
         game.updateGame(cardPlayed, socket.id);
         io.to(roomName).emit(SocketEvent.UpdateGame, JSON.stringify(game));
@@ -103,6 +103,18 @@ app.prepare().then(() => {
         const error = e as Error;
         console.log('Error updating game', e);
         socket.emit(SocketEvent.Message, new Message(Severity.Error, error.message));
+      }
+    });
+
+    socket.on(SocketEvent.RoundCompleted, () => {
+      const game = gameManager.getGame(socket.id);
+      const roomName = rooms.find(room => room.hasPlayer(socket.id))!.roomName;
+      const player = game.players.find(player => player.id === socket.id)!
+      player.isReadyForNextRound = true;
+      io.to(roomName).emit(SocketEvent.Message, new Message(Severity.Info, `${player.name} is ready for the next round`));
+      if (game.players.every(player => player.isReadyForNextRound)) {
+        game.beginNewRound();
+        io.to(roomName).emit(SocketEvent.UpdateGame, JSON.stringify(game));
       }
     });
   });

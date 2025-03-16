@@ -8,6 +8,7 @@ export class Player {
     id: string;
     isTurn: boolean;
     roundPoints: number;
+    isReadyForNextRound: boolean;
 
     constructor(name: string, id: string) {
         this.name = name;
@@ -17,6 +18,7 @@ export class Player {
         this.roundPoints = 0;
         this.id = id
         this.isTurn = false;
+        this.isReadyForNextRound = false;
     }
 
     addCard(card: Card) {
@@ -44,6 +46,7 @@ export class Player {
         this.hand = [];
         this.tricksWon = [];
         this.isTurn = false;
+        this.isReadyForNextRound = false;
     }
 
 }

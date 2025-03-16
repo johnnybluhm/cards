@@ -18,7 +18,8 @@ export default function Home() {
     getRooms,
     messages,
     game,
-    updateGame
+    updateGame,
+    onRoundCompleted
   } = useSocket();
 
   const {
@@ -74,7 +75,7 @@ export default function Home() {
       <RoundCompleteDialog
         open={game?.round.isCompleted() ?? false}
         players={game?.players ?? []}
-        onClose={() => setIsRoundComplete(false)} />
+        onClose={onRoundCompleted} />
     </>
   );
 }
