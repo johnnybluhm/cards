@@ -66,14 +66,6 @@ app.prepare().then(() => {
         //start game as round complete
         game.round.isComplete = true;
         console.log('Starting game for room', room.roomName, 'with players', room.players);
-        /*try {
-          game.beginNewRound();
-        }
-        catch (e) {
-          const error = e as Error;
-          console.log('Error updating game', e);
-          socket.emit(SocketEvent.Message, new Message(Severity.Error, error.message));
-        }*/
 
         for (const player of game.players) {
           io.to(player.id).emit(SocketEvent.UpdateGame, game.getMaskedGameStateString(player.id));
