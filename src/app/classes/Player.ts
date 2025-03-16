@@ -29,7 +29,7 @@ export class Player {
     }
 
     updatePoints() {
-        this.totalPoints = this.tricksWon.reduce((acc, trick) => acc + trick.points, 0);
+        this.roundPoints = this.tricksWon.reduce((acc, trick) => acc + trick.points, 0);
     }
 
     removeCard(card: Card) {
@@ -42,6 +42,7 @@ export class Player {
     }
 
     reset() {
+        this.totalPoints += this.roundPoints;
         this.roundPoints = 0;
         this.hand = [];
         this.tricksWon = [];

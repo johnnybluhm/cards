@@ -61,7 +61,7 @@ describe('Game', () => {
         for (let i = 0; i < 4; i++) {
             game.updateGame(game.players[i].hand[0], game.players[i].id);
         }
-        expect(game.players[2].totalPoints).toBe(14);
+        expect(game.players[2].roundPoints).toBe(14);
         expect(game.players[2].tricksWon.length).toBe(1);
         expect(game.players[2].isTurn).toBe(true);
     });
@@ -157,7 +157,7 @@ describe('Game', () => {
                 }
             }
         }
-        //newGame.beginNewRound();
+        newGame.beginNewRound();
         const totalScore = newGame.players.reduce((acc, player) => acc + player.totalPoints, 0);
         expect(totalScore).toBe(16);
     });
