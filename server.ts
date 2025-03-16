@@ -92,11 +92,8 @@ app.prepare().then(() => {
 
     socket.on(SocketEvent.UpdateGame, (cardPlayed: Card) => {
       const game = gameManager.getGame(socket.id);
-      console.log('Got game', game);
-      //const roomName = rooms.find(room => room.hasPlayer(socket.id))!.roomName;
       try {
         game.updateGame(cardPlayed, socket.id);
-        //check if round complete and do update
         if (game.round.isComplete) {
           game.completeRound();
         }
@@ -119,13 +116,11 @@ app.prepare().then(() => {
       const player = game.players.find(player => player.id === socket.id)!
       player.isReadyForNextRound = !player.isReadyForNextRound;
       io.to(roomName).emit(SocketEvent.UpdateGame, JSON.stringify(game));
-      //io.to(roomName).emit(SocketEvent.Message, new Message(Severity.Info, `${player.name} is ready for the next round`));
       if (game.players.every(player => player.isReadyForNextRound)) {
         game.beginNewRound();
         sendMaskedGameToClients(game);
         const nextPlayer = game.players.find(player => player.isTurn)!;
         io.to(nextPlayer.id).emit(SocketEvent.Message, new Message(Severity.Info, `It's your turn!`));
-        //cardSwapping logic here
       }
     });
 
