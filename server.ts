@@ -26,16 +26,22 @@ app.prepare().then(() => {
     });
 
     socket.on(SocketEvent.JoinRoom, (roomName: string, password: string, playerName: string) => {
-      const room = rooms.find(room => room.roomName === roomName && room.roomPassword === password);
+      const room = rooms.find(room => room.roomName === roomName);
       if (!room) {
         console.log(`Room ${roomName} not found or password incorrect`);
-        socket.emit(SocketEvent.Message, new Message(Severity.Error, `Room ${roomName} not found or password incorrect`));
+        socket.emit(SocketEvent.Message, new Message(Severity.Error, `Room ${roomName} does not exist`));
+        return;
+      }
+      if (room.roomPassword !== password) {
+        console.log(`Password for room ${roomName} is incorrect`);
+        socket.emit(SocketEvent.Message, new Message(Severity.Error, `Password for room ${roomName} is incorrect`));
         return;
       }
       room.joinRoom(playerName);
       console.log(`Client joined room: ${room.roomName}`);
       io.to(room.roomName).emit(SocketEvent.Message, new Message(Severity.Info, `A new player ${playerName} has joined the room ${room.roomName}`)); // Notify other players in the room
       socket.emit(SocketEvent.Message, new Message(Severity.Success, `You have joined the room: ${room.roomName}`, SocketEvent.JoinRoom));
+      socket.emit(SocketEvent.JoinRoom, room);
     });
 
     socket.on(SocketEvent.CreateRoom, (roomName: string, password: string, playerName: string) => {
@@ -50,7 +56,7 @@ app.prepare().then(() => {
       console.log(`Client created room: ${newRoom.roomName}`);
       socket.emit(SocketEvent.Message, new Message(Severity.Success, `You have created the room: ${newRoom.roomName}`, SocketEvent.CreateRoom));
       console.log('Emmitting event JoinRoom after create with', newRoom.roomName);
-      socket.emit(SocketEvent.JoinRoom, newRoom.roomName);
+      socket.emit(SocketEvent.JoinRoom, newRoom);
     });
 
     socket.on(SocketEvent.GetRooms, () => {

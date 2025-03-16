@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import Message from '../classes/Message';
 import { SocketEvent } from '../events/Events';
+import SocketRoom from '../classes/SocketRoom';
 const client = io();
 export const useSocket = () => {
     const [socket, setSocket] = useState(client);
-    const [chosenRoom, setChosenRoom] = useState<string | null>(null);
+    const [chosenRoom, setChosenRoom] = useState<SocketRoom| null>(null);
     const [messages, setMessages] = useState<Message[]>([]);
-    const [availableRooms, setAvailableRooms] = useState<string[]>([]);
+    const [availableRooms, setAvailableRooms] = useState<SocketRoom[]>([]);
     useEffect(() => {
         socket.on('connect', () => {
             console.log('Connected to server');

@@ -40,7 +40,18 @@ export default function Home() {
         createRoom={createRoom}
         joinRoom={joinRoom}
         availableRooms={availableRooms} />}
+      {chosenRoom &&
+        <>
+          <h2>Welcome {chosenRoom.players}</h2>
+          <h2>Room: {chosenRoom.roomName}</h2>
+          <h2>Password: {chosenRoom.roomPassword}</h2>
+          <h2>Players:</h2>
+          {chosenRoom.players.map((player, index) => (
+            <p key={index}>{player}</p>
+          ))}
 
+          <p>Waiting on other players</p>
+        </>}
     </>
   );
 }
