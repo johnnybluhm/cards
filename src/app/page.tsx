@@ -1,10 +1,10 @@
 'use client';
 import { useEffect } from 'react';
 //https://www.pedroalonso.net/blog/websockets-nextjs-part-1/
-import { randomUUID } from 'crypto';
 import './card-styles/cards.css';
 import GameComponent from './components/GameComponent';
 import RoomForm from './components/RoomForm';
+import RoundCompleteDialog from './components/RoundCompleteDialog';
 import useMessageSnackbar from './hooks/useMessageSnackBar';
 import { useSocket } from './hooks/useSocket';
 
@@ -42,10 +42,6 @@ export default function Home() {
     setMessage(messages[messages.length - 1]);
   }, [messages, setMessage]);
 
-  console.log('Rooms:', availableRooms);
-
-  console.log('Chosen room', chosenRoom);
-
   return (
     <>
       <MessageSnackBar />
@@ -70,7 +66,15 @@ export default function Home() {
         </>}
 
       {chosenRoom?.players?.length === 4 &&
-        <GameComponent game={game} updateGame={updateGame} socketId={socketId} />}
+        <GameComponent
+          game={game}
+          updateGame={updateGame}
+          socketId={socketId} />}
+
+      <RoundCompleteDialog
+        open={game?.round.isCompleted() ?? false}
+        players={game?.players ?? []}
+        onClose={() => setIsRoundComplete(false)} />
     </>
   );
 }

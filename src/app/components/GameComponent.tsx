@@ -9,7 +9,7 @@ import OpponentHand from './OpponentHand';
 import Trick from './TrickComponent';
 
 type Props = {
-    game?: Game | undefined;
+    game: Game | null;
     updateGame: (cardPlayed: Card) => void;
     socketId?: string;
 }

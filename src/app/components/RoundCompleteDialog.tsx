@@ -3,12 +3,13 @@ import { Player } from '../classes/Player';
 
 type Props = {
     open: boolean;
+    onClose: () => void;
     players: Player[];
 }
 
-export default function RoundCompleteDialog({ open, players }: Readonly<Props>) {
+export default function RoundCompleteDialog({ open, players, onClose }: Readonly<Props>) {
     return (
-        <Dialog open={open} onClose={() => { }}>
+        <Dialog open={open} onClose={onClose}>
             <DialogTitle>Round Complete</DialogTitle>
             <DialogContent>
                 <TableContainer component={Paper}>
