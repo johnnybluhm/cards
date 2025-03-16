@@ -10,10 +10,6 @@ type Props = {
 }
 
 export default function RoundCompleteDialog({ open, players, onRoundCompleted }: Readonly<Props>) {
-    /*players = [new Player('Player 1', '1'), new Player('Player 2', '2'), new Player('Player 3', '3'), new Player('Player 4', '4')];
-
-    players[2].isReadyForNextRound = true;
-    players[1].isReadyForNextRound = true;*/
     return (
         <Dialog open={open} onClose={() => { }}>
             <DialogTitle>Round Complete</DialogTitle>
