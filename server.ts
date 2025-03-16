@@ -63,7 +63,9 @@ app.prepare().then(() => {
       if (room.players.length === 4) {
         // Start the game when the room is full
         const game = gameManager.createGame(room.players);
-        io.to(room.roomName).emit(SocketEvent.UpdateGame, game);
+        console.log('Starting game for room', room.roomName, 'with players', room.players);
+        console.log('Game', game);
+        io.to(room.roomName).emit(SocketEvent.UpdateGame, JSON.stringify(game));
       }
       //when room is full, do logic to start game and send to room
     });

@@ -31,9 +31,11 @@ export const useSocket = () => {
             setAvailableRooms(rooms);
         });
 
-        socket.on(SocketEvent.UpdateGame, (updatedGame) => {
-            console.log('Got game', game);
-            setGame(updatedGame)
+        socket.on(SocketEvent.UpdateGame, (updatedGame: string) => {
+            console.log('stringified game', updatedGame);
+            const game = JSON.parse(updatedGame) as Game;
+            console.log('Got game --------------------', game);
+            setGame(game);
         });
         setSocket(socket);
         return () => {
