@@ -95,8 +95,9 @@ app.prepare().then(() => {
       const roomName = rooms.find(room => room.players.some(player => player.id === socket.id))!.roomName;
       try {
         game.updateGame(cardPlayed, socket.id);
-        //gameManager.updateGame(game);
         io.to(roomName).emit(SocketEvent.UpdateGame, JSON.stringify(game));
+        const nextPlayer = game.players.find(player => player.isTurn)!;
+        io.to(nextPlayer.id).emit(SocketEvent.Message, new Message(Severity.Info, `It's your turn ${nextPlayer?.name}`));
       }
       catch (e) {
         const error = e as Error;
