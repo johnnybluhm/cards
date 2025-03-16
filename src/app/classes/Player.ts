@@ -33,7 +33,7 @@ export class Player {
     }
 
     removeCard(card: Card) {
-        const index = this.hand.indexOf(card);
+        const index = this.hand.findIndex(c => c.face === card.face && c.suit === card.suit && c.ownerId === this.id);
         if (index > -1) {
             this.hand.splice(index, 1);
             return true;
