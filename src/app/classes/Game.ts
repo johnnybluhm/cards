@@ -40,7 +40,9 @@ export default class Game {
             throw new Error("It's not your turn!");
         }
         this.round.addCardToTrick(card, player!.hand);
+        console.log('Update game current player hand:', player!.hand);
         player!.removeCard(card);
+        console.log('Update game current player hand after remove', player!.hand);
         player!.isTurn = false;
 
         if (this.round.isTrickComplete()) {
