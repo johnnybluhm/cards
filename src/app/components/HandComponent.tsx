@@ -4,20 +4,20 @@ import PlayingCard from './CardComponent';
 
 type Props = {
     cards: CardModel[];
-    faceDown?: boolean;
+    updateGame: (cardPlayed: CardModel) => void;
 }
 
-export default function Hand({ cards, faceDown = false }: Readonly<Props>) {
+export default function Hand({ cards, updateGame }: Readonly<Props>) {
     sortHand(cards);
     return (
         <ul className="hand">
             {cards.map((card, cardIndex) => (
-                <li key={cardIndex}>
-                    {faceDown ? <span className="card back" /> : <PlayingCard card={card} />}
+                <li key={cardIndex} onClick={() => updateGame(card)}>
+                    <PlayingCard card={card} />
                 </li>
-
-            ))}
-        </ul>
+            ))
+            }
+        </ul >
     );
 };
 

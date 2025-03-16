@@ -12,7 +12,6 @@ export default function OpponentHand({ numberOfCards }: Readonly<Props>) {
                 <li key={cardIndex}>
                     <span className="card back" />
                 </li>
-
             ))}
         </ul>
     );

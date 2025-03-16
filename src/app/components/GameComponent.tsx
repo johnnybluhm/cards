@@ -9,29 +9,39 @@ import { Deck } from '../classes/Deck';
 import Hand from './HandComponent';
 import Trick from './TrickComponent';
 import { Trick as CardTrick } from '../classes/Trick';
+import OpponentHand from './OpponentHand';
+import Game from '../classes/Game';
 const deck = new Deck();
 
-export default function Game() {
+type Props = {
+    game: Game;
+    updateGame: (cardPlayed: Card) => void;
+    socketId: string;
+}
+
+export default function GameComponent({ game, updateGame, socketId }: Readonly<Props>) {
     const [cards, setCards] = useState<Card[]>(deck.cards);
+
+    const playerIndex = game.players.findIndex(player => player.id === socketId);
+
+    const player = game.players[playerIndex];
+    const player2 = game.players[(playerIndex + 1) % game.players.length];
+    const player3 = game.players[(playerIndex + 2) % game.players.length];
+    const player4 = game.players[(playerIndex + 3) % game.players.length];
+
 
     console.log('in component deck:', deck.cards);
 
     function shuffleDeck() {
         deck.shuffle();
-        console.log('shuffled deck', deck.cards);
         setCards([...deck.cards]);
     }
 
     function sortDeck() {
         deck.sort();
-        console.log('sorted deck', deck.cards);
         setCards([...deck.cards]);
     }
-    const trick = new CardTrick();
-    trick.addCard(cards[0], cards.slice(0, 13));
-    trick.addCard(cards[1], cards.slice(0, 13));
-    trick.addCard(cards[2], cards.slice(0, 13));
-    trick.addCard(cards[3], cards.slice(0, 13));
+
     return (
         <>
 
@@ -43,7 +53,7 @@ export default function Game() {
                     <Grid size={5}>
                     </Grid>
                     <Grid size={4}>
-                        <Hand cards={cards.slice(0, 13)} faceDown={true} />
+                        <OpponentHand numberOfCards={player3.hand.length} />
                     </Grid>
                     <Grid size={3}>
                     </Grid>
@@ -53,22 +63,22 @@ export default function Game() {
 
                     </Grid>
                     <Grid size={4}>
-                        <Hand cards={cards.slice(13, 26)} faceDown={true} />
+                        <OpponentHand numberOfCards={player2.hand.length} />
                     </Grid>
                     <Grid size={2}>
-                        <Trick trick={trick} />
+                        <Trick trick={game.round.currentTrick} />
                     </Grid>
 
                     {/*RIGHT*/}
                     <Grid size={4}>
-                        <Hand cards={cards.slice(26, 39)} faceDown={true} />
+                        <OpponentHand numberOfCards={player4.hand.length} />
                     </Grid>
 
                     {/*BOTTOM and actual players hand*/}
                     <Grid size={5}>
                     </Grid>
                     <Grid size={4}>
-                        <Hand cards={cards.slice(39, 52)} />
+                        <Hand cards={player.hand} />
                     </Grid>
                     <Grid size={3}>
                     </Grid>

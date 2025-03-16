@@ -5,12 +5,13 @@ import { Suit } from '../enums/Suits';
 
 type Props = {
     card: CardModel;
+    updateGame: (cardPlayed: CardModel) => void;
 }
 
-export default function PlayingCard({ card }: Readonly<Props>) {
+export default function PlayingCard({ card, updateGame }: Readonly<Props>) {
     console.log(`&${SuitString[card.suit]};`)
     return (
-        <a className={`card ${SuitString[card.suit]}`} onClick={() => console.log('you played card:', card)}>
+        <a className={`card ${SuitString[card.suit]}`} onClick={() => { console.log('you played card:', card); updateGame(card) }}>
             <span className="rank">{FaceString[card.face]}</span>
             <span className="suit">{SuitStringForSpan[card.suit]}</span>
         </a>
