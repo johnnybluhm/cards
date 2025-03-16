@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 //https://www.pedroalonso.net/blog/websockets-nextjs-part-1/
 import './card-styles/cards.css';
 import GameComponent from './components/GameComponent';
@@ -43,8 +43,8 @@ export default function Home() {
     setMessage(messages[messages.length - 1]);
   }, [messages, setMessage]);
 
-  console.log(game?.round?.isComplete )
-
+  console.log(game?.round?.isComplete)
+  const [isOpen, setIsOpen] = useState(true);
   return (
     <>
       <MessageSnackBar />
@@ -75,9 +75,9 @@ export default function Home() {
           socketId={socketId} />}
 
       <RoundCompleteDialog
-        open={game?.round?.isComplete ?? false}
+        open={isOpen}
         players={game?.players ?? []}
-        onClose={onRoundCompleted} />
+        onRoundCompleted={onRoundCompleted} />
     </>
   );
 }
