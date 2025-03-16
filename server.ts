@@ -96,8 +96,10 @@ app.prepare().then(() => {
       try {
         game.updateGame(cardPlayed, socket.id);
         io.to(roomName).emit(SocketEvent.UpdateGame, JSON.stringify(game));
-        const nextPlayer = game.players.find(player => player.isTurn)!;
-        io.to(nextPlayer.id).emit(SocketEvent.Message, new Message(Severity.Info, `It's your turn!`));
+        if (!game.round.isComplete) {
+          const nextPlayer = game.players.find(player => player.isTurn)!;
+          io.to(nextPlayer.id).emit(SocketEvent.Message, new Message(Severity.Info, `It's your turn!`));
+        }
       }
       catch (e) {
         const error = e as Error;
