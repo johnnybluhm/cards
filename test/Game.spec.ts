@@ -153,20 +153,15 @@ describe('Game', () => {
         expect(totalScore).toBe(16);
     });
 
-    /*test('test score after multiple round completion', () => {
+    test('test score after multiple round completion', () => {
+        game.beginNewRound();
+        while (!game.players.some(player => player.totalPoints > 100)) {
+            executeRound(game);
+            game.beginNewRound();
+        }
 
-        const newGame = new Game(players);
-        while(new)
-        newGame.beginNewRound();
-
-        executeRound(newGame);
-
-        const roundScore = newGame.players.reduce((acc, player) => acc + player.roundPoints, 0);
-        expect(roundScore).toBe(16);
-        newGame.beginNewRound();
-        const totalScore = newGame.players.reduce((acc, player) => acc + player.totalPoints, 0);
-        expect(totalScore).toBe(16);
-    });*/
+        expect(game.players.some(player => player.totalPoints > 100)).toBe(true);
+    });
 });
 
 function executeRound(game: Game) {
