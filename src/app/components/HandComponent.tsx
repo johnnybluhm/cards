@@ -13,7 +13,7 @@ export default function Hand({ cards, updateGame }: Readonly<Props>) {
         <ul className="hand">
             {cards.map((card, cardIndex) => (
                 <li key={`${cardIndex}-${card.ownerId}`}>
-                    <PlayingCard card={card} updateGame={updateGame}/>
+                    <PlayingCard card={card} updateGame={updateGame} />
                 </li>
             ))
             }
