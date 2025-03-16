@@ -7,7 +7,7 @@ import useMessageSnackbar from './hooks/useMessageSnackBar';
 import { useSocket } from './hooks/useSocket';
 
 export default function Home() {
-  const { chosenRoom, joinRoom, createRoom, availableRooms, getRooms, messages } = useSocket();
+  const { socketId, chosenRoom, joinRoom, createRoom, availableRooms, getRooms, messages } = useSocket();
   const {
     setMessage,
     MessageSnackBar
@@ -42,12 +42,12 @@ export default function Home() {
         availableRooms={availableRooms} />}
       {chosenRoom &&
         <>
-          <h2>Welcome {chosenRoom.players}</h2>
+          <h2>Welcome {chosenRoom.players.find(player => player.id === socketId)?.name}</h2>
           <h2>Room: {chosenRoom.roomName}</h2>
           <h2>Password: {chosenRoom.roomPassword}</h2>
-          <h2>Players:</h2>
+          <h2>Current Players:</h2>
           {chosenRoom.players.map((player, index) => (
-            <p key={index}>{player}</p>
+            <p key={index}>{player.name}</p>
           ))}
 
           <p>Waiting on other players</p>

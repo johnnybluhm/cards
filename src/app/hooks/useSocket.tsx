@@ -6,9 +6,10 @@ import SocketRoom from '../classes/SocketRoom';
 const client = io();
 export const useSocket = () => {
     const [socket, setSocket] = useState(client);
-    const [chosenRoom, setChosenRoom] = useState<SocketRoom| null>(null);
+    const [chosenRoom, setChosenRoom] = useState<SocketRoom | null>(null);
     const [messages, setMessages] = useState<Message[]>([]);
     const [availableRooms, setAvailableRooms] = useState<SocketRoom[]>([]);
+    const socketId = socket.id;
     useEffect(() => {
         socket.on('connect', () => {
             console.log('Connected to server');
@@ -51,5 +52,5 @@ export const useSocket = () => {
         }
     }
 
-    return { chosenRoom, joinRoom, createRoom, availableRooms, getRooms, messages };
+    return { socketId, chosenRoom, joinRoom, createRoom, availableRooms, getRooms, messages };
 };

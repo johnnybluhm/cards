@@ -32,11 +32,27 @@ app.prepare().then(() => {
         socket.emit(SocketEvent.Message, new Message(Severity.Error, `Room ${roomName} does not exist`));
         return;
       }
-      if (room.roomPassword !== password) {
+      else if (room.roomPassword !== password) {
         console.log(`Password for room ${roomName} is incorrect`);
         socket.emit(SocketEvent.Message, new Message(Severity.Error, `Password for room ${roomName} is incorrect`));
         return;
       }
+      else if (room.players.length == 4) {
+        console.log(`Room ${roomName} is full`);
+        socket.emit(SocketEvent.Message, new Message(Severity.Error, `Room ${roomName} is full`));
+        return;
+      }
+      else if (room.players.some(player => player.id === socket.id)) {
+        console.log(`Player ${playerName} is already in room ${roomName}`);
+        socket.emit(SocketEvent.Message, new Message(Severity.Error, `You are already in room ${roomName}`));
+        return;
+      }
+      else if (room.players.some(player => player.name.toLocaleLowerCase() === playerName.toLocaleLowerCase())) {
+        console.log(`Player ${playerName} is already in room ${roomName}`);
+        socket.emit(SocketEvent.Message, new Message(Severity.Error, `Player ${playerName} is already taken in ${roomName}`));
+        return;
+      }
+
       room.joinRoom(playerName, socket.id);
       console.log(`Client joined room: ${room.roomName}`);
       io.to(room.roomName).emit(SocketEvent.Message, new Message(Severity.Info, `A new player ${playerName} has joined the room ${room.roomName}`)); // Notify other players in the room
