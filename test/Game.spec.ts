@@ -7,7 +7,11 @@ import { Suit } from "../src/app/enums/Suits";
 
 describe('Game', () => {
     const players = [new Player('Player 1', "id1"), new Player('Player 2', "id2"), new Player('Player 3', "id3"), new Player('Player 4', "id4")];
-    const game = new Game(players);
+    let game = new Game(players);
+
+    beforeEach(() => {
+        game = new Game(players);
+    });
 
     test('should create players with names', () => {
         expect(game.players).toEqual(players);
@@ -126,5 +130,32 @@ describe('Game', () => {
             const error = e as HttpError;
             expect(error.message).toBe("It's not your turn!");
         }
+    });
+
+    test('deal cards resets players hands', () => {
+        game.dealCards();
+        expect(game.players.every(player => player.hand.length === 13)).toBe(true);
+        game.dealCards();
+        expect(game.players.every(player => player.hand.length === 13)).toBe(true);
+
+    });
+
+    test('test score after round completion', () => {
+        game.beginNewRound();
+
+        while (game.round.isCompleted() === false) {
+            const playerToPlay = game.players.find(player => player.isTurn);
+            for (const card of playerToPlay!.hand) {
+                try {
+                    game.updateGame(card, playerToPlay!.id);
+                    break;
+                }
+                catch (e) {
+                    continue;
+                }
+            }
+        }
+        const totalScore = game.players.reduce((acc, player) => acc + player.totalPoints, 0);
+        expect(totalScore).toBe(26);
     });
 });
