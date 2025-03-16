@@ -1,5 +1,5 @@
 import '../card-styles/cards.css';
-import { Card } from '../classes/card';
+import { Card } from '../classes/Card';
 import { Trick as CardTrick } from '../classes/Trick';
 import PlayingCard from './CardComponent';
 
