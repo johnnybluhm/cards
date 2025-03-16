@@ -13,7 +13,6 @@ export default class Game {
     constructor(players: Player[]) {
         this.players = players
         this.deck = new Deck();
-        this.deck.shuffle();
         this.round = new Round();
     }
 

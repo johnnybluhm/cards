@@ -6,11 +6,12 @@ import { Face } from "../src/app/enums/Face";
 import { Suit } from "../src/app/enums/Suits";
 
 describe('Game', () => {
-    const players = [new Player('Player 1', "id1"), new Player('Player 2', "id2"), new Player('Player 3', "id3"), new Player('Player 4', "id4")];
+    let players = [new Player('Player 1', "id1"), new Player('Player 2', "id2"), new Player('Player 3', "id3"), new Player('Player 4', "id4")];
     let game = new Game(players);
 
     beforeEach(() => {
         game = new Game(players);
+        players = [new Player('Player 1', "id1"), new Player('Player 2', "id2"), new Player('Player 3', "id3"), new Player('Player 4', "id4")];
     });
 
     test('should create players with names', () => {
@@ -157,6 +158,9 @@ describe('Game', () => {
                 }
             }
         }
+
+        const roundScore = newGame.players.reduce((acc, player) => acc + player.roundPoints, 0);
+        expect(roundScore).toBe(16);
         newGame.beginNewRound();
         const totalScore = newGame.players.reduce((acc, player) => acc + player.totalPoints, 0);
         expect(totalScore).toBe(16);
