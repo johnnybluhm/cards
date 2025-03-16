@@ -142,16 +142,14 @@ describe('Game', () => {
     });
 
     test('test score after round completion', () => {
+        game.beginNewRound();
 
-        const newGame = new Game(players);
-        newGame.beginNewRound();
+        executeRound(game);
 
-        executeRound(newGame);
-
-        const roundScore = newGame.players.reduce((acc, player) => acc + player.roundPoints, 0);
+        const roundScore = game.players.reduce((acc, player) => acc + player.roundPoints, 0);
         expect(roundScore).toBe(16);
-        newGame.beginNewRound();
-        const totalScore = newGame.players.reduce((acc, player) => acc + player.totalPoints, 0);
+        game.beginNewRound();
+        const totalScore = game.players.reduce((acc, player) => acc + player.totalPoints, 0);
         expect(totalScore).toBe(16);
     });
 
