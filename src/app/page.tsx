@@ -27,19 +27,15 @@ export default function Home() {
     MessageSnackBar
   } = useMessageSnackbar();
 
-  //we know we are in a room when room is
-
   useEffect(() => {
-    console.log('Getting rooms')
     getRooms();
     const playerName = 'Player' + socketId
-    console.log('Rooms:', availableRooms);
     createRoom('test', 'test', playerName);
     joinRoom('test', 'test', playerName);
   }, []);
 
+
   useEffect(() => {
-    console.log('Use effect messages', messages);
     setMessage(messages[messages.length - 1]);
   }, [messages, setMessage]);
 
@@ -53,10 +49,16 @@ export default function Home() {
         createRoom={createRoom}
         joinRoom={joinRoom}
         availableRooms={availableRooms} />}
-      {(chosenRoom?.players && chosenRoom.players.length < 4) &&
+      {(chosenRoom?.players && chosenRoom.players.length < 4 && !game) &&
         <RoundCompleteDialog
-          open={game?.round?.isComplete ?? true}
+          open={true}
           players={chosenRoom?.players ?? []}
+          onRoundCompleted={onRoundCompleted} />}
+
+      {game &&
+        <RoundCompleteDialog
+          open={game.round?.isComplete ?? false}
+          players={game.players ?? []}
           onRoundCompleted={onRoundCompleted} />}
 
       {chosenRoom?.players?.length === 4 &&
@@ -64,11 +66,6 @@ export default function Home() {
           game={game}
           updateGame={updateGame}
           socketId={socketId} />}
-
-      <RoundCompleteDialog
-        open={game?.round?.isComplete ?? false}
-        players={game?.players ?? []}
-        onRoundCompleted={onRoundCompleted} />
     </>
   );
 }

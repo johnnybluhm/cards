@@ -11,7 +11,7 @@ export default function Trick({ trick }: Readonly<Props>) {
         <ul className="hand">
             {trick?.cards.map((card, cardIndex) => (
                 <li key={cardIndex}>
-                    <PlayingCard card={card} updateGame={() => console.log(card)} />
+                    <PlayingCard card={card} updateGame={() => { }} />
                 </li>
 
             ))}

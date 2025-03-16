@@ -63,6 +63,8 @@ app.prepare().then(() => {
       if (room.players.length === 4) {
         // Start the game when the room is full
         const game = gameManager.createGame(room.players);
+        //start game as round complete
+        game.round.isComplete = true;
         console.log('Starting game for room', room.roomName, 'with players', room.players);
         /*try {
           game.beginNewRound();

@@ -14,8 +14,16 @@ export default function RoundCompleteDialog({ open, players, onRoundCompleted }:
     const [isReady, setIsReady] = useState(false);
 
     function handleReadyPress() {
-        onRoundCompleted(isReady);
-        setIsReady(!isReady);
+        if (isReady) {
+            onRoundCompleted(false);
+            setIsReady(false);
+        }
+        else {
+            onRoundCompleted(true);
+            setIsReady(true);
+        }
+
+
     }
 
     return (
@@ -54,7 +62,7 @@ export default function RoundCompleteDialog({ open, players, onRoundCompleted }:
                 </TableContainer>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleReadyPress}>Ready</Button>
+                <Button disabled={players.length < 4} onClick={handleReadyPress}>Ready</Button>
             </DialogActions>
         </Dialog>
     );
