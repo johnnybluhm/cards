@@ -41,24 +41,30 @@ export const useSocket = () => {
             if (playerToPlay && (playerToPlay.id === socket.id)) {
                 //auto play logic
                 const deuceOfClubs = playerToPlay.hand.find(card => card.suit === Suit.Clubs && card.face === Face.Two);
-                const cardOfTrickSuit = playerToPlay.hand.find(card => card.suit === game.round.currentTrick.trickSuit);
                 const nonHeartCard = playerToPlay.hand.find(card => card.suit !== Suit.Hearts);
-                if (!game.round.currentTrick.trickSuit) {
+                const clubCard = playerToPlay.hand.find(card => card.suit === Suit.Clubs);
+                if (game.round.completedTricks.length === 0) {
                     if (deuceOfClubs) {
                         socket.emit(SocketEvent.UpdateGame, deuceOfClubs);
+                    }
+                    else if (clubCard) {
+                        socket.emit(SocketEvent.UpdateGame, clubCard);
                     }
                     else if (nonHeartCard) {
                         socket.emit(SocketEvent.UpdateGame, nonHeartCard);
                     }
+                    else {
+                        socket.emit(SocketEvent.UpdateGame, playerToPlay.hand[0]);
+                    }
+                    return;
                 }
-                else if (game.round.currentTrick.trickSuit && cardOfTrickSuit) {
-                    socket.emit(SocketEvent.UpdateGame, cardOfTrickSuit);
-                }
-                else if (game.round.currentTrick.trickSuit && game.round.completedTricks.length === 0) {
-                    socket.emit(SocketEvent.UpdateGame, nonHeartCard);
+                if (game.round.currentTrick.trickSuit) {
+                    const cardOfTrickSuit = playerToPlay.hand.find(card => card.suit === game.round.currentTrick.trickSuit);
+                    console.log('cardOfTrickSuit', cardOfTrickSuit);
+                    socket.emit(SocketEvent.UpdateGame, cardOfTrickSuit ?? playerToPlay.hand[0]);
                 }
                 else {
-                    socket.emit(SocketEvent.UpdateGame, playerToPlay.hand.unshift());
+                    socket.emit(SocketEvent.UpdateGame, playerToPlay.hand[0]);
                 }
             }
         });
