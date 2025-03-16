@@ -1,5 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
-import { Card } from "./Card";
+import { Card } from "./card";
 import { Trick } from "./Trick";
 export class Player {
     name: string;
@@ -9,12 +8,12 @@ export class Player {
     id: string;
     isTurn: boolean;
 
-    constructor(name: string) {
+    constructor(name: string, id: string) {
         this.name = name;
         this.hand = [];
         this.tricksWon = [];
         this.totalPoints = 0;
-        this.id = uuidv4();
+        this.id = id
         this.isTurn = false;
     }
 

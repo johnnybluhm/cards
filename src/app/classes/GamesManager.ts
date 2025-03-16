@@ -1,5 +1,6 @@
 import Game from "./Game";
 import HttpError from "./HttpError";
+import { Player } from "./Player";
 
 export default class GameManager {
     games: Game[];
@@ -7,8 +8,8 @@ export default class GameManager {
         this.games = [];
     }
 
-    createGame(playerNames: string[]): Game {
-        const game = new Game(playerNames);
+    createGame(players: Player[]): Game {
+        const game = new Game(players);
         this.games.push(game);
         return game;
     }

@@ -10,8 +10,8 @@ export default class Game {
     players: Player[];
     round: Round
 
-    constructor(playerNames: string[]) {
-        this.players = playerNames.map(name => new Player(name));
+    constructor(players: Player[]) {
+        this.players = players
         this.deck = new Deck();
         this.deck.shuffle();
         this.round = new Round();

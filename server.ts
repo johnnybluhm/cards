@@ -7,6 +7,7 @@ import SocketRoom from './src/app/classes/SocketRoom';
 import { SocketEvent } from './src/app/events/Events';
 import GameManager from './src/app/classes/GamesManager';
 import { Card } from './src/app/classes/Card';
+import { Player } from './src/app/classes/Player';
 
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
@@ -49,17 +50,26 @@ app.prepare().then(() => {
         socket.emit(SocketEvent.Message, new Message(Severity.Error, `Player ${playerName} is already taken in ${roomName}`));
         return;
       }
+      else if (gameManager.getGame(socket.id)) {
+        socket.emit(SocketEvent.Message, new Message(Severity.Error, `Game already started`));
+        return;
+      }
       socket.join(room.roomName);
       room.addPlayer(playerName, socket.id);
       io.to(room.roomName).emit(SocketEvent.Message, new Message(Severity.Info, `A new player ${playerName} has joined the room ${room.roomName}`)); // Notify other players in the room
       socket.emit(SocketEvent.Message, new Message(Severity.Success, `You have joined the room: ${room.roomName}`, SocketEvent.JoinRoom));
       io.to(room.roomName).emit(SocketEvent.JoinRoom, room);
 
+      if (room.players.length === 4) {
+        // Start the game when the room is full
+        const game = gameManager.createGame(room.players);
+        io.to(room.roomName).emit(SocketEvent.UpdateGame, game);
+      }
       //when room is full, do logic to start game and send to room
     });
 
     socket.on(SocketEvent.CreateRoom, (roomName: string, password: string, playerName: string) => {
-      const newRoom = new SocketRoom(roomName, password, { name: playerName, id: socket.id });
+      const newRoom = new SocketRoom(roomName, password, new Player(playerName, socket.id));
       if (rooms.some(room => room.roomName === newRoom.roomName)) {
         socket.emit(SocketEvent.Message, new Message(Severity.Error, "Room already Exists. Please choose another name"));
         return;

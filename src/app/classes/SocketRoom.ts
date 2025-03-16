@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { Player } from './Player';
 export default class SocketRoom {
     id: string;
     players: Player[];
@@ -13,11 +14,6 @@ export default class SocketRoom {
     }
 
     addPlayer(playerName: string, socketId: string) {
-        this.players.push({ id: socketId, name: playerName });
+        this.players.push(new Player(playerName, socketId));
     }
-}
-
-type Player = {
-    id: string;
-    name: string;
 }
