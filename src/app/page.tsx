@@ -26,13 +26,12 @@ export default function Home() {
     MessageSnackBar
   } = useMessageSnackbar();
 
-  const playerName = 'Player' + socketId
-
   //we know we are in a room when room is
 
   useEffect(() => {
     console.log('Getting rooms')
     getRooms();
+    const playerName = 'Player' + socketId
     console.log('Rooms:', availableRooms);
     createRoom('test', 'test', playerName);
     joinRoom('test', 'test', playerName);
