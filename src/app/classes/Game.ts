@@ -118,7 +118,7 @@ export default class Game {
         const player = this.players.find(player => player.id === playerId)!;
         player.cardsPassed = cards;
         const playerToPassTo = this.getPlayerToPassTo(player)
-        playerToPassTo.cardsReceived = player?.cardsPassed;
+        playerToPassTo.cardsReceived = player.cardsPassed;
     }
 
     private getPlayerToPassTo(passingPlayer: Player): Player {
