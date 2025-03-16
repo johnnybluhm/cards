@@ -67,9 +67,9 @@ export const useSocket = () => {
         }
     }
 
-    function onRoundCompleted() {
+    function onRoundCompleted(isReady: boolean) {
         if (socket) {
-            socket.emit(SocketEvent.RoundCompleted);
+            socket.emit(SocketEvent.RoundCompleted, isReady);
         }
     }
 

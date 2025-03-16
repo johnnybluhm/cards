@@ -64,15 +64,14 @@ app.prepare().then(() => {
         // Start the game when the room is full
         const game = gameManager.createGame(room.players);
         console.log('Starting game for room', room.roomName, 'with players', room.players);
-        console.log('Game', game);
-        try {
+        /*try {
           game.beginNewRound();
         }
         catch (e) {
           const error = e as Error;
           console.log('Error updating game', e);
           socket.emit(SocketEvent.Message, new Message(Severity.Error, error.message));
-        }
+        }*/
 
         for (const player of game.players) {
           io.to(player.id).emit(SocketEvent.UpdateGame, game.getMaskedGameStateString(player.id));
@@ -123,11 +122,11 @@ app.prepare().then(() => {
       }
     });
 
-    socket.on(SocketEvent.RoundCompleted, () => {
+    socket.on(SocketEvent.RoundCompleted, (isReady: boolean) => {
       const game = gameManager.getGame(socket.id);
       const roomName = rooms.find(room => room.hasPlayer(socket.id))!.roomName;
       const player = game.players.find(player => player.id === socket.id)!
-      player.isReadyForNextRound = true;
+      player.isReadyForNextRound = isReady;
       io.to(roomName).emit(SocketEvent.UpdateGame, JSON.stringify(game));
       //io.to(roomName).emit(SocketEvent.Message, new Message(Severity.Info, `${player.name} is ready for the next round`));
       if (game.players.every(player => player.isReadyForNextRound)) {

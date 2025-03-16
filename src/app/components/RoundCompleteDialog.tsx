@@ -2,14 +2,22 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table
 import { Player } from '../classes/Player';
 
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { useState } from 'react';
 
 type Props = {
     open: boolean;
-    onRoundCompleted: () => void;
+    onRoundCompleted: (isReady: boolean) => void;
     players: Player[];
 }
 
 export default function RoundCompleteDialog({ open, players, onRoundCompleted }: Readonly<Props>) {
+    const [isReady, setIsReady] = useState(false);
+
+    function handleReadyPress() {
+        onRoundCompleted(isReady);
+        setIsReady(!isReady);
+    }
+
     return (
         <Dialog open={open} onClose={() => { }}>
             <DialogTitle>Game Summary</DialogTitle>
@@ -46,7 +54,7 @@ export default function RoundCompleteDialog({ open, players, onRoundCompleted }:
                 </TableContainer>
             </DialogContent>
             <DialogActions>
-                <Button onClick={onRoundCompleted}>Ready</Button>
+                <Button onClick={handleReadyPress}>Ready</Button>
             </DialogActions>
         </Dialog>
     );
