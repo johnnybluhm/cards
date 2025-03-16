@@ -65,7 +65,15 @@ app.prepare().then(() => {
         const game = gameManager.createGame(room.players);
         console.log('Starting game for room', room.roomName, 'with players', room.players);
         console.log('Game', game);
-        game.beginNewRound();
+        try {
+          game.beginNewRound();
+        }
+        catch (e) {
+          const error = e as Error;
+          console.log('Error updating game', e);
+          socket.emit(SocketEvent.Message, new Message(Severity.Error, error.message));
+        }
+
         io.to(room.roomName).emit(SocketEvent.UpdateGame, JSON.stringify(game));
       }
       //when room is full, do logic to start game and send to room
@@ -117,6 +125,7 @@ app.prepare().then(() => {
       if (game.players.every(player => player.isReadyForNextRound)) {
         game.beginNewRound();
         io.to(roomName).emit(SocketEvent.UpdateGame, JSON.stringify(game));
+        //cardSwapping logic here
       }
     });
   });

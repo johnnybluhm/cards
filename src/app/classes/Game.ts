@@ -17,7 +17,7 @@ export default class Game {
     }
 
     beginNewRound() {
-        if (!this.round.isComplete) {
+        if (!this.round.isComplete && this.round.completedTricks.length > 0) {
             throw new Error(`Current round is not complete! ${13 - this.round.completedTricks.length} tricks remaining`);
         }
         this.deck = new Deck();
