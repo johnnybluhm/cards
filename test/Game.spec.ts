@@ -146,18 +146,7 @@ describe('Game', () => {
         const newGame = new Game(players);
         newGame.beginNewRound();
 
-        while (newGame.round.isCompleted() === false) {
-            const playerToPlay = newGame.players.find(player => player.isTurn);
-            for (const card of playerToPlay!.hand) {
-                try {
-                    newGame.updateGame(card, playerToPlay!.id);
-                    break;
-                }
-                catch (e) {
-                    continue;
-                }
-            }
-        }
+        executeRound(newGame);
 
         const roundScore = newGame.players.reduce((acc, player) => acc + player.roundPoints, 0);
         expect(roundScore).toBe(16);
@@ -166,3 +155,19 @@ describe('Game', () => {
         expect(totalScore).toBe(16);
     });
 });
+
+function executeRound(game: Game) {
+    while (game.round.isCompleted() === false) {
+        const playerToPlay = game.players.find(player => player.isTurn);
+        for (const card of playerToPlay!.hand) {
+            try {
+                game.updateGame(card, playerToPlay!.id);
+                break;
+            }
+            catch (e) {
+                continue;
+            }
+        }
+    }
+
+}
