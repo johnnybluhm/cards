@@ -94,7 +94,7 @@ app.prepare().then(() => {
       const roomName = rooms.find(room => room.players.some(player => player.id === socket.id))!.roomName;
       try {
         const updatedGame = game.updateGame(cardPlayed, socket.id);
-        io.to(roomName).emit(SocketEvent.UpdateGame, updatedGame);
+        io.to(roomName).emit(SocketEvent.UpdateGame, JSON.stringify(updatedGame));
       }
       catch (e) {
         const error = e as Error;
