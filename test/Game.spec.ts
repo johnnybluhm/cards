@@ -165,7 +165,7 @@ describe('Game', () => {
 });
 
 function executeRound(game: Game) {
-    while (game.round.isCompleted() === false) {
+    while (game.round.isComplete() === false) {
         const playerToPlay = game.players.find(player => player.isTurn);
         for (const card of playerToPlay!.hand) {
             try {

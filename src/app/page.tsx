@@ -43,6 +43,8 @@ export default function Home() {
     setMessage(messages[messages.length - 1]);
   }, [messages, setMessage]);
 
+  console.log(game?.round?.isComplete )
+
   return (
     <>
       <MessageSnackBar />
@@ -73,7 +75,7 @@ export default function Home() {
           socketId={socketId} />}
 
       <RoundCompleteDialog
-        open={game?.round.isCompleted() ?? false}
+        open={game?.round?.isComplete ?? false}
         players={game?.players ?? []}
         onClose={onRoundCompleted} />
     </>

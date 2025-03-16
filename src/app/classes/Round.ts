@@ -4,9 +4,11 @@ import { Trick } from "./Trick";
 export class Round {
     completedTricks: Trick[];
     currentTrick: Trick;
+    isComplete: boolean;
     constructor() {
         this.completedTricks = [];
         this.currentTrick = new Trick();
+        this.isComplete = false;
     }
 
     addCardToTrick(card: Card, playerCardsInHand: Card[]): void {
@@ -19,10 +21,7 @@ export class Round {
 
     moveToNextTrick() {
         this.completedTricks.push(this.currentTrick);
+        this.isComplete = this.completedTricks.length === 13;
         this.currentTrick = new Trick();
-    }
-
-    isCompleted(): boolean {
-        return this.completedTricks.length === 13;
     }
 }
