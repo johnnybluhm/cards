@@ -5,6 +5,8 @@ import { parse } from 'url';
 import Message, { Severity } from './src/app/classes/Message';
 import SocketRoom from './src/app/classes/SocketRoom';
 import { SocketEvent } from './src/app/events/Events';
+import GameManager from './src/app/classes/GamesManager';
+import { Card } from './src/app/classes/Card';
 
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
@@ -16,7 +18,7 @@ app.prepare().then(() => {
   });
 
   const io = new Server(server);
-  //const gameManager = new GameManager();
+  const gameManager = new GameManager();
   const rooms: SocketRoom[] = [];
 
   io.on('connection', socket => {
@@ -52,6 +54,8 @@ app.prepare().then(() => {
       io.to(room.roomName).emit(SocketEvent.Message, new Message(Severity.Info, `A new player ${playerName} has joined the room ${room.roomName}`)); // Notify other players in the room
       socket.emit(SocketEvent.Message, new Message(Severity.Success, `You have joined the room: ${room.roomName}`, SocketEvent.JoinRoom));
       io.to(room.roomName).emit(SocketEvent.JoinRoom, room);
+
+      //when room is full, do logic to start game and send to room
     });
 
     socket.on(SocketEvent.CreateRoom, (roomName: string, password: string, playerName: string) => {
@@ -70,6 +74,20 @@ app.prepare().then(() => {
 
     socket.on(SocketEvent.GetRooms, () => {
       socket.emit(SocketEvent.GetRooms, rooms);
+    });
+
+    socket.on(SocketEvent.UpdateGame, (cardPlayed: Card) => {
+      const game = gameManager.getGame(socket.id);
+      const roomName = rooms.find(room => room.players.some(player => player.id === socket.id))!.roomName;
+      try {
+        const updatedGame = game.updateGame(cardPlayed, socket.id);
+        io.to(roomName).emit(SocketEvent.UpdateGame, updatedGame);
+      }
+      catch (e) {
+        const error = e as Error;
+        console.log('Error updating game', e);
+        socket.emit(SocketEvent.Message, new Message(Severity.Error, error.message));
+      }
     });
   });
 

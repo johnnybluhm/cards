@@ -2,7 +2,8 @@ export enum SocketEvent {
     Message = 'message',
     JoinRoom = 'join-room',
     GetRooms = 'get-rooms',
-    CreateRoom = 'create-room'
+    CreateRoom = 'create-room',
+    UpdateGame = 'update-game',
 }
 
 export const EventsCallbacks = {

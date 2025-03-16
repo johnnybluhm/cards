@@ -3,12 +3,15 @@ import io from 'socket.io-client';
 import Message from '../classes/Message';
 import { SocketEvent } from '../events/Events';
 import SocketRoom from '../classes/SocketRoom';
+import Game from '../classes/Game';
+import { Card } from '../classes/Card';
 const client = io();
 export const useSocket = () => {
     const [socket, setSocket] = useState(client);
     const [chosenRoom, setChosenRoom] = useState<SocketRoom | null>(null);
     const [messages, setMessages] = useState<Message[]>([]);
     const [availableRooms, setAvailableRooms] = useState<SocketRoom[]>([]);
+    const [game, setGame] = useState<Game | null>(null);
     const socketId = socket.id;
     useEffect(() => {
         socket.on('connect', () => {
@@ -26,6 +29,10 @@ export const useSocket = () => {
         socket.on(SocketEvent.GetRooms, (rooms) => {
             console.log('Seeting rooms on client', rooms);
             setAvailableRooms(rooms);
+        });
+
+        socket.on(SocketEvent.UpdateGame, (updatedGame) => {
+            setGame(updatedGame)
         });
         setSocket(socket);
         return () => {
@@ -52,5 +59,11 @@ export const useSocket = () => {
         }
     }
 
-    return { socketId, chosenRoom, joinRoom, createRoom, availableRooms, getRooms, messages };
+    function updateGame(cardPlayed: Card) {
+        if (socket) {
+            socket.emit(SocketEvent.UpdateGame, cardPlayed);
+        }
+    }
+
+    return { socketId, chosenRoom, joinRoom, createRoom, availableRooms, getRooms, messages, game, updateGame };
 };

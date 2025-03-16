@@ -8,7 +8,18 @@ import { useSocket } from './hooks/useSocket';
 import GameComponent from './components/GameComponent';
 
 export default function Home() {
-  const { socketId, chosenRoom, joinRoom, createRoom, availableRooms, getRooms, messages } = useSocket();
+  const {
+    socketId,
+    chosenRoom,
+    joinRoom,
+    createRoom,
+    availableRooms,
+    getRooms,
+    messages,
+    game,
+    updateGame
+  } = useSocket();
+
   const {
     setMessage,
     MessageSnackBar
