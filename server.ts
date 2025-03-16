@@ -65,6 +65,7 @@ app.prepare().then(() => {
         const game = gameManager.createGame(room.players);
         console.log('Starting game for room', room.roomName, 'with players', room.players);
         console.log('Game', game);
+        game.beginNewRound();
         io.to(room.roomName).emit(SocketEvent.UpdateGame, JSON.stringify(game));
       }
       //when room is full, do logic to start game and send to room
