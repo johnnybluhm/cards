@@ -54,17 +54,10 @@ export default function Home() {
         joinRoom={joinRoom}
         availableRooms={availableRooms} />}
       {(chosenRoom?.players && chosenRoom.players.length < 4) &&
-        <>
-          <h2>Welcome {chosenRoom?.players.find(player => player.id === socketId)?.name}</h2>
-          <h2>Room: {chosenRoom?.roomName}</h2>
-          <h2>Password: {chosenRoom?.roomPassword}</h2>
-          <h2>Current Players:</h2>
-          {chosenRoom?.players.map((player, index) => (
-            <p key={index}>{player.name}</p>
-          ))}
-
-          <p>Waiting on other players</p>
-        </>}
+        <RoundCompleteDialog
+          open={game?.round?.isComplete ?? true}
+          players={chosenRoom?.players ?? []}
+          onRoundCompleted={onRoundCompleted} />}
 
       {chosenRoom?.players?.length === 4 &&
         <GameComponent

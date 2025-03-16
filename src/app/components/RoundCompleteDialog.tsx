@@ -12,7 +12,7 @@ type Props = {
 export default function RoundCompleteDialog({ open, players, onRoundCompleted }: Readonly<Props>) {
     return (
         <Dialog open={open} onClose={() => { }}>
-            <DialogTitle>Round Complete</DialogTitle>
+            <DialogTitle>Game Summary</DialogTitle>
             <DialogContent>
                 <TableContainer component={Paper}>
                     <Table>
@@ -20,8 +20,8 @@ export default function RoundCompleteDialog({ open, players, onRoundCompleted }:
                             <TableRow>
                                 <TableCell>Player</TableCell>
                                 <TableCell align="right">Score</TableCell>
-                                <TableCell align="right">Round points</TableCell>
-                                <TableCell align="right"># of tricks won</TableCell>
+                                <TableCell align="right">Round Points</TableCell>
+                                <TableCell align="right">Tricks Won</TableCell>
                                 <TableCell align="right">Ready</TableCell>
                             </TableRow>
                         </TableHead>
@@ -37,6 +37,10 @@ export default function RoundCompleteDialog({ open, players, onRoundCompleted }:
                                     <TableCell align="center"><CheckCircleIcon color={player.isReadyForNextRound ? "success" : "error"} /></TableCell>
                                 </TableRow>
                             ))}
+                            {players.length < 4 && <TableRow key="waiting">
+                                <TableCell align="center">Waiting for more players...</TableCell>
+
+                            </TableRow>}
                         </TableBody>
                     </Table>
                 </TableContainer>
