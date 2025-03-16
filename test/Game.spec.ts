@@ -10,7 +10,7 @@ describe('Game', () => {
     const game = new Game(players);
 
     test('should create players with names', () => {
-        expect(game.players.map(player => player.name)).toEqual(players);
+        expect(game.players).toEqual(players);
     });
 
     test('begin new round should deal cards', () => {
