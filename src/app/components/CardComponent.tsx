@@ -9,9 +9,8 @@ type Props = {
 }
 
 export default function PlayingCard({ card, updateGame }: Readonly<Props>) {
-    console.log(`&${SuitString[card.suit]};`)
     return (
-        <a className={`card ${SuitString[card.suit]}`} onClick={() => { console.log('you played card:', card); updateGame(card) }}>
+        <a className={`card ${SuitString[card.suit]}`} onClick={() => updateGame(card)}>
             <span className="rank">{FaceString[card.face]}</span>
             <span className="suit">{SuitStringForSpan[card.suit]}</span>
         </a>

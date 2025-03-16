@@ -49,7 +49,7 @@ const RoomForm: React.FC<RoomFormProps> = ({ createRoom, joinRoom, availableRoom
     function handlePlayerNameChange(event: React.ChangeEvent<HTMLInputElement>) {
         setPlayerName(event.target.value);
     }
-    console.log('available rooms', availableRooms);
+
     return (
         <form onSubmit={handleSubmit}>
             <FormControl fullWidth>
