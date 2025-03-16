@@ -6,6 +6,7 @@ import RoomForm from './components/RoomForm';
 import useMessageSnackbar from './hooks/useMessageSnackBar';
 import { useSocket } from './hooks/useSocket';
 import GameComponent from './components/GameComponent';
+import { Card } from './classes/card';
 
 export default function Home() {
   const {
@@ -66,7 +67,7 @@ export default function Home() {
         </>}
 
       {chosenRoom?.players?.length === 4 &&
-        <GameComponent />}
+        <GameComponent game={game} updateGame={updateGame} socketId={socketId} />}
     </>
   );
 }

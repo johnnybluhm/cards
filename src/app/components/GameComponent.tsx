@@ -14,20 +14,21 @@ import Game from '../classes/Game';
 const deck = new Deck();
 
 type Props = {
-    game: Game;
+    game?: Game | undefined;
     updateGame: (cardPlayed: Card) => void;
-    socketId: string;
+    socketId?: string;
 }
 
 export default function GameComponent({ game, updateGame, socketId }: Readonly<Props>) {
     const [cards, setCards] = useState<Card[]>(deck.cards);
 
-    const playerIndex = game.players.findIndex(player => player.id === socketId);
+    const playerIndex = game?.players.findIndex(player => player.id === socketId) ?? 0;
+    const player = game?.players[playerIndex] ?? { hand: [] };
+    const player2 = game?.players[(playerIndex + 1) % game.players.length] ?? { hand: [] };
+    const player3 = game?.players[(playerIndex + 2) % game.players.length] ?? { hand: [] };
+    const player4 = game?.players[(playerIndex + 3) % game.players.length] ?? { hand: [] };
 
-    const player = game.players[playerIndex];
-    const player2 = game.players[(playerIndex + 1) % game.players.length];
-    const player3 = game.players[(playerIndex + 2) % game.players.length];
-    const player4 = game.players[(playerIndex + 3) % game.players.length];
+
 
 
     console.log('in component deck:', deck.cards);
@@ -66,7 +67,7 @@ export default function GameComponent({ game, updateGame, socketId }: Readonly<P
                         <OpponentHand numberOfCards={player2.hand.length} />
                     </Grid>
                     <Grid size={2}>
-                        <Trick trick={game.round.currentTrick} />
+                        <Trick trick={game?.round?.currentTrick} updateGame={updateGame} />
                     </Grid>
 
                     {/*RIGHT*/}
@@ -78,7 +79,7 @@ export default function GameComponent({ game, updateGame, socketId }: Readonly<P
                     <Grid size={5}>
                     </Grid>
                     <Grid size={4}>
-                        <Hand cards={player.hand} />
+                        <Hand cards={player?.hand} updateGame={updateGame} />
                     </Grid>
                     <Grid size={3}>
                     </Grid>

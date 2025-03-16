@@ -32,6 +32,7 @@ export const useSocket = () => {
         });
 
         socket.on(SocketEvent.UpdateGame, (updatedGame) => {
+            console.log('Got game', game);
             setGame(updatedGame)
         });
         setSocket(socket);
