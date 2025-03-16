@@ -10,6 +10,7 @@ export default class Game {
     players: Player[];
     round: Round
     currentPassType: PassType;
+    isCardPassingComplete: boolean = false;
 
     constructor(players: Player[]) {
         this.players = players
@@ -37,6 +38,9 @@ export default class Game {
     }
 
     updateGame(card: Card, playerId: string): this {
+        if (!this.isCardPassingComplete) {
+            throw new Error("Cannot play until passing is complete!");
+        }
         const player = this.players.find(p => p.id === playerId);
         if (!player!.isTurn) {
             throw new Error("It's not your turn!");
