@@ -2,12 +2,13 @@ import { createServer } from 'http';
 import next from 'next';
 import { Server } from "socket.io";
 import { parse } from 'url';
+import { Card } from './src/app/classes/Card';
+import Game from './src/app/classes/Game';
+import GameManager from './src/app/classes/GamesManager';
 import Message, { Severity } from './src/app/classes/Message';
+import { Player } from './src/app/classes/Player';
 import SocketRoom from './src/app/classes/SocketRoom';
 import { SocketEvent } from './src/app/events/Events';
-import GameManager from './src/app/classes/GamesManager';
-import { Card } from './src/app/classes/Card';
-import { Player } from './src/app/classes/Player';
 
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
@@ -67,9 +68,7 @@ app.prepare().then(() => {
         game.round.isComplete = true;
         console.log('Starting game for room', room.roomName, 'with players', room.players);
 
-        for (const player of game.players) {
-          io.to(player.id).emit(SocketEvent.UpdateGame, game.getMaskedGameStateString(player.id));
-        }
+        sendMaskedGameToClients(game);
       }
     });
 
@@ -101,9 +100,7 @@ app.prepare().then(() => {
         if (game.round.isComplete) {
           game.completeRound();
         }
-        for (const player of game.players) {
-          io.to(player.id).emit(SocketEvent.UpdateGame, game.getMaskedGameStateString(player.id));
-        }
+        sendMaskedGameToClients(game);
         if (!game.round.isComplete) {
           const nextPlayer = game.players.find(player => player.isTurn)!;
           io.to(nextPlayer.id).emit(SocketEvent.Message, new Message(Severity.Info, `It's your turn!`));
@@ -125,17 +122,29 @@ app.prepare().then(() => {
       //io.to(roomName).emit(SocketEvent.Message, new Message(Severity.Info, `${player.name} is ready for the next round`));
       if (game.players.every(player => player.isReadyForNextRound)) {
         game.beginNewRound();
-        for (const player of game.players) {
-          io.to(player.id).emit(SocketEvent.UpdateGame, game.getMaskedGameStateString(player.id));
-        }
+        sendMaskedGameToClients(game);
         const nextPlayer = game.players.find(player => player.isTurn)!;
         io.to(nextPlayer.id).emit(SocketEvent.Message, new Message(Severity.Info, `It's your turn!`));
         //cardSwapping logic here
       }
     });
+
+    socket.on(SocketEvent.CardPass, (passedCards: Card[]) => {
+      const game = gameManager.getGame(socket.id);
+      const player = game.players.find(player => player.id === socket.id)!
+      game.passCards(passedCards, player.id);
+      sendMaskedGameToClients(game);
+    });
+
+    function sendMaskedGameToClients(game: Game) {
+      for (const player of game.players) {
+        io.to(player.id).emit(SocketEvent.UpdateGame, game.getMaskedGameStateString(player.id));
+      }
+    }
   });
 
   server.listen(3000, () => {
     console.log('> Ready on http://localhost:3000');
   });
 });
+
