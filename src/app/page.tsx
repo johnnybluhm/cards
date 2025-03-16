@@ -1,12 +1,12 @@
 'use client';
 import { useEffect } from 'react';
 //https://www.pedroalonso.net/blog/websockets-nextjs-part-1/
+import { randomUUID } from 'crypto';
 import './card-styles/cards.css';
+import GameComponent from './components/GameComponent';
 import RoomForm from './components/RoomForm';
 import useMessageSnackbar from './hooks/useMessageSnackBar';
 import { useSocket } from './hooks/useSocket';
-import GameComponent from './components/GameComponent';
-import { Card } from './classes/card';
 
 export default function Home() {
   const {
@@ -26,12 +26,16 @@ export default function Home() {
     MessageSnackBar
   } = useMessageSnackbar();
 
+  const playerName = 'Player' + socketId
+
   //we know we are in a room when room is
 
   useEffect(() => {
     console.log('Getting rooms')
     getRooms();
     console.log('Rooms:', availableRooms);
+    createRoom('test', 'test', playerName);
+    joinRoom('test', 'test', playerName);
   }, []);
 
   useEffect(() => {
