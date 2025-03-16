@@ -74,9 +74,10 @@ app.prepare().then(() => {
           socket.emit(SocketEvent.Message, new Message(Severity.Error, error.message));
         }
 
-        io.to(room.roomName).emit(SocketEvent.UpdateGame, JSON.stringify(game));
+        for (const player of game.players) {
+          io.to(player.id).emit(SocketEvent.UpdateGame, game.getMaskedGameStateString(player.id));
+        }
       }
-      //when room is full, do logic to start game and send to room
     });
 
     socket.on(SocketEvent.CreateRoom, (roomName: string, password: string, playerName: string) => {
@@ -100,14 +101,16 @@ app.prepare().then(() => {
     socket.on(SocketEvent.UpdateGame, (cardPlayed: Card) => {
       const game = gameManager.getGame(socket.id);
       console.log('Got game', game);
-      const roomName = rooms.find(room => room.hasPlayer(socket.id))!.roomName;
+      //const roomName = rooms.find(room => room.hasPlayer(socket.id))!.roomName;
       try {
         game.updateGame(cardPlayed, socket.id);
         //check if round complete and do update
         if (game.round.isComplete) {
           game.completeRound();
         }
-        io.to(roomName).emit(SocketEvent.UpdateGame, JSON.stringify(game));
+        for (const player of game.players) {
+          io.to(player.id).emit(SocketEvent.UpdateGame, game.getMaskedGameStateString(player.id));
+        }
         if (!game.round.isComplete) {
           const nextPlayer = game.players.find(player => player.isTurn)!;
           io.to(nextPlayer.id).emit(SocketEvent.Message, new Message(Severity.Info, `It's your turn!`));
@@ -129,7 +132,9 @@ app.prepare().then(() => {
       //io.to(roomName).emit(SocketEvent.Message, new Message(Severity.Info, `${player.name} is ready for the next round`));
       if (game.players.every(player => player.isReadyForNextRound)) {
         game.beginNewRound();
-        io.to(roomName).emit(SocketEvent.UpdateGame, JSON.stringify(game));
+        for (const player of game.players) {
+          io.to(player.id).emit(SocketEvent.UpdateGame, game.getMaskedGameStateString(player.id));
+        }
         //cardSwapping logic here
       }
     });
