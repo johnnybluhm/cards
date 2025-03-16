@@ -21,4 +21,8 @@ export class Round {
         this.completedTricks.push(this.currentTrick);
         this.currentTrick = new Trick();
     }
+
+    isCompleted(): boolean {
+        return this.completedTricks.length === 13;
+    }
 }
