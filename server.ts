@@ -103,6 +103,7 @@ app.prepare().then(() => {
       const roomName = rooms.find(room => room.hasPlayer(socket.id))!.roomName;
       try {
         game.updateGame(cardPlayed, socket.id);
+        //check if round complete and do update
         io.to(roomName).emit(SocketEvent.UpdateGame, JSON.stringify(game));
         if (!game.round.isComplete) {
           const nextPlayer = game.players.find(player => player.isTurn)!;

@@ -1,3 +1,5 @@
+import { Face } from "../enums/Face";
+import { Suit } from "../enums/Suits";
 import { Card } from "./Card";
 import { Trick } from "./Trick";
 export class Player {
@@ -41,7 +43,6 @@ export class Player {
     }
 
     reset() {
-        this.totalPoints += this.roundPoints;
         this.roundPoints = 0;
         this.hand = [];
         this.tricksWon = [];
@@ -49,4 +50,9 @@ export class Player {
         this.isReadyForNextRound = false;
     }
 
+    checkForMoonShoot(): boolean {
+        const heartsCount = this.tricksWon.filter(trick => trick.cards.some(card => card.suit === Suit.Hearts)).length;
+        const queenOfSpadesCount = this.tricksWon.filter(trick => trick.cards.some(card => card.face === Face.Queen && card.suit === Suit.Spades)).length;
+        return heartsCount === 13 && queenOfSpadesCount === 1;
+    }
 }

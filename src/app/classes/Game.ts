@@ -61,4 +61,19 @@ export default class Game {
             player.addCard(card);
         }
     }
+
+    completeRound() {
+        if (!this.round.isComplete) {
+            throw new Error("Round is not complete!");
+        }
+        //check for moon shooter, and update Totalpoints for players
+        const playerShotTheMoon = this.players.find(player => player.checkForMoonShoot());
+        if (playerShotTheMoon) {
+            this.players.forEach(player => player.totalPoints += 26 + player.roundPoints);
+            playerShotTheMoon.totalPoints -= 26;
+        }
+        else {
+            this.players.forEach(player => player.totalPoints += player.roundPoints);
+        }
+    }
 }
