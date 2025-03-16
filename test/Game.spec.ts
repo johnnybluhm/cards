@@ -1,15 +1,16 @@
 import { Card } from "../src/app/classes/Card";
 import Game from "../src/app/classes/Game";
 import HttpError from "../src/app/classes/HttpError";
+import { Player } from "../src/app/classes/Player";
 import { Face } from "../src/app/enums/Face";
 import { Suit } from "../src/app/enums/Suits";
 
 describe('Game', () => {
-    const playerNames = ['Player 1', 'Player 2', 'Player 3', 'Player 4'];
-    const game = new Game(playerNames);
+    const players = [new Player('Player 1', "id1"), new Player('Player 2', "id2"), new Player('Player 3', "id3"), new Player('Player 4', "id4")];
+    const game = new Game(players);
 
     test('should create players with names', () => {
-        expect(game.players.map(player => player.name)).toEqual(playerNames);
+        expect(game.players.map(player => player.name)).toEqual(players);
     });
 
     test('begin new round should deal cards', () => {
