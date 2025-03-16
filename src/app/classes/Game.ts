@@ -9,11 +9,13 @@ export default class Game {
     deck: Deck;
     players: Player[];
     round: Round
+    currentPassType: PassType;
 
     constructor(players: Player[]) {
         this.players = players
         this.deck = new Deck();
         this.round = new Round();
+        this.currentPassType = PassType.Left;
     }
 
     beginNewRound() {
@@ -76,6 +78,7 @@ export default class Game {
             this.players.forEach(player => player.totalPoints += player.roundPoints);
         }
         this.players.forEach(player => player.isTurn = false);
+        this.updatePassType();
     }
 
     getMaskedGameStateString(playerId: string): string {
@@ -87,4 +90,28 @@ export default class Game {
         });
         return JSON.stringify(copy);
     }
+
+    updatePassType() {
+        switch (this.currentPassType) {
+            case PassType.Left:
+                this.currentPassType = PassType.Right;
+                break;
+            case PassType.Right:
+                this.currentPassType = PassType.Across;
+                break;
+            case PassType.Across:
+                this.currentPassType = PassType.NoPass;
+                break;
+            case PassType.NoPass:
+                this.currentPassType = PassType.Left;
+                break;
+        }
+    }
+}
+
+enum PassType {
+    Left = "Left",
+    Right = "Right",
+    Across = "Across",
+    NoPass = "No Pass"
 }
