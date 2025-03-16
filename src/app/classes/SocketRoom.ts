@@ -12,7 +12,7 @@ export default class SocketRoom {
         this.roomName = roomName;
     }
 
-    joinRoom(playerName: string, socketId: string) {
+    addPlayer(playerName: string, socketId: string) {
         this.players.push({ id: socketId, name: playerName });
     }
 }

@@ -52,8 +52,8 @@ app.prepare().then(() => {
         socket.emit(SocketEvent.Message, new Message(Severity.Error, `Player ${playerName} is already taken in ${roomName}`));
         return;
       }
-
-      room.joinRoom(playerName, socket.id);
+      socket.join(room.roomName);
+      room.addPlayer(playerName, socket.id);
       console.log(`Client joined room: ${room.roomName}`);
       io.to(room.roomName).emit(SocketEvent.Message, new Message(Severity.Info, `A new player ${playerName} has joined the room ${room.roomName}`)); // Notify other players in the room
       socket.emit(SocketEvent.Message, new Message(Severity.Success, `You have joined the room: ${room.roomName}`, SocketEvent.JoinRoom));
