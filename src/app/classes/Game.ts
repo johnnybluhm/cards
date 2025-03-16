@@ -112,6 +112,9 @@ export default class Game {
         if (this.currentPassType === PassType.NoPass) {
             throw new Error("No cards to pass. Pass type is No Pass.");
         }
+        else if (cards.length !== 3) {
+            throw new Error("You must pass exactly 3 cards.");
+        }
         const player = this.players.find(player => player.id === playerId)!;
         player.cardsPassed = cards;
         const playerToPassTo = this.getPlayerToPassTo(player)
