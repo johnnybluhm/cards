@@ -37,7 +37,7 @@ export const useSocket = () => {
             const game = JSON.parse(updatedGame) as Game;
             console.log('Got game', game);
             setGame(game);
-            const playerToPlay = game.players.find(player => player.isTurn);
+            /*const playerToPlay = game.players.find(player => player.isTurn);
             if (playerToPlay && (playerToPlay.id === socket.id)) {
                 //auto play logic
                 const deuceOfClubs = playerToPlay.hand.find(card => card.suit === Suit.Clubs && card.face === Face.Two);
@@ -66,7 +66,7 @@ export const useSocket = () => {
                 else {
                     socket.emit(SocketEvent.UpdateGame, playerToPlay.hand[0]);
                 }
-            }
+            }*/
         });
         setSocket(socket);
         return () => {

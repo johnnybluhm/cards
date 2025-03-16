@@ -136,6 +136,8 @@ app.prepare().then(() => {
         for (const player of game.players) {
           io.to(player.id).emit(SocketEvent.UpdateGame, game.getMaskedGameStateString(player.id));
         }
+        const nextPlayer = game.players.find(player => player.isTurn)!;
+        io.to(nextPlayer.id).emit(SocketEvent.Message, new Message(Severity.Info, `It's your turn!`));
         //cardSwapping logic here
       }
     });
