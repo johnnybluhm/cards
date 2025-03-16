@@ -5,6 +5,8 @@ import { SocketEvent } from '../events/Events';
 import SocketRoom from '../classes/SocketRoom';
 import Game from '../classes/Game';
 import { Card } from '../classes/Card';
+import { Suit } from '../enums/Suits';
+import { Face } from '../enums/Face';
 const client = io();
 export const useSocket = () => {
     const [socket, setSocket] = useState(client);
@@ -35,6 +37,30 @@ export const useSocket = () => {
             const game = JSON.parse(updatedGame) as Game;
             console.log('Got game', game);
             setGame(game);
+            const playerToPlay = game.players.find(player => player.isTurn);
+            if (playerToPlay && (playerToPlay.id === socket.id)) {
+                //auto play logic
+                const deuceOfClubs = playerToPlay.hand.find(card => card.suit === Suit.Clubs && card.face === Face.Two);
+                const cardOfTrickSuit = playerToPlay.hand.find(card => card.suit === game.round.currentTrick.trickSuit);
+                const nonHeartCard = playerToPlay.hand.find(card => card.suit !== Suit.Hearts);
+                if (!game.round.currentTrick.trickSuit) {
+                    if (deuceOfClubs) {
+                        socket.emit(SocketEvent.UpdateGame, deuceOfClubs);
+                    }
+                    else if (nonHeartCard) {
+                        socket.emit(SocketEvent.UpdateGame, nonHeartCard);
+                    }
+                }
+                else if (game.round.currentTrick.trickSuit && cardOfTrickSuit) {
+                    socket.emit(SocketEvent.UpdateGame, cardOfTrickSuit);
+                }
+                else if (game.round.currentTrick.trickSuit && game.round.completedTricks.length === 0) {
+                    socket.emit(SocketEvent.UpdateGame, nonHeartCard);
+                }
+                else {
+                    socket.emit(SocketEvent.UpdateGame, playerToPlay.hand.unshift());
+                }
+            }
         });
         setSocket(socket);
         return () => {
@@ -67,9 +93,9 @@ export const useSocket = () => {
         }
     }
 
-    function onRoundCompleted(isReady: boolean) {
+    function onRoundCompleted() {
         if (socket) {
-            socket.emit(SocketEvent.RoundCompleted, isReady);
+            socket.emit(SocketEvent.RoundCompleted);
         }
     }
 

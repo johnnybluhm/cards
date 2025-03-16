@@ -55,11 +55,10 @@ export default function Home() {
           players={chosenRoom?.players ?? []}
           onRoundCompleted={onRoundCompleted} />}
 
-      {game &&
         <RoundCompleteDialog
-          open={game.round?.isComplete ?? false}
-          players={game.players ?? []}
-          onRoundCompleted={onRoundCompleted} />}
+          open={game?.round?.isComplete ?? false}
+          players={game?.players ?? []}
+          onRoundCompleted={onRoundCompleted} />
 
       {chosenRoom?.players?.length === 4 &&
         <GameComponent
