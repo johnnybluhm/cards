@@ -75,6 +75,7 @@ export default class Game {
         else {
             this.players.forEach(player => player.totalPoints += player.roundPoints);
         }
+        this.players.forEach(player => player.isTurn = false);
     }
 
     getMaskedGameStateString(playerId: string): string {
