@@ -7,12 +7,14 @@ export class Player {
     totalPoints: number;
     id: string;
     isTurn: boolean;
+    roundPoints: number;
 
     constructor(name: string, id: string) {
         this.name = name;
         this.hand = [];
         this.tricksWon = [];
         this.totalPoints = 0;
+        this.roundPoints = 0;
         this.id = id
         this.isTurn = false;
     }
@@ -27,9 +29,7 @@ export class Player {
     }
 
     updatePoints() {
-        for (const trick of this.tricksWon) {
-            this.totalPoints += trick.points;
-        }
+        this.totalPoints = this.tricksWon.reduce((acc, trick) => acc + trick.points, 0);
     }
 
     removeCard(card: Card) {
@@ -42,6 +42,7 @@ export class Player {
     }
 
     reset() {
+        this.roundPoints = 0;
         this.hand = [];
         this.tricksWon = [];
         this.isTurn = false;
