@@ -28,33 +28,27 @@ app.prepare().then(() => {
     socket.on(SocketEvent.JoinRoom, (roomName: string, password: string, playerName: string) => {
       const room = rooms.find(room => room.roomName === roomName);
       if (!room) {
-        console.log(`Room ${roomName} not found or password incorrect`);
         socket.emit(SocketEvent.Message, new Message(Severity.Error, `Room ${roomName} does not exist`));
         return;
       }
       else if (room.roomPassword !== password) {
-        console.log(`Password for room ${roomName} is incorrect`);
         socket.emit(SocketEvent.Message, new Message(Severity.Error, `Password for room ${roomName} is incorrect`));
         return;
       }
       else if (room.players.length == 4) {
-        console.log(`Room ${roomName} is full`);
         socket.emit(SocketEvent.Message, new Message(Severity.Error, `Room ${roomName} is full`));
         return;
       }
       else if (room.players.some(player => player.id === socket.id)) {
-        console.log(`Player ${playerName} is already in room ${roomName}`);
         socket.emit(SocketEvent.Message, new Message(Severity.Error, `You are already in room ${roomName}`));
         return;
       }
       else if (room.players.some(player => player.name.toLocaleLowerCase() === playerName.toLocaleLowerCase())) {
-        console.log(`Player ${playerName} is already in room ${roomName}`);
         socket.emit(SocketEvent.Message, new Message(Severity.Error, `Player ${playerName} is already taken in ${roomName}`));
         return;
       }
       socket.join(room.roomName);
       room.addPlayer(playerName, socket.id);
-      console.log(`Client joined room: ${room.roomName}`);
       io.to(room.roomName).emit(SocketEvent.Message, new Message(Severity.Info, `A new player ${playerName} has joined the room ${room.roomName}`)); // Notify other players in the room
       socket.emit(SocketEvent.Message, new Message(Severity.Success, `You have joined the room: ${room.roomName}`, SocketEvent.JoinRoom));
       io.to(room.roomName).emit(SocketEvent.JoinRoom, room);
@@ -63,23 +57,18 @@ app.prepare().then(() => {
     socket.on(SocketEvent.CreateRoom, (roomName: string, password: string, playerName: string) => {
       const newRoom = new SocketRoom(roomName, password, { name: playerName, id: socket.id });
       if (rooms.some(room => room.roomName === newRoom.roomName)) {
-        console.log(`Room ${newRoom.roomName} already exists`);
         socket.emit(SocketEvent.Message, new Message(Severity.Error, "Room already Exists. Please choose another name"));
         return;
       }
       socket.join(newRoom.roomName);
       rooms.push(newRoom);
-      console.log(`Client created room: ${newRoom.roomName}`);
       socket.emit(SocketEvent.Message, new Message(Severity.Success, `You have created the room: ${newRoom.roomName}`, SocketEvent.CreateRoom));
-      console.log('Emmitting event JoinRoom after create with', newRoom.roomName);
       socket.emit(SocketEvent.JoinRoom, newRoom);
       //clients will get updatedList of rooms every time new one is added
       socket.broadcast.emit(SocketEvent.GetRooms, rooms);
     });
 
     socket.on(SocketEvent.GetRooms, () => {
-      console.log("In server getRooms", socket.id);
-      console.log("Rooms:", rooms);
       socket.emit(SocketEvent.GetRooms, rooms);
     });
   });
