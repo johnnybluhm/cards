@@ -124,11 +124,11 @@ app.prepare().then(() => {
       }
     });
 
-    socket.on(SocketEvent.RoundCompleted, (isReady: boolean) => {
+    socket.on(SocketEvent.RoundCompleted, () => {
       const game = gameManager.getGame(socket.id);
       const roomName = rooms.find(room => room.hasPlayer(socket.id))!.roomName;
       const player = game.players.find(player => player.id === socket.id)!
-      player.isReadyForNextRound = isReady;
+      player.isReadyForNextRound = !player.isReadyForNextRound;
       io.to(roomName).emit(SocketEvent.UpdateGame, JSON.stringify(game));
       //io.to(roomName).emit(SocketEvent.Message, new Message(Severity.Info, `${player.name} is ready for the next round`));
       if (game.players.every(player => player.isReadyForNextRound)) {
