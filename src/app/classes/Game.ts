@@ -125,6 +125,22 @@ export default class Game {
         playerToPassTo.cardsReceived = player.cardsPassed;
     }
 
+    completeCardPassing() {
+        if (this.isCardPassingComplete) {
+            throw new Error("Card passing is already complete!");
+        }
+        if (!this.canCompleteCardPassing()) {
+            throw new Error("Not all players have passed cards!");
+        }
+        this.players.forEach(player => player.hand = player.hand.filter(card => !player.cardsPassed.includes(card)));
+        this.players.forEach(player => player.hand.push(...player.cardsReceived));
+        this.isCardPassingComplete = true;
+    }
+
+    canCompleteCardPassing(): boolean {
+        return this.players.every(player => player.cardsPassed.length === 3);
+    }
+
     private getPlayerToPassTo(passingPlayer: Player): Player {
         const playerIndex = this.players.findIndex(player => player.id === passingPlayer.id);
         switch (this.currentPassType) {

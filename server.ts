@@ -126,8 +126,15 @@ app.prepare().then(() => {
 
     socket.on(SocketEvent.CardPass, (passedCards: Card[]) => {
       const game = gameManager.getGame(socket.id);
+      if (game.isCardPassingComplete) {
+        socket.emit(SocketEvent.Message, new Message(Severity.Error, "Card passing is already complete"));
+        return;
+      }
       const player = game.players.find(player => player.id === socket.id)!
       game.passCards(passedCards, player.id);
+      if (game.canCompleteCardPassing()) {
+        game.completeCardPassing();
+      }
       sendMaskedGameToClients(game);
     });
 
