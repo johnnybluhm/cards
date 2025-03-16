@@ -107,6 +107,30 @@ export default class Game {
                 break;
         }
     }
+
+    passCards(cards: Card[], playerId: string) {
+        if (this.currentPassType === PassType.NoPass) {
+            throw new Error("No cards to pass. Pass type is No Pass.");
+        }
+        const player = this.players.find(player => player.id === playerId)!;
+        player.cardsPassed = cards;
+        const playerToPassTo = this.getPlayerToPassTo(player)
+        playerToPassTo.cardsReceived = player?.cardsPassed;
+    }
+
+    private getPlayerToPassTo(passingPlayer: Player): Player {
+        const playerIndex = this.players.findIndex(player => player.id === passingPlayer.id);
+        switch (this.currentPassType) {
+            case PassType.Left:
+                return this.players[(playerIndex + 3) % this.players.length];
+            case PassType.Right:
+                return this.players[(playerIndex + 1) % this.players.length];
+            case PassType.Across:
+                return this.players[(playerIndex + 2) % this.players.length];
+            default:
+                throw new Error("Invalid pass type");
+        }
+    }
 }
 
 enum PassType {
