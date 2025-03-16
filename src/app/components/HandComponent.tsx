@@ -12,8 +12,8 @@ export default function Hand({ cards, updateGame }: Readonly<Props>) {
     return (
         <ul className="hand">
             {cards.map((card, cardIndex) => (
-                <li key={cardIndex} onClick={() => updateGame(card)}>
-                    <PlayingCard card={card} />
+                <li key={`${cardIndex}-${card.ownerId}`}>
+                    <PlayingCard card={card} updateGame={updateGame}/>
                 </li>
             ))
             }
