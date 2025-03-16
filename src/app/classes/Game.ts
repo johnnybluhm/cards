@@ -76,4 +76,14 @@ export default class Game {
             this.players.forEach(player => player.totalPoints += player.roundPoints);
         }
     }
+
+    getMaskedGameStateString(playerId: string): string {
+        const copy = JSON.parse(JSON.stringify(this)) as Game;
+        copy.players.forEach(player => {
+            if (player.id !== playerId) {
+                player.hand = new Array(player.hand.length).fill({ face: null, suit: null });
+            }
+        });
+        return JSON.stringify(copy);
+    }
 }
