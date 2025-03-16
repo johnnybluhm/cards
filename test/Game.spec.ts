@@ -10,8 +10,8 @@ describe('Game', () => {
     let game = new Game(players);
 
     beforeEach(() => {
-        game = new Game(players);
         players = [new Player('Player 1', "id1"), new Player('Player 2', "id2"), new Player('Player 3', "id3"), new Player('Player 4', "id4")];
+        game = new Game(players);
     });
 
     test('should create players with names', () => {
@@ -154,6 +154,21 @@ describe('Game', () => {
         const totalScore = newGame.players.reduce((acc, player) => acc + player.totalPoints, 0);
         expect(totalScore).toBe(16);
     });
+
+    /*test('test score after multiple round completion', () => {
+
+        const newGame = new Game(players);
+        while(new)
+        newGame.beginNewRound();
+
+        executeRound(newGame);
+
+        const roundScore = newGame.players.reduce((acc, player) => acc + player.roundPoints, 0);
+        expect(roundScore).toBe(16);
+        newGame.beginNewRound();
+        const totalScore = newGame.players.reduce((acc, player) => acc + player.totalPoints, 0);
+        expect(totalScore).toBe(16);
+    });*/
 });
 
 function executeRound(game: Game) {
