@@ -6,11 +6,10 @@ import { useState } from 'react';
 import '../card-styles/cards.css';
 import { Card } from '../classes/Card';
 import { Deck } from '../classes/Deck';
-import Hand from './HandComponent';
-import Trick from './TrickComponent';
-import { Trick as CardTrick } from '../classes/Trick';
-import OpponentHand from './OpponentHand';
 import Game from '../classes/Game';
+import Hand from './HandComponent';
+import OpponentHand from './OpponentHand';
+import Trick from './TrickComponent';
 const deck = new Deck();
 
 type Props = {
@@ -67,7 +66,7 @@ export default function GameComponent({ game, updateGame, socketId }: Readonly<P
                         <OpponentHand numberOfCards={player2.hand.length} />
                     </Grid>
                     <Grid size={2}>
-                        <Trick trick={game?.round?.currentTrick} updateGame={updateGame} />
+                        <Trick trick={game?.round?.currentTrick} />
                     </Grid>
 
                     {/*RIGHT*/}
