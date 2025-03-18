@@ -83,6 +83,7 @@ export default class Game {
         }
         this.players.forEach(player => player.isTurn = false);
         this.updatePassType();
+        this.isCardPassingComplete = false;
     }
 
     getMaskedGameStateString(playerId: string): string {
