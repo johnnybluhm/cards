@@ -166,6 +166,21 @@ describe('Game', () => {
 
         expect(game.players.some(player => player.totalPoints > 100)).toBe(true);
     });
+
+    test('test passCards', () => {
+        game.beginNewRound();
+        game.isCardPassingComplete = false;
+        game.passCards(game.players[0].hand.slice(0, 3), game.players[0].id);
+        game.passCards(game.players[1].hand.slice(0, 3), game.players[1].id);
+        game.passCards(game.players[2].hand.slice(0, 3), game.players[2].id);
+        game.passCards(game.players[3].hand.slice(0, 3), game.players[3].id);
+
+        game.completeCardPassing();
+        expect(game.players.every(player => player.hand.length === 13)).toBe(true);
+        for (const player of game.players) {
+            expect(player.hand.every(card => card.ownerId === player.id)).toBe(true);
+        }
+    });
 });
 
 function executeRound(game: Game) {
