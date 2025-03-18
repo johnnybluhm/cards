@@ -19,7 +19,8 @@ export default function Home() {
     messages,
     game,
     updateGame,
-    onRoundCompleted
+    onRoundCompleted,
+    passCards
   } = useSocket();
 
   const {
@@ -64,6 +65,7 @@ export default function Home() {
         <GameComponent
           game={game}
           updateGame={updateGame}
+          passCards={passCards}
           socketId={socketId} />}
     </>
   );
