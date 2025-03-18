@@ -133,7 +133,7 @@ export default class Game {
         if (!this.canCompleteCardPassing()) {
             throw new Error("Not all players have passed cards!");
         }
-        //TODO resetOwnerId for all cards in players hands
+
         this.players.forEach(player => player.hand = player.hand.filter(card => !player.cardsPassed.includes(card)));
         this.players.forEach(player => player.hand.push(...player.cardsReceived));
         this.players.forEach(player => player.hand.map(card => card.ownerId = player.id));
