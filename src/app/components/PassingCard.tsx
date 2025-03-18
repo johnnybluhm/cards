@@ -12,13 +12,17 @@ type Props = {
 export default function PassingCard({ cardToPass, passedCards }: Readonly<Props>) {
     const [isSelected, setIsSelected] = useState(false);
     function handleClick(event: React.MouseEvent<HTMLAnchorElement>) {
-        if (passedCards.length === 3) return;
-        setIsSelected(!isSelected);
+        console.log(isSelected);
+        console.log(passedCards)
         const index = passedCards.findIndex(passedCard => passedCard.suit === cardToPass.suit && passedCard.face === cardToPass.face);
         if (index > 0) {
+            console.log('removing card');
             passedCards.splice(index, 1);
-            return;
+            console.log('aftserSlice:', passedCards);
+            setIsSelected(false);
         };
+        if (passedCards.length === 3) return;
+        setIsSelected(true);
         passedCards.push(cardToPass);
     }
     return (
@@ -30,10 +34,10 @@ export default function PassingCard({ cardToPass, passedCards }: Readonly<Props>
                 </a>
             </strong>
             :
-            <a className={`card ${SuitString[cardToPass.suit]}`} onClick={handleClick}>
+            <span className={`card ${SuitString[cardToPass.suit]}`} onClick={handleClick}>
                 <span className="rank">{FaceString[cardToPass.face]}</span>
                 <span className="suit">{SuitStringForSpan[cardToPass.suit]}</span>
-            </a>
+            </span>
     );
 };
 
