@@ -107,7 +107,7 @@ export const useSocket = () => {
 
     function passCards(cards: Card[]) {
         if (socket) {
-            socket.emit(SocketEvent.PassCards, cards);
+            socket.emit(SocketEvent.CardPass, cards);
         }
     }
 

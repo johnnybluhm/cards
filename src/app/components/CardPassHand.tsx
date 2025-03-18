@@ -15,10 +15,6 @@ export default function CardPassHand({ player, passCards }: Readonly<Props>) {
 
     const [cardsPassed, setCardsPassed] = useState(player.cardsPassed);
     function handleCardPass() {
-        if (cardsPassed.length !== 3) {
-            alert("You must pass exactly 3 cards.");
-            return;
-        }
         passCards(cardsPassed);
     }
     console.log('Cards passed State variable in hand class:', cardsPassed);
