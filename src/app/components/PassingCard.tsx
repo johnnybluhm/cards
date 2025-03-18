@@ -6,24 +6,29 @@ import { Suit } from '../enums/Suits';
 
 type Props = {
     cardToPass: CardModel;
+    setCardsPassed: (cards: CardModel[]) => void;
     passedCards: CardModel[];
 }
 
-export default function PassingCard({ cardToPass, passedCards }: Readonly<Props>) {
+export default function PassingCard({ cardToPass, passedCards, setCardsPassed }: Readonly<Props>) {
     const [isSelected, setIsSelected] = useState(false);
     function handleClick(event: React.MouseEvent<HTMLAnchorElement>) {
         console.log(isSelected);
         console.log(passedCards)
         const index = passedCards.findIndex(passedCard => passedCard.suit === cardToPass.suit && passedCard.face === cardToPass.face);
-        if (index > 0) {
+        console.log('index:', index);
+        if (index >= 0) {
             console.log('removing card');
             passedCards.splice(index, 1);
             console.log('aftserSlice:', passedCards);
             setIsSelected(false);
+            setCardsPassed([...passedCards]);
+            return;
         };
-        if (passedCards.length === 3) return;
+        //if (passedCards.length === 3) return;
         setIsSelected(true);
         passedCards.push(cardToPass);
+        setCardsPassed([...passedCards]);
     }
     return (
         isSelected ?
