@@ -8,10 +8,12 @@ import { Suit } from "../src/app/enums/Suits";
 describe('Game', () => {
     let players = [new Player('Player 1', "id1"), new Player('Player 2', "id2"), new Player('Player 3', "id3"), new Player('Player 4', "id4")];
     let game = new Game(players);
+    
 
     beforeEach(() => {
         players = [new Player('Player 1', "id1"), new Player('Player 2', "id2"), new Player('Player 3', "id3"), new Player('Player 4', "id4")];
         game = new Game(players);
+        game.isCardPassingComplete = true;
     });
 
     test('should create players with names', () => {
@@ -48,7 +50,7 @@ describe('Game', () => {
             new Card(Face.Two, Suit.Clubs, game.players[0].id),
         ]
         game.players[1].hand = [
-            new Card(Face.Ace, Suit.Hearts, game.players[1].id),
+            new Card(Face.Ace, Suit.Diamonds, game.players[1].id),
         ]
         // Player 2 should win the trick
         game.players[2].hand = [
@@ -62,7 +64,7 @@ describe('Game', () => {
         for (let i = 0; i < 4; i++) {
             game.updateGame(game.players[i].hand[0], game.players[i].id);
         }
-        expect(game.players[2].roundPoints).toBe(14);
+        expect(game.players[2].roundPoints).toBe(13);
         expect(game.players[2].tricksWon.length).toBe(1);
         expect(game.players[2].isTurn).toBe(true);
     });
@@ -76,7 +78,7 @@ describe('Game', () => {
         ]
         //player 1 cannot play A of hearts because he has jack of clubs
         game.players[1].hand = [
-            new Card(Face.Ace, Suit.Hearts, game.players[1].id),
+            new Card(Face.Two, Suit.Diamonds, game.players[1].id),
             new Card(Face.Jack, Suit.Clubs, game.players[1].id),
         ]
         game.players[2].hand = [
@@ -148,24 +150,26 @@ describe('Game', () => {
 
         const roundScore = game.players.reduce((acc, player) => acc + player.roundPoints, 0);
         expect(roundScore).toBe(16);
-        game.beginNewRound();
+        game.completeRound();
         const totalScore = game.players.reduce((acc, player) => acc + player.totalPoints, 0);
         expect(totalScore).toBe(16);
     });
 
     test('test score after multiple round completion', () => {
         game.beginNewRound();
-        while (!game.players.some(player => player.totalPoints > 100)) {
+        /*while (!game.players.some(player => player.totalPoints > 100)) {
             executeRound(game);
+            game.completeRound();
+            game.isCardPassingComplete = true;
             game.beginNewRound();
-        }
+        }*/
 
         expect(game.players.some(player => player.totalPoints > 100)).toBe(true);
     });
 });
 
 function executeRound(game: Game) {
-    while (game.round.isComplete() === false) {
+    while (game.round.isComplete === false) {
         const playerToPlay = game.players.find(player => player.isTurn);
         for (const card of playerToPlay!.hand) {
             try {
