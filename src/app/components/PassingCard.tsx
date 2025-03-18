@@ -25,7 +25,7 @@ export default function PassingCard({ cardToPass, passedCards, setCardsPassed }:
             setCardsPassed([...passedCards]);
             return;
         };
-        //if (passedCards.length === 3) return;
+        if (passedCards.length === 3) return;
         setIsSelected(true);
         passedCards.push(cardToPass);
         setCardsPassed([...passedCards]);
