@@ -105,5 +105,11 @@ export const useSocket = () => {
         }
     }
 
-    return { socketId, chosenRoom, joinRoom, createRoom, availableRooms, getRooms, messages, game, updateGame, onRoundCompleted };
+    function passCards(cards: Card[]) {
+        if (socket) {
+            socket.emit(SocketEvent.PassCards, cards);
+        }
+    }
+
+    return { socketId, chosenRoom, joinRoom, createRoom, availableRooms, getRooms, messages, game, updateGame, onRoundCompleted, passCards };
 };

@@ -7,20 +7,22 @@ import Game from '../classes/Game';
 import Hand from './HandComponent';
 import OpponentHand from './OpponentHand';
 import Trick from './TrickComponent';
+import CardPassHand from './CardPassHand';
+import { Player } from '../classes/Player';
 
 type Props = {
     game: Game | null;
     updateGame: (cardPlayed: Card) => void;
+    passCards: (cards: Card[]) => void;
     socketId?: string;
 }
 
-export default function GameComponent({ game, updateGame, socketId }: Readonly<Props>) {
+export default function GameComponent({ game, updateGame, passCards, socketId }: Readonly<Props>) {
     const playerIndex = game?.players.findIndex(player => player.id === socketId) ?? 0;
-    const player = game?.players[playerIndex] ?? { hand: [] };
+    const player = game?.players[playerIndex] ?? new Player("No Player", "No Id");
     const player2 = game?.players[(playerIndex + 1) % game.players.length] ?? { hand: [] };
     const player3 = game?.players[(playerIndex + 2) % game.players.length] ?? { hand: [] };
     const player4 = game?.players[(playerIndex + 3) % game.players.length] ?? { hand: [] };
-
     return (
         <div className="playingCards fourColours" style={{ backgroundColor: 'green' }}>
 
@@ -43,6 +45,8 @@ export default function GameComponent({ game, updateGame, socketId }: Readonly<P
                     <OpponentHand numberOfCards={player2.hand.length} />
                 </Grid>
                 <Grid size={2}>
+
+                    {!game?.isCardPassingComplete && <p>Pass {game?.currentPassType}!</p>}
                     <Trick trick={game?.round?.currentTrick} />
                 </Grid>
 
@@ -55,7 +59,10 @@ export default function GameComponent({ game, updateGame, socketId }: Readonly<P
                 <Grid size={5}>
                 </Grid>
                 <Grid size={4}>
-                    <Hand cards={player?.hand} updateGame={updateGame} />
+                    {game?.isCardPassingComplete ?
+                        <Hand cards={player?.hand} updateGame={updateGame} />
+                        : <CardPassHand player={player} passCards={passCards} />
+                    }
                 </Grid>
                 <Grid size={3}>
                 </Grid>
