@@ -134,7 +134,15 @@ export default class Game {
             throw new Error("Not all players have passed cards!");
         }
 
-        this.players.forEach(player => player.hand = player.hand.filter(card => !player.cardsPassed.includes(card)));
+        this.players.forEach(player => player.hand = player.hand.filter(card => {
+            const passedCards = player.cardsPassed;
+            for (const passedCard of passedCards) {
+                if (card.face === passedCard.face && card.suit === passedCard.suit) {
+                    return false;
+                }
+            }
+            return true;
+        }));
         this.players.forEach(player => player.hand.push(...player.cardsReceived));
         this.players.forEach(player => player.hand.map(card => card.ownerId = player.id));
 
