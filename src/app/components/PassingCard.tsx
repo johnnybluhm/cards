@@ -5,32 +5,35 @@ import { Face } from '../enums/Face';
 import { Suit } from '../enums/Suits';
 
 type Props = {
-    card: CardModel;
+    cardToPass: CardModel;
     passedCards: CardModel[];
-    updateCards: (card: CardModel) => void;
 }
 
-export default function PassingCard({ card, passedCards, updateCards }: Readonly<Props>) {
+export default function PassingCard({ cardToPass, passedCards }: Readonly<Props>) {
     const [isSelected, setIsSelected] = useState(false);
     function handleClick(event: React.MouseEvent<HTMLAnchorElement>) {
         if (passedCards.length === 3) return;
         setIsSelected(!isSelected);
-        updateCards(card);
+        const index = passedCards.findIndex(passedCard => passedCard.suit === cardToPass.suit && passedCard.face === cardToPass.face);
+        if (index > 0) {
+            passedCards.splice(index, 1);
+            return;
+        };
+        passedCards.push(cardToPass);
     }
     return (
         isSelected ?
             <strong>
-                <a className={`card ${SuitString[card.suit]}`} onClick={handleClick}>
-                    <span className="rank">{FaceString[card.face]}</span>
-                    <span className="suit">{SuitStringForSpan[card.suit]}</span>
+                <a className={`card ${SuitString[cardToPass.suit]}`} onClick={handleClick}>
+                    <span className="rank">{FaceString[cardToPass.face]}</span>
+                    <span className="suit">{SuitStringForSpan[cardToPass.suit]}</span>
                 </a>
             </strong>
             :
-            <a className={`card ${SuitString[card.suit]}`} onClick={handleClick}>
-                <span className="rank">{FaceString[card.face]}</span>
-                <span className="suit">{SuitStringForSpan[card.suit]}</span>
+            <a className={`card ${SuitString[cardToPass.suit]}`} onClick={handleClick}>
+                <span className="rank">{FaceString[cardToPass.face]}</span>
+                <span className="suit">{SuitStringForSpan[cardToPass.suit]}</span>
             </a>
-
     );
 };
 
