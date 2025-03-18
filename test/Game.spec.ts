@@ -8,7 +8,7 @@ import { Suit } from "../src/app/enums/Suits";
 describe('Game', () => {
     let players = [new Player('Player 1', "id1"), new Player('Player 2', "id2"), new Player('Player 3', "id3"), new Player('Player 4', "id4")];
     let game = new Game(players);
-    
+
 
     beforeEach(() => {
         players = [new Player('Player 1', "id1"), new Player('Player 2', "id2"), new Player('Player 3', "id3"), new Player('Player 4', "id4")];
@@ -157,12 +157,12 @@ describe('Game', () => {
 
     test('test score after multiple round completion', () => {
         game.beginNewRound();
-        /*while (!game.players.some(player => player.totalPoints > 100)) {
+        while (!game.players.some(player => player.totalPoints > 100)) {
             executeRound(game);
             game.completeRound();
             game.isCardPassingComplete = true;
             game.beginNewRound();
-        }*/
+        }
 
         expect(game.players.some(player => player.totalPoints > 100)).toBe(true);
     });
