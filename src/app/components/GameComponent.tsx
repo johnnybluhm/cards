@@ -57,11 +57,8 @@ export default function GameComponent({ game, updateGame, passCards, socketId }:
                     <OpponentHand numberOfCards={player2.hand.length} />
                 </Grid>
                 <Grid size={2}>
-                    <IconButton>
-                        <ArrowBackIcon sx={styles.largeIcon} onClick={() => { }} />
-                    </IconButton>
 
-                    {!game?.isCardPassingComplete && <p style={{fontSize:20}}>Pass {game?.currentPassType}!</p>}
+                    {!game?.isCardPassingComplete && <p style={{ fontSize: 50 }}>Pass {game?.currentPassType}!</p>}
                     <Trick trick={game?.round?.currentTrick} />
                 </Grid>
 

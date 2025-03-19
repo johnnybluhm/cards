@@ -23,6 +23,21 @@ export default function CardPassHand({ player, passCards, passType }: Readonly<P
     }
     return (
         <>
+            {passType === PassType.Left && <ArrowBackIcon sx={{
+                color: 'black',
+                fontSize: 200,
+                marginLeft: 18
+            }} onClick={() => { }} />}
+            {passType === PassType.Across && <ArrowUpwardIcon sx={{
+                color: 'black',
+                fontSize: 200,
+                marginLeft: 18
+            }} onClick={() => { }} />}
+            {passType === PassType.Right && <ArrowForwardIcon sx={{
+                color: 'black',
+                fontSize: 200,
+                marginLeft: 18
+            }} onClick={() => { }} />}
             <ul className="hand">
                 {player.hand.map((card, cardIndex) => (
                     <li key={`${cardIndex}-${card.ownerId}`}>
@@ -31,21 +46,14 @@ export default function CardPassHand({ player, passCards, passType }: Readonly<P
                 ))
                 }
             </ul >
-            {passType === PassType.Left && <ArrowBackIcon sx={{
-                color: 'black',
-                fontSize: 200
-            }} onClick={() => { }} />}
-            {passType === PassType.Across && <ArrowUpwardIcon sx={{
-                color: 'black',
-                fontSize: 200
-            }} onClick={() => { }} />}
-            {passType === PassType.Right && <ArrowForwardIcon sx={{
-                color: 'black',
-                fontSize: 200
-            }} onClick={() => { }} />}
+
             <Button sx={{
                 color: 'black',
                 fontSize: 50,
+                ':hover': {
+                    bgcolor: 'primary.main', // theme.palette.primary.main
+                    color: 'white',
+                }
             }} onClick={handleCardPass}> Pass Cards</Button>
         </>
     );
