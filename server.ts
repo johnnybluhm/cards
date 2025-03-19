@@ -13,7 +13,7 @@ import { SocketEvent } from './src/app/events/Events';
 
 const hostname = process.env.hostname ?? "localhost";
 const portFromEnv = process.env.port ? +process.env.port : null;
-const port = portFromEnv ?? 3000;
+const port = portFromEnv ?? 80;
 const app = next({ dev: process.env.NODE_ENV !== 'production', hostname, port });
 const handle = app.getRequestHandler();
 
