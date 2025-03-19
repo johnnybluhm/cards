@@ -7,12 +7,17 @@ type Props = {
     open: boolean;
     onRoundCompleted: () => void;
     players: Player[];
+    roomPassword?: string;
+    roomName?: string;
 }
 
-export default function RoundCompleteDialog({ open, players, onRoundCompleted }: Readonly<Props>) {
+export default function RoundCompleteDialog({ open, players, onRoundCompleted, roomName, roomPassword }: Readonly<Props>) {
     return (
         <Dialog open={open} onClose={() => { }}>
-            <DialogTitle>Game Summary</DialogTitle>
+            {roomName ?
+                <DialogTitle>Room: <span style={{ color: 'red' }}>{roomName}</span> <br />Password: <span style={{ color: 'blue' }}>{roomPassword}</span></DialogTitle>
+                :
+                <DialogTitle>Game Summary</DialogTitle>}
             <DialogContent>
                 <TableContainer component={Paper}>
                     <Table>

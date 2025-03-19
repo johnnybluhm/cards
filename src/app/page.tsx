@@ -54,7 +54,9 @@ export default function Home() {
         <RoundCompleteDialog
           open={true}
           players={chosenRoom?.players ?? []}
-          onRoundCompleted={onRoundCompleted} />}
+          onRoundCompleted={onRoundCompleted}
+          roomPassword={chosenRoom.roomPassword}
+          roomName={chosenRoom.roomName} />}
 
       <RoundCompleteDialog
         open={game?.round?.isComplete ?? false}
