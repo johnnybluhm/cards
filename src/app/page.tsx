@@ -43,7 +43,7 @@ export default function Home() {
   return (
     <>
       <MessageSnackBar />
-      <div style={{ background: 'green' }}>
+      <div>
         <h3> Play Hearts</h3 >
         <br />
         <br />

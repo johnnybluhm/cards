@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`} style={{ backgroundColor: 'green' }}>
+      <body className={`${geistSans.variable} ${geistMono.variable}`} style={{ backgroundColor: '#a83240' }}>
         <AppRouterCacheProvider>
           {children}
         </AppRouterCacheProvider>

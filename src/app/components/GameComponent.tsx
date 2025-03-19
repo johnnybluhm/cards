@@ -36,7 +36,7 @@ export default function GameComponent({ game, updateGame, passCards, socketId }:
     const player3 = game?.players[(playerIndex + 2) % game.players.length] ?? { hand: [] };
     const player4 = game?.players[(playerIndex + 3) % game.players.length] ?? { hand: [] };
     return (
-        <div className="playingCards fourColours" style={{ backgroundColor: 'green' }}>
+        <div className="playingCards fourColours">
 
             <Grid container spacing={2}>
 
