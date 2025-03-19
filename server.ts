@@ -56,7 +56,7 @@ app.prepare().then(() => {
         socket.emit(SocketEvent.Message, new Message(Severity.Error, `Player ${playerName} is already taken in ${roomName}`));
         return;
       }
-      else if (room.players.length === 4 && gameManager.getGameByRoomId(room.id)) {
+      else if (gameManager.getGameByRoomId(room.id)) {
         socket.emit(SocketEvent.Message, new Message(Severity.Error, `Game already started`));
         return;
       }

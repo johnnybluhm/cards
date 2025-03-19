@@ -24,11 +24,7 @@ export default class GameManager {
         return game;
     }
 
-    getGameByRoomId(roomId: string): Game {
-        const game = this.games.find(game => game.roomId === roomId);
-        if (!game) {
-            throw new HttpError(`Game not found for the room ${roomId}`, 400);
-        }
-        return game;
+    getGameByRoomId(roomId: string): Game | undefined {
+        return this.games.find(game => game.roomId === roomId);
     }
 }
