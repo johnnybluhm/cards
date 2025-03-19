@@ -47,6 +47,11 @@ export default function Home() {
         <h3> Play Hearts</h3 >
         <br />
         <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
       </div>
       {!chosenRoom && <RoomForm
         createRoom={createRoom}
