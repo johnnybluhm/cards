@@ -10,7 +10,11 @@ import { Player } from './src/app/classes/Player';
 import SocketRoom from './src/app/classes/SocketRoom';
 import { SocketEvent } from './src/app/events/Events';
 
-const app = next({ dev: process.env.NODE_ENV !== 'production' });
+
+const hostname = process.env.hostname ?? "localhost";
+const portFromEnv = process.env.port ? +process.env.port : null;
+const port = portFromEnv ?? 3000;
+const app = next({ dev: process.env.NODE_ENV !== 'production', hostname, port });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
@@ -173,7 +177,7 @@ app.prepare().then(() => {
     }
   });
 
-  server.listen(3000, () => {
+  server.listen(port, () => {
     console.log('> Ready on http://localhost:3000');
   });
 });
