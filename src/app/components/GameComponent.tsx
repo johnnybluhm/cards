@@ -3,12 +3,14 @@
 import Grid from '@mui/material/Grid2';
 import '../card-styles/cards.css';
 import { Card } from '../classes/Card';
-import Game from '../classes/Game';
+import Game, { PassType } from '../classes/Game';
 import Hand from './HandComponent';
 import OpponentHand from './OpponentHand';
 import Trick from './TrickComponent';
 import CardPassHand from './CardPassHand';
 import { Player } from '../classes/Player';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Icon, IconButton } from '@mui/material';
 
 type Props = {
     game: Game | null;
@@ -16,6 +18,16 @@ type Props = {
     passCards: (cards: Card[]) => void;
     socketId?: string;
 }
+
+const styles = {
+
+    largeIcon: {
+        width: 200,
+        height: 200,
+    },
+
+};
+
 
 export default function GameComponent({ game, updateGame, passCards, socketId }: Readonly<Props>) {
     const playerIndex = game?.players.findIndex(player => player.id === socketId) ?? 0;
@@ -45,8 +57,11 @@ export default function GameComponent({ game, updateGame, passCards, socketId }:
                     <OpponentHand numberOfCards={player2.hand.length} />
                 </Grid>
                 <Grid size={2}>
+                    <IconButton>
+                        <ArrowBackIcon sx={styles.largeIcon} onClick={() => { }} />
+                    </IconButton>
 
-                    {!game?.isCardPassingComplete && <p>Pass {game?.currentPassType}!</p>}
+                    {!game?.isCardPassingComplete && <p style={{fontSize:20}}>Pass {game?.currentPassType}!</p>}
                     <Trick trick={game?.round?.currentTrick} />
                 </Grid>
 
@@ -61,7 +76,7 @@ export default function GameComponent({ game, updateGame, passCards, socketId }:
                 <Grid size={4}>
                     {game?.isCardPassingComplete ?
                         <Hand cards={player?.hand} updateGame={updateGame} />
-                        : <CardPassHand player={player} passCards={passCards} />
+                        : <CardPassHand player={player} passCards={passCards} passType={game?.currentPassType ?? PassType.NoPass} />
                     }
                 </Grid>
                 <Grid size={3}>

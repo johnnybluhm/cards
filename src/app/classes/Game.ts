@@ -187,7 +187,7 @@ export default class Game {
     }
 }
 
-enum PassType {
+export enum PassType {
     Left = "Left",
     Right = "Right",
     Across = "Across",
