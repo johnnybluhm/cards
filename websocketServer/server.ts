@@ -1,16 +1,17 @@
 import { createServer } from 'http';
-import next from 'next';
 import { Server } from "socket.io";
-import { parse } from 'url';
-import { Card } from './src/app/classes/Card';
-import Game from './src/app/classes/Game';
-import GameManager from './src/app/classes/GamesManager';
-import Message, { Severity } from './src/app/classes/Message';
-import { Player } from './src/app/classes/Player';
-import SocketRoom from './src/app/classes/SocketRoom';
-import { SocketEvent } from './src/app/events/Events';
+import { Card } from '../src/app/classes/Card';
+import Game from '../src/app/classes/Game';
+import GameManager from '../src/app/classes/GamesManager';
+import Message, { Severity } from '../src/app/classes/Message';
+import { Player } from '../src/app/classes/Player';
+import SocketRoom from '../src/app/classes/SocketRoom';
+import { SocketEvent } from '../src/app/events/Events';
 
-const server = createServer();
+const server = createServer((req, res) => {
+  console.log(`Incoming request: ${req.method} ${req.url}`);
+  res.end('Hello, world!');
+});
 
 const io = new Server(server, {
   cors: {
