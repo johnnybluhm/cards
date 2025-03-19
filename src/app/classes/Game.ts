@@ -28,7 +28,6 @@ export default class Game {
         this.deck = new Deck();
         this.deck.shuffle();
         this.dealCards();
-        this.players.find(player => player.hand.some(card => card.face === Face.Two && card.suit === Suit.Clubs))!.isTurn = true;
         this.round = new Round();
     }
 
@@ -152,7 +151,7 @@ export default class Game {
             player.cardsPassed = [];
             player.cardsReceived = [];
         });
-
+        this.players.find(player => player.hand.some(card => card.face === Face.Two && card.suit === Suit.Clubs))!.isTurn = true;
         this.isCardPassingComplete = true;
     }
 
