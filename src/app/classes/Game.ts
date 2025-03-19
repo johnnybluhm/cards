@@ -146,6 +146,11 @@ export default class Game {
         this.players.forEach(player => player.hand.push(...player.cardsReceived));
         this.players.forEach(player => player.hand.map(card => card.ownerId = player.id));
 
+        this.players.forEach(player => {
+            player.cardsPassed = [];
+            player.cardsReceived = [];
+        });
+
         this.isCardPassingComplete = true;
     }
 
