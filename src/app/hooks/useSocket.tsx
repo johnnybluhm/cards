@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
-import io from 'socket.io-client';
 import { Card } from '../classes/Card';
 import Game from '../classes/Game';
 import Message from '../classes/Message';
 import SocketRoom from '../classes/SocketRoom';
 import { SocketEvent } from '../events/Events';
-const client = io();
+import { clientSocket } from '../socket'
 export const useSocket = () => {
-    const [socket, setSocket] = useState(client);
+    const [socket, setSocket] = useState(clientSocket);
     const [chosenRoom, setChosenRoom] = useState<SocketRoom | null>(null);
     const [messages, setMessages] = useState<Message[]>([]);
     const [availableRooms, setAvailableRooms] = useState<SocketRoom[]>([]);
