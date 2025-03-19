@@ -2,4 +2,4 @@
 
 import { io } from "socket.io-client";
 
-export const clientSocket = io();
+export const clientSocket = io('http://localhost:3001');
