@@ -43,9 +43,11 @@ export default function Home() {
   return (
     <>
       <MessageSnackBar />
-      <h3> Play Hearts</h3 >
-      <br />
-      <br />
+      <div style={{ background: 'green' }}>
+        <h3> Play Hearts</h3 >
+        <br />
+        <br />
+      </div>
       {!chosenRoom && <RoomForm
         createRoom={createRoom}
         joinRoom={joinRoom}
