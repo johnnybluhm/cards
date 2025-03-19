@@ -8,9 +8,11 @@ export default class GameManager {
         this.games = [];
     }
 
-    createGame(players: Player[]): Game {
+    createGame(players: Player[], roomId: string): Game {
         const game = new Game(players);
+        game.roomId = roomId;
         this.games.push(game);
+
         return game;
     }
 

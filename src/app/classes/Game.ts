@@ -11,12 +11,14 @@ export default class Game {
     round: Round
     currentPassType: PassType;
     isCardPassingComplete: boolean = false;
+    roomId: string;
 
     constructor(players: Player[]) {
         this.players = players
         this.deck = new Deck();
         this.round = new Round();
         this.currentPassType = PassType.Left;
+        this.roomId = '';
     }
 
     beginNewRound() {
