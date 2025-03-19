@@ -51,7 +51,7 @@ const RoomForm: React.FC<RoomFormProps> = ({ createRoom, joinRoom, availableRoom
     }
 
     return (
-        <Dialog open={true} onClose={() => { }} sx={{ minWidth: "lg" }} maxWidth="sm">
+        <Dialog open={true} onClose={() => { }}>
             <DialogTitle>Room Selection</DialogTitle>
             <DialogContent>
                 <form onSubmit={handleSubmit}>
