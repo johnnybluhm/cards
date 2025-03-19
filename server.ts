@@ -32,6 +32,13 @@ app.prepare().then(() => {
       console.log('Client disconnected');
       io.to(roomPlayerWasIn.roomName).emit(SocketEvent.Message, new Message(Severity.Info,
         `${roomPlayerWasIn.players.find(player => player.id === socket.id)?.name}} has left the room ${roomPlayerWasIn.roomName}`));
+
+      io.to(roomPlayerWasIn.roomName).emit(SocketEvent.UpdateGame, null);
+
+      io.to(roomPlayerWasIn.roomName).emit(SocketEvent.Message, new Message(Severity.Error, `Game has ended as player left`));
+      gameManager.removeGame(roomPlayerWasIn.id);
+      rooms.splice(rooms.indexOf(roomPlayerWasIn), 1);
+      socket.leave(roomPlayerWasIn.roomName);
     });
 
     socket.on(SocketEvent.JoinRoom, (roomName: string, password: string, playerName: string) => {

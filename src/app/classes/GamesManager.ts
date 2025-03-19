@@ -27,4 +27,8 @@ export default class GameManager {
     getGameByRoomId(roomId: string): Game | undefined {
         return this.games.find(game => game.roomId === roomId);
     }
+
+    removeGame(roomId: string): void {
+        this.games = this.games.filter(game => game.roomId !== roomId);
+    }
 }
