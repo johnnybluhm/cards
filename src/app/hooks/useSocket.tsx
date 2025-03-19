@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
-import Message from '../classes/Message';
-import { SocketEvent } from '../events/Events';
-import SocketRoom from '../classes/SocketRoom';
-import Game from '../classes/Game';
 import { Card } from '../classes/Card';
-import { Suit } from '../enums/Suits';
-import { Face } from '../enums/Face';
+import Game from '../classes/Game';
+import Message from '../classes/Message';
+import SocketRoom from '../classes/SocketRoom';
+import { SocketEvent } from '../events/Events';
 const client = io();
 export const useSocket = () => {
     const [socket, setSocket] = useState(client);

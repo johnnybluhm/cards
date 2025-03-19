@@ -12,15 +12,11 @@ type Props = {
 
 export default function PassingCard({ cardToPass, passedCards, setCardsPassed }: Readonly<Props>) {
     const [isSelected, setIsSelected] = useState(false);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     function handleClick(event: React.MouseEvent<HTMLAnchorElement>) {
-        console.log(isSelected);
-        console.log(passedCards)
         const index = passedCards.findIndex(passedCard => passedCard.suit === cardToPass.suit && passedCard.face === cardToPass.face);
-        console.log('index:', index);
         if (index >= 0) {
-            console.log('removing card');
             passedCards.splice(index, 1);
-            console.log('aftserSlice:', passedCards);
             setIsSelected(false);
             setCardsPassed([...passedCards]);
             return;

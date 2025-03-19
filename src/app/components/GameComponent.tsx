@@ -4,13 +4,11 @@ import Grid from '@mui/material/Grid2';
 import '../card-styles/cards.css';
 import { Card } from '../classes/Card';
 import Game, { PassType } from '../classes/Game';
+import { Player } from '../classes/Player';
+import CardPassHand from './CardPassHand';
 import Hand from './HandComponent';
 import OpponentHand from './OpponentHand';
 import Trick from './TrickComponent';
-import CardPassHand from './CardPassHand';
-import { Player } from '../classes/Player';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Icon, IconButton } from '@mui/material';
 
 type Props = {
     game: Game | null;
@@ -18,16 +16,6 @@ type Props = {
     passCards: (cards: Card[]) => void;
     socketId?: string;
 }
-
-const styles = {
-
-    largeIcon: {
-        width: 200,
-        height: 200,
-    },
-
-};
-
 
 export default function GameComponent({ game, updateGame, passCards, socketId }: Readonly<Props>) {
     const playerIndex = game?.players.findIndex(player => player.id === socketId) ?? 0;

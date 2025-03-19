@@ -5,7 +5,7 @@ import { useCallback, useState } from 'react';
 
 export default function useErrorSnackbar() {
     const [error, setError] = useState<string | null>(null);
-
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     function handleClose(event: React.SyntheticEvent<Element, Event> | Event, reason?: SnackbarCloseReason) {
         setError(null);
     }

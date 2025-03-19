@@ -7,6 +7,7 @@ import Message from '../classes/Message';
 export default function useMessageSnackbar() {
     const [message, setMessage] = useState<Message | null>(null);
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     function handleClose(event: React.SyntheticEvent<Element, Event> | Event, reason?: SnackbarCloseReason) {
         setMessage(null);
     }

@@ -23,7 +23,7 @@ const RoomForm: React.FC<RoomFormProps> = ({ createRoom, joinRoom, availableRoom
         }
         createRoom(roomName, password, playerName);
     };
-
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     function handleRadioChange(event: React.ChangeEvent<HTMLInputElement>) {
         if (isJoinRoom) {
             setRoomName('');
