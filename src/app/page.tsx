@@ -30,9 +30,9 @@ export default function Home() {
 
   useEffect(() => {
     getRooms();
-    const playerName = 'Player' + socketId
-    createRoom('test', 'test', playerName);
-    joinRoom('test', 'test', playerName);
+    //const playerName = 'Player' + socketId
+    //createRoom('test', 'test', playerName);
+    //joinRoom('test', 'test', playerName);
   }, []);
 
 
