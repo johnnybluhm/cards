@@ -21,7 +21,7 @@ export default function Hand({ cards, updateGame }: Readonly<Props>) {
     );
 };
 
-function sortHand(cards: CardModel[]) {
+export function sortHand(cards: CardModel[]) {
     cards.sort((a, b) => {
         if (a.suit === b.suit) {
             return a.face - b.face;

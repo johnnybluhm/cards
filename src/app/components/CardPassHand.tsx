@@ -4,6 +4,7 @@ import { Card as CardModel } from '../classes/Card';
 import { Player } from '../classes/Player';
 import PassingCard from './PassingCard';
 import { useState } from 'react';
+import { sortHand } from './HandComponent';
 
 type Props = {
     player: Player;
@@ -11,13 +12,11 @@ type Props = {
 }
 
 export default function CardPassHand({ player, passCards }: Readonly<Props>) {
-    console.log('Plaer in cardPassHand:', player);
-
+    sortHand(player.hand);
     const [cardsPassed, setCardsPassed] = useState(player.cardsPassed);
     function handleCardPass() {
         passCards(cardsPassed);
     }
-    console.log('Cards passed State variable in hand class:', cardsPassed);
     return (
         <>
             <ul className="hand">
