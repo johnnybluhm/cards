@@ -107,6 +107,7 @@ app.prepare().then(() => {
       const room = rooms.find(room => room.hasPlayer(socket.id))!;
       try {
         game.updateGame(cardPlayed, socket.id);
+        sendMaskedGameToClients(game);
         if (game.round.isComplete) {
           game.completeRound();
           const winner = game.getWinnerOfGame();
@@ -118,7 +119,6 @@ app.prepare().then(() => {
             return;
           }
         }
-        sendMaskedGameToClients(game);
         if (!game.round.isComplete) {
           const nextPlayer = game.players.find(player => player.isTurn)!;
           io.to(nextPlayer.id).emit(SocketEvent.Message, new Message(Severity.Info, `It's your turn!`));
