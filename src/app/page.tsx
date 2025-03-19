@@ -30,9 +30,9 @@ export default function Home() {
 
   useEffect(() => {
     getRooms();
-    //const playerName = 'Player' + socketId
-    //createRoom('test', 'test', playerName);
-    //joinRoom('test', 'test', playerName);
+    const playerName = 'Player' + socketId
+    createRoom('test', 'test', playerName);
+    joinRoom('test', 'test', playerName);
   }, []);
 
 
@@ -56,10 +56,10 @@ export default function Home() {
           players={chosenRoom?.players ?? []}
           onRoundCompleted={onRoundCompleted} />}
 
-        <RoundCompleteDialog
-          open={game?.round?.isComplete ?? false}
-          players={game?.players ?? []}
-          onRoundCompleted={onRoundCompleted} />
+      <RoundCompleteDialog
+        open={game?.round?.isComplete ?? false}
+        players={game?.players ?? []}
+        onRoundCompleted={onRoundCompleted} />
 
       {chosenRoom?.players?.length === 4 &&
         <GameComponent

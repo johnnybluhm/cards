@@ -20,4 +20,8 @@ export default class SocketRoom {
     hasPlayer(playerId: string) {
         return this.players.some(player => player.id === playerId);
     }
+
+    removePlayer(playerId: string) {
+        this.players = this.players.filter(player => player.id !== playerId);
+    }
 }

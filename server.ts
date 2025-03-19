@@ -26,7 +26,12 @@ app.prepare().then(() => {
   io.on('connection', socket => {
     console.log('Client connected total clients:', io.engine.clientsCount);
     socket.on('disconnect', () => {
+      const roomPlayerWasIn = rooms.find(room => room.hasPlayer(socket.id));
+      if (!roomPlayerWasIn) return;
+      roomPlayerWasIn.removePlayer(socket.id);
       console.log('Client disconnected');
+      io.to(roomPlayerWasIn.roomName).emit(SocketEvent.Message, new Message(Severity.Info,
+        `${roomPlayerWasIn.players.find(player => player.id === socket.id)?.name}} has left the room ${roomPlayerWasIn.roomName}`));
     });
 
     socket.on(SocketEvent.JoinRoom, (roomName: string, password: string, playerName: string) => {
