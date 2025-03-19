@@ -160,6 +160,19 @@ export default class Game {
         return this.players.every(player => player.cardsPassed.length === 3);
     }
 
+    getWinnerOfGame(): Player | null {
+        if (this.players.some(player => player.totalPoints > 100)) {
+            let winningPlayer = this.players[0];
+            for (let i = 1; i < this.players.length; i++) {
+                if (this.players[i].totalPoints < winningPlayer.totalPoints) {
+                    winningPlayer = this.players[i];
+                }
+            }
+            return winningPlayer;
+        }
+        return null;
+    }
+
     private getPlayerToPassTo(passingPlayer: Player): Player {
         const playerIndex = this.players.findIndex(player => player.id === passingPlayer.id);
         switch (this.currentPassType) {

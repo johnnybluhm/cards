@@ -104,10 +104,19 @@ app.prepare().then(() => {
 
     socket.on(SocketEvent.UpdateGame, (cardPlayed: Card) => {
       const game = gameManager.getGame(socket.id);
+      const room = rooms.find(room => room.hasPlayer(socket.id))!;
       try {
         game.updateGame(cardPlayed, socket.id);
         if (game.round.isComplete) {
           game.completeRound();
+          const winner = game.getWinnerOfGame();
+          if (winner) {
+            io.to(room.roomName).emit(SocketEvent.Message, new Message(Severity.Success, `${winner.name} has won the game!`));
+            gameManager.removeGame(game.roomId);
+            rooms.splice(rooms.indexOf(room), 1);
+            socket.leave(room.roomName);
+            return;
+          }
         }
         sendMaskedGameToClients(game);
         if (!game.round.isComplete) {
