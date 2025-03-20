@@ -8,10 +8,7 @@ import { Player } from '../src/app/classes/Player';
 import SocketRoom from '../src/app/classes/SocketRoom';
 import { SocketEvent } from '../src/app/events/Events';
 
-const server = createServer((req, res) => {
-  console.log(`Incoming request: ${req.method} ${req.url}`);
-  res.end('Hello, world!');
-});
+const server = createServer();
 
 const io = new Server(server, {
   cors: {
