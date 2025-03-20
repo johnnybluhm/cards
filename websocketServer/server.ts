@@ -8,11 +8,14 @@ import { Player } from '../src/app/classes/Player';
 import SocketRoom from '../src/app/classes/SocketRoom';
 import { SocketEvent } from '../src/app/events/Events';
 
-const server = createServer();
+const server = createServer((req, res) => {
+  console.log(`Incoming request: ${req.method} ${req.url}`);
+  res.end('Hello, world!');
+});
 
 const io = new Server(server, {
   cors: {
-    origin: "http://45.21.221.67",
+    //origin: "http://45.21.221.67:3000",
     methods: ["GET", "POST"]
   }
 });
