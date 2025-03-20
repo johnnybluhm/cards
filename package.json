@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "npx tsx server.ts",
+    "dev": "npx concurrently \"npx tsx ./websocketServer/server.ts\" \"next dev\"",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js",
+    "start": "npx concurrently \"npx tsx ./websocketServer/server.ts\" \"next start\"",
     "lint": "next lint",
     "test": "jest"
   },
@@ -19,6 +19,7 @@
     "@mui/material": "^6.4.7",
     "@mui/material-nextjs": "^6.4.3",
     "babel-jest": "^29.7.0",
+    "concurrently": "^9.1.2",
     "jest": "^29.7.0",
     "next": "15.1.7",
     "react": "^19.0.0",
