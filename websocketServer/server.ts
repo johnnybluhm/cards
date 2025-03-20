@@ -139,8 +139,6 @@ io.on('connection', socket => {
     if (game.players.every(player => player.isReadyForNextRound)) {
       game.beginNewRound();
       sendMaskedGameToClients(game);
-      const nextPlayer = game.players.find(player => player.isTurn)!;
-      io.to(nextPlayer.id).emit(SocketEvent.Message, new Message(Severity.Info, `It's your turn!`));
     }
   });
 
@@ -155,6 +153,8 @@ io.on('connection', socket => {
       game.passCards(passedCards, player.id);
       if (game.canCompleteCardPassing()) {
         game.completeCardPassing();
+        const nextPlayer = game.players.find(player => player.isTurn)!;
+        io.to(nextPlayer.id).emit(SocketEvent.Message, new Message(Severity.Info, `It's your turn!`));
       }
       sendMaskedGameToClients(game);
     }
