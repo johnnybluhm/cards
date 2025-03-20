@@ -28,6 +28,10 @@ export default class Game {
         this.deck = new Deck();
         this.deck.shuffle();
         this.dealCards();
+        if (this.currentPassType === PassType.NoPass) {
+            this.isCardPassingComplete = true;
+            this.players.find(player => player.hand.some(card => card.face === Face.Two && card.suit === Suit.Clubs))!.isTurn = true;
+        }
         this.round = new Round();
     }
 
