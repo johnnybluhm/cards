@@ -11,7 +11,7 @@ type Props = {
     passCards: (cards: CardModel[]) => void;
     passType?: PassType
 }
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function CardPassHand({ player, passCards, passType }: Readonly<Props>) {
     sortHand(player.hand);
     const [cardsPassed, setCardsPassed] = useState(player.cardsPassed);
