@@ -12,6 +12,7 @@ export default class BotManager {
     }
 
     playBotTurn() {
+        console.log('Playing bot turn')
         const nextPlayer = this.game.players.find(player => player.isTurn)!;
         if (!nextPlayer.isBot) {
             throw new Error("It's not a bot's turn!");
@@ -43,26 +44,41 @@ export default class BotManager {
         }
     }
 
-    passCards(humanCardsPassed: Card[]) {
+    async passCards(humanCardsPassed: Card[]) {
         //implement bot card passing logic
+        console.log('humanCardsPassed', humanCardsPassed);
         this.game.passCards(humanCardsPassed, this.game.players[0].id);
         const bots = this.game.players.filter(player => player.isBot);
+        console.log('bots', bots);
         bots.forEach(bot => {
             const cardsToPass = bot.hand.slice(0, 3);
+            console.log('cardsToPass', cardsToPass);
             this.game.passCards(cardsToPass, bot.id);
         });
+        console.log('before complete passing game', this.game);
         this.game.completeCardPassing();
-        this.setGame(this.game);
+        console.log('after complete passing game', this.game);
+        this.setGame(JSON.parse(JSON.stringify(this.game)));
+        const nextPlayer = this.game.players.find(player => player.isTurn)!;
+        await this.sleep(1000);
+        if (nextPlayer.isBot) {
+            while (nextPlayer.isBot) {
+                this.playBotTurn();
+                console.log('Setting game after bot turn', this.game);
+                this.setGame(JSON.parse(JSON.stringify(this.game)));
+                await this.sleep(1000);
+            }
+        }
     }
 
     async updateGame(cardPlayed: Card) {
         this.game.updateGame(cardPlayed, this.game.players[0].id);
-        this.setGame(this.game);
+        this.setGame(JSON.parse(JSON.stringify(this.game)));
         await this.sleep(1000);
         const nextPlayer = this.game.players.find(player => player.isTurn)!;
         while (nextPlayer.isBot) {
             this.playBotTurn();
-            this.setGame(this.game);
+            this.setGame(JSON.parse(JSON.stringify(this.game)));
             await this.sleep(1000);
         }
     }

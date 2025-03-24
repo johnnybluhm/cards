@@ -18,17 +18,22 @@ const players = [
     new Player("Player 4", "4"),
 ];
 players.forEach(player => player.isBot = true);
+players[0].isBot = false;
 const game = new Game(players);
+game.beginNewRound();
 let botManager;
 
 export default function SinglePlayer() {
     const [gameState, setGameState] = useState<Game>(game);
     botManager = new BotManager(gameState, setGameState);
+    console.log(botManager);
     const playerIndex = 0;
-    const player = game?.players[playerIndex] ?? new Player("No Player", "No Id");
-    const player2 = game?.players[(playerIndex + 1) % game.players.length] ?? { hand: [] };
-    const player3 = game?.players[(playerIndex + 2) % game.players.length] ?? { hand: [] };
-    const player4 = game?.players[(playerIndex + 3) % game.players.length] ?? { hand: [] };
+    const player = gameState?.players[playerIndex] ?? new Player("No Player", "No Id");
+    const player2 = gameState?.players[(playerIndex + 1) % game.players.length] ?? { hand: [] };
+    const player3 = gameState?.players[(playerIndex + 2) % game.players.length] ?? { hand: [] };
+    const player4 = gameState?.players[(playerIndex + 3) % game.players.length] ?? { hand: [] };
+
+    console.log('game in singlePlayer component', game);
     return (
         <div className="playingCards fourColours">
 
@@ -52,8 +57,8 @@ export default function SinglePlayer() {
                 </Grid>
                 <Grid size={2}>
 
-                    {!game?.isCardPassingComplete && <p style={{ fontSize: 50 }}>Pass {game?.currentPassType}!</p>}
-                    <Trick trick={game?.round?.currentTrick} />
+                    {!gameState?.isCardPassingComplete && <p style={{ fontSize: 50 }}>Pass {gameState?.currentPassType}!</p>}
+                    <Trick trick={gameState?.round?.currentTrick} />
                 </Grid>
 
                 {/*RIGHT*/}
@@ -65,9 +70,9 @@ export default function SinglePlayer() {
                 <Grid size={5}>
                 </Grid>
                 <Grid size={4}>
-                    {game?.isCardPassingComplete ?
-                        <Hand cards={player?.hand} updateGame={botManager.updateGame} />
-                        : <CardPassHand player={player} passCards={botManager.passCards} passType={game?.currentPassType ?? PassType.NoPass} />
+                    {gameState?.isCardPassingComplete ?
+                        <Hand cards={player?.hand} updateGame={botManager.updateGame.bind(botManager)} />
+                        : <CardPassHand player={player} passCards={botManager.passCards.bind(botManager)} passType={gameState?.currentPassType ?? PassType.NoPass} />
                     }
                 </Grid>
                 <Grid size={3}>
