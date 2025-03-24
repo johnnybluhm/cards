@@ -1,11 +1,14 @@
 import { Face } from "../enums/Face";
 import { Suit } from "../enums/Suits";
+import { Card } from "./Card";
 import Game from "./Game";
 
 export default class BotManager {
     game: Game;
-    constructor(game: Game) {
+    setGame: (game: Game) => void;
+    constructor(game: Game, setGame: (game: Game) => void) {
         this.game = game;
+        this.setGame = setGame;
     }
 
     playBotTurn() {
@@ -38,5 +41,33 @@ export default class BotManager {
         else {
             this.game.updateGame(nextPlayer.hand[0], nextPlayer.id);
         }
+    }
+
+    passCards(humanCardsPassed: Card[]) {
+        //implement bot card passing logic
+        this.game.passCards(humanCardsPassed, this.game.players[0].id);
+        const bots = this.game.players.filter(player => player.isBot);
+        bots.forEach(bot => {
+            const cardsToPass = bot.hand.slice(0, 3);
+            this.game.passCards(cardsToPass, bot.id);
+        });
+        this.game.completeCardPassing();
+        this.setGame(this.game);
+    }
+
+    async updateGame(cardPlayed: Card) {
+        this.game.updateGame(cardPlayed, this.game.players[0].id);
+        this.setGame(this.game);
+        await this.sleep(1000);
+        const nextPlayer = this.game.players.find(player => player.isTurn)!;
+        while (nextPlayer.isBot) {
+            this.playBotTurn();
+            this.setGame(this.game);
+            await this.sleep(1000);
+        }
+    }
+
+    private sleep(ms: number) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 }
