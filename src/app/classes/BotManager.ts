@@ -1,8 +1,8 @@
+import _ from 'lodash';
 import { Face } from "../enums/Face";
 import { Suit } from "../enums/Suits";
 import { Card } from "./Card";
 import Game from "./Game";
-import _ from 'lodash';
 
 const moveDelayInMs = 500; //ms
 
@@ -24,6 +24,7 @@ export default class BotManager {
         const nonHeartCard = nextPlayer.hand.find(card => card.suit !== Suit.Hearts);
         const clubCard = nextPlayer.hand.find(card => card.suit === Suit.Clubs);
         //this logic is fault, I got you must follow trick suit error
+        //also need to handle playing hearts after hearts are broken
         if (this.game.round.completedTricks.length === 0) {
             if (deuceOfClubs) {
                 this.game.updateGame(deuceOfClubs, nextPlayer.id);
@@ -38,6 +39,9 @@ export default class BotManager {
                 this.game.updateGame(nextPlayer.hand[0], nextPlayer.id);
             }
             return;
+        }
+        else if (!this.game.round.isHeartsBroken) {
+            this.game.updateGame(nonHeartCard ?? nextPlayer.hand[0], nextPlayer.id);
         }
         if (this.game.round.currentTrick.trickSuit) {
             const cardOfTrickSuit = nextPlayer.hand.find(card => card.suit === this.game.round.currentTrick.trickSuit);
