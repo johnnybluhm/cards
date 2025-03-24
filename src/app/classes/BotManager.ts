@@ -2,6 +2,7 @@ import { Face } from "../enums/Face";
 import { Suit } from "../enums/Suits";
 import { Card } from "./Card";
 import Game from "./Game";
+import _ from 'lodash';
 
 export default class BotManager {
     game: Game;
@@ -58,14 +59,14 @@ export default class BotManager {
         console.log('before complete passing game', this.game);
         this.game.completeCardPassing();
         console.log('after complete passing game', this.game);
-        this.setGame(JSON.parse(JSON.stringify(this.game)));
+        this.setGame(_.cloneDeep(this.game));
         const nextPlayer = this.game.players.find(player => player.isTurn)!;
         await this.sleep(1000);
         if (nextPlayer.isBot) {
             while (nextPlayer.isBot) {
                 this.playBotTurn();
                 console.log('Setting game after bot turn', this.game);
-                this.setGame(JSON.parse(JSON.stringify(this.game)));
+                this.setGame(_.cloneDeep(this.game));
                 await this.sleep(1000);
             }
         }
@@ -73,12 +74,12 @@ export default class BotManager {
 
     async updateGame(cardPlayed: Card) {
         this.game.updateGame(cardPlayed, this.game.players[0].id);
-        this.setGame(JSON.parse(JSON.stringify(this.game)));
+        this.setGame(_.cloneDeep(this.game));
         await this.sleep(1000);
         const nextPlayer = this.game.players.find(player => player.isTurn)!;
         while (nextPlayer.isBot) {
             this.playBotTurn();
-            this.setGame(JSON.parse(JSON.stringify(this.game)));
+            this.setGame(_.cloneDeep(this.game));
             await this.sleep(1000);
         }
     }
