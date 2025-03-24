@@ -33,7 +33,6 @@ export default class BotManager {
         }
         if (this.game.round.currentTrick.trickSuit) {
             const cardOfTrickSuit = nextPlayer.hand.find(card => card.suit === this.game.round.currentTrick.trickSuit);
-            console.log('cardOfTrickSuit', cardOfTrickSuit);
             this.game.updateGame(cardOfTrickSuit ?? nextPlayer.hand[0], nextPlayer.id);
         }
         else {
