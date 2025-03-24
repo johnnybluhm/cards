@@ -4,6 +4,8 @@ import { Card } from "./Card";
 import Game from "./Game";
 import _ from 'lodash';
 
+const moveDelayInMs = 500; //ms
+
 export default class BotManager {
     game: Game;
     setGame: (game: Game) => void;
@@ -56,12 +58,12 @@ export default class BotManager {
         this.game.completeCardPassing();
         this.setGame(_.cloneDeep(this.game));
         const nextPlayer = this.game.players.find(player => player.isTurn)!;
-        await this.sleep(1000);
+        await this.sleep(moveDelayInMs);
         if (nextPlayer.isBot) {
             while (nextPlayer.isBot) {
                 this.playBotTurn();
                 this.setGame(_.cloneDeep(this.game));
-                await this.sleep(1000);
+                await this.sleep(moveDelayInMs);
             }
         }
     }
@@ -69,12 +71,12 @@ export default class BotManager {
     async updateGame(cardPlayed: Card) {
         this.game.updateGame(cardPlayed, this.game.players[0].id);
         this.setGame(_.cloneDeep(this.game));
-        await this.sleep(1000);
+        await this.sleep(moveDelayInMs);
         let nextPlayer = this.game.players.find(player => player.isTurn)!;
         while (nextPlayer.isBot) {
             this.playBotTurn();
             this.setGame(_.cloneDeep(this.game));
-            await this.sleep(1000);
+            await this.sleep(moveDelayInMs);
             nextPlayer = this.game.players.find(player => player.isTurn)!;
         }
     }
