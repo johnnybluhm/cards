@@ -7,6 +7,7 @@ export class Round {
     completedTricks: Trick[];
     currentTrick: Trick;
     isComplete: boolean;
+    isHeartsBroken: boolean = false;
     constructor() {
         this.completedTricks = [];
         this.currentTrick = new Trick();
@@ -23,6 +24,13 @@ export class Round {
                 throw new Error("You cannot play hearts on the first trick");
             }
         }
+        if (!this.isHeartsBroken && card.suit === Suit.Hearts) {
+            if (this.currentTrick.cards.length === 0) {
+                throw new Error("You cannot lead hearts until hearts have been broken");
+            }
+            this.isHeartsBroken = true;
+        }
+
         this.currentTrick.addCard(card, playerCardsInHand);
     }
 
