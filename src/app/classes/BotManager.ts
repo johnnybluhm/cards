@@ -21,6 +21,7 @@ export default class BotManager {
         const deuceOfClubs = nextPlayer.hand.find(card => card.suit === Suit.Clubs && card.face === Face.Two);
         const nonHeartCard = nextPlayer.hand.find(card => card.suit !== Suit.Hearts);
         const clubCard = nextPlayer.hand.find(card => card.suit === Suit.Clubs);
+        //this logic is fault, I got you must follow trick suit error
         if (this.game.round.completedTricks.length === 0) {
             if (deuceOfClubs) {
                 this.game.updateGame(deuceOfClubs, nextPlayer.id);
@@ -46,26 +47,19 @@ export default class BotManager {
     }
 
     async passCards(humanCardsPassed: Card[]) {
-        //implement bot card passing logic
-        console.log('humanCardsPassed', humanCardsPassed);
         this.game.passCards(humanCardsPassed, this.game.players[0].id);
         const bots = this.game.players.filter(player => player.isBot);
-        console.log('bots', bots);
         bots.forEach(bot => {
             const cardsToPass = bot.hand.slice(0, 3);
-            console.log('cardsToPass', cardsToPass);
             this.game.passCards(cardsToPass, bot.id);
         });
-        console.log('before complete passing game', this.game);
         this.game.completeCardPassing();
-        console.log('after complete passing game', this.game);
         this.setGame(_.cloneDeep(this.game));
         const nextPlayer = this.game.players.find(player => player.isTurn)!;
         await this.sleep(1000);
         if (nextPlayer.isBot) {
             while (nextPlayer.isBot) {
                 this.playBotTurn();
-                console.log('Setting game after bot turn', this.game);
                 this.setGame(_.cloneDeep(this.game));
                 await this.sleep(1000);
             }
@@ -76,11 +70,12 @@ export default class BotManager {
         this.game.updateGame(cardPlayed, this.game.players[0].id);
         this.setGame(_.cloneDeep(this.game));
         await this.sleep(1000);
-        const nextPlayer = this.game.players.find(player => player.isTurn)!;
+        let nextPlayer = this.game.players.find(player => player.isTurn)!;
         while (nextPlayer.isBot) {
             this.playBotTurn();
             this.setGame(_.cloneDeep(this.game));
             await this.sleep(1000);
+            nextPlayer = this.game.players.find(player => player.isTurn)!;
         }
     }
 
