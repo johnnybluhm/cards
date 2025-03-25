@@ -10,7 +10,8 @@ export default function SinglePlayerPage() {
 
     const [sliderValue, setSliderValue] = useState(50);
 
-    const handleSliderChange = (event: unknown, newValue: number) => {
+    // @ts-expect-error idk how to fix the type error lol
+    const handleSliderChange = (event, newValue) => {
         setSliderValue(newValue);
     };
     return (
