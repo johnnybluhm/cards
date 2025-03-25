@@ -11,6 +11,7 @@ import Hand from './HandComponent';
 import OpponentHand from './OpponentHand';
 import Trick from './TrickComponent';
 import useMessageSnackbar from '../hooks/useMessageSnackBar';
+import RoundCompleteDialog from './RoundCompleteDialog';
 
 const players = [
     new Player("Player 1", "1"),
@@ -29,6 +30,8 @@ export default function SinglePlayer() {
         setMessage,
         MessageSnackBar
     } = useMessageSnackbar();
+
+
     const [gameState, setGameState] = useState<Game>(game);
     botManager = new BotManager(gameState, setGameState, setMessage);
     const playerIndex = 0;
@@ -40,6 +43,10 @@ export default function SinglePlayer() {
     return (
         <div className="playingCards fourColours">
             <MessageSnackBar />
+            <RoundCompleteDialog
+                open={gameState?.round?.isComplete ?? false}
+                players={gameState?.players ?? []}
+                onRoundCompleted={botManager.completeRound.bind(botManager)} />
             <Grid container spacing={2}>
 
                 {/*TOP*/}

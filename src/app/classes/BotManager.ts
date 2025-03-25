@@ -108,24 +108,30 @@ export default class BotManager {
         if (this.game.round.isComplete) {
             this.game.completeRound();
             //show summary in bewteen
-            this.game.beginNewRound();
-            if (this.game.currentPassType === PassType.NoPass) {
-                let nextPlayer = this.game.players.find(player => player.isTurn)!;
-                console.log('No pass nexrt player', nextPlayer);
-                await this.sleep(moveDelayInMs);
-                if (nextPlayer.isBot) {
-                    while (nextPlayer.isBot) {
-                        this.playBotTurn();
-                        this.setGame(_.cloneDeep(this.game));
-                        await this.sleep(moveDelayInMs);
-                        nextPlayer = this.game.players.find(player => player.isTurn)!;
-                    }
+            this.game.players.forEach(player => player.isReadyForNextRound = true);
+            this.game.players[0].isReadyForNextRound = false;
+            this.setGame(_.cloneDeep(this.game));
+        }
+    }
+
+    async completeRound() {
+        this.game.beginNewRound();
+        this.setGame(_.cloneDeep(this.game));
+        if (this.game.currentPassType === PassType.NoPass) {
+            let nextPlayer = this.game.players.find(player => player.isTurn)!;
+            console.log('No pass nexrt player', nextPlayer);
+            await this.sleep(moveDelayInMs);
+            if (nextPlayer.isBot) {
+                while (nextPlayer.isBot) {
+                    this.playBotTurn();
+                    this.setGame(_.cloneDeep(this.game));
+                    await this.sleep(moveDelayInMs);
+                    nextPlayer = this.game.players.find(player => player.isTurn)!;
                 }
             }
-            if (this.game.players[0].isTurn) {
-                this.setMessage(new Message(Severity.Info, "It's your turn!"));
-            }
-            this.setGame(_.cloneDeep(this.game));
+        }
+        if (this.game.players[0].isTurn) {
+            this.setMessage(new Message(Severity.Info, "It's your turn!"));
         }
     }
 
