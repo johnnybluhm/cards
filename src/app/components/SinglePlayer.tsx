@@ -26,14 +26,12 @@ let botManager;
 export default function SinglePlayer() {
     const [gameState, setGameState] = useState<Game>(game);
     botManager = new BotManager(gameState, setGameState);
-    console.log(botManager);
     const playerIndex = 0;
     const player = gameState?.players[playerIndex] ?? new Player("No Player", "No Id");
     const player2 = gameState?.players[(playerIndex + 1) % game.players.length] ?? { hand: [] };
     const player3 = gameState?.players[(playerIndex + 2) % game.players.length] ?? { hand: [] };
     const player4 = gameState?.players[(playerIndex + 3) % game.players.length] ?? { hand: [] };
-
-    console.log('game in singlePlayer component', game);
+    console.log(gameState);
     return (
         <div className="playingCards fourColours">
 
