@@ -106,9 +106,9 @@ export default class BotManager {
         }
         if (this.game.round.isComplete) {
             this.game.completeRound();
-            //show summary in bewteen
             this.game.players.forEach(player => player.isReadyForNextRound = true);
             this.game.players[0].isReadyForNextRound = false;
+            console.log('Game after complete round', this.game);
             this.setGame(_.cloneDeep(this.game));
         }
     }

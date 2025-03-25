@@ -22,7 +22,6 @@ const players = [
 players.forEach(player => player.isBot = true);
 players[0].isBot = false;
 const game = new Game(players);
-//game.beginNewRound();
 game.players.forEach(player => player.isReadyForNextRound = true);
 game.players[0].isReadyForNextRound = false;
 game.round.isComplete = true;
