@@ -77,6 +77,9 @@ export default class BotManager {
                 nextPlayer = this.game.players.find(player => player.isTurn)!;
             }
         }
+        if (this.game.players[0].isTurn) {
+            this.setMessage(new Message(Severity.Info, "It's your turn!"));
+        }
     }
 
     async updateGame(cardPlayed: Card) {
