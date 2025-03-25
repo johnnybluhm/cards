@@ -2,9 +2,9 @@ import _ from 'lodash';
 import { Face } from "../enums/Face";
 import { Suit } from "../enums/Suits";
 import { Card } from "./Card";
-import Game from "./Game";
+import Game, { PassType } from "./Game";
 
-const moveDelayInMs = 500; //ms
+const moveDelayInMs = 100; //ms
 
 export default class BotManager {
     game: Game;
@@ -17,7 +17,6 @@ export default class BotManager {
     playBotTurn() {
 
         const nextPlayer = this.game.players.find(player => player.isTurn)!;
-        console.log('Playing bot turn for player', nextPlayer)
         if (!nextPlayer.isBot) {
             throw new Error("Calling play bot turn but its the humans turn!");
         }
@@ -55,6 +54,7 @@ export default class BotManager {
     }
 
     async passCards(humanCardsPassed: Card[]) {
+        console.log('passing cards', humanCardsPassed);
         this.game.passCards(humanCardsPassed, this.game.players[0].id);
         const bots = this.game.players.filter(player => player.isBot);
         bots.forEach(bot => {
@@ -81,12 +81,31 @@ export default class BotManager {
         await this.sleep(moveDelayInMs);
         console.log('next player before loop', this.game.players.find(player => player.isTurn));
         let nextPlayer = this.game.players.find(player => player.isTurn)!;
-        while (nextPlayer.isBot) {
+        while (nextPlayer.isBot && !this.game.round.isComplete) {
             this.playBotTurn();
             this.setGame(_.cloneDeep(this.game));
             await this.sleep(moveDelayInMs);
             nextPlayer = this.game.players.find(player => player.isTurn)!;
             console.log('next player in loop-------------', nextPlayer);
+        }
+        if (this.game.round.isComplete) {
+            this.game.completeRound();
+            //show summary in bewteen
+            this.game.beginNewRound();
+            if (this.game.currentPassType === PassType.NoPass) {
+                let nextPlayer = this.game.players.find(player => player.isTurn)!;
+                console.log('No pass nexrt player', nextPlayer);
+                await this.sleep(moveDelayInMs);
+                if (nextPlayer.isBot) {
+                    while (nextPlayer.isBot) {
+                        this.playBotTurn();
+                        this.setGame(_.cloneDeep(this.game));
+                        await this.sleep(moveDelayInMs);
+                        nextPlayer = this.game.players.find(player => player.isTurn)!;
+                    }
+                }
+            }
+            this.setGame(_.cloneDeep(this.game));
         }
     }
 

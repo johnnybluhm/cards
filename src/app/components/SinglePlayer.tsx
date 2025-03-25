@@ -20,6 +20,7 @@ const players = [
 players.forEach(player => player.isBot = true);
 players[0].isBot = false;
 const game = new Game(players);
+game.currentPassType = PassType.Across;
 game.beginNewRound();
 let botManager;
 
