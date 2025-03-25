@@ -1,7 +1,7 @@
 'use client';
 //https://www.pedroalonso.net/blog/websockets-nextjs-part-1/
 import Grid from '@mui/material/Grid2';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../card-styles/cards.css';
 import BotManager from '../classes/BotManager';
 import Game, { PassType } from '../classes/Game';
@@ -22,7 +22,10 @@ const players = [
 players.forEach(player => player.isBot = true);
 players[0].isBot = false;
 const game = new Game(players);
-game.beginNewRound();
+//game.beginNewRound();
+game.players.forEach(player => player.isReadyForNextRound = true);
+game.players[0].isReadyForNextRound = false;
+game.round.isComplete = true;
 let botManager;
 type Props = {
     animationSpeed: number;
@@ -32,6 +35,9 @@ export default function SinglePlayer({ animationSpeed }: Props) {
         setMessage,
         MessageSnackBar
     } = useMessageSnackbar();
+
+    useEffect(() => {
+    }, []);
 
 
     const [gameState, setGameState] = useState<Game>(game);
