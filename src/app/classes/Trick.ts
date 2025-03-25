@@ -13,7 +13,7 @@ export class Trick {
         if (this.cards.length > 0 &&
             card.suit !== this.trickSuit &&
             playerCardsInHand.some(c => c.suit === this.trickSuit)) {
-            throw new Error("You must follow the trick suit");
+            throw new Error(`You must follow the trick suit. Trick suit is ${this.trickSuit} and you tried playing ${card.suit}`);
         }
         this.cards.push(card);
         this.updatePoints();
