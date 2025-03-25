@@ -9,9 +9,9 @@ export default function SinglePlayerPage() {
     const router = useRouter();
 
     const [sliderValue, setSliderValue] = useState(50);
-    const handleSliderChange = (event, newValue) => {
+
+    const handleSliderChange = (event: unknown, newValue: number) => {
         setSliderValue(newValue);
-        // Perform any additional actions based on the new value
     };
     return (
         <>
