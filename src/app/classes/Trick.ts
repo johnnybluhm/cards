@@ -1,3 +1,4 @@
+import { FaceString, SuitString } from "../components/CardComponent";
 import { Face } from "../enums/Face";
 import { Suit } from "../enums/Suits";
 import { Card } from "./Card";
@@ -13,7 +14,7 @@ export class Trick {
         if (this.cards.length > 0 &&
             card.suit !== this.trickSuit &&
             playerCardsInHand.some(c => c.suit === this.trickSuit)) {
-            throw new Error(`You must follow the trick suit. Trick suit is ${this.trickSuit} and you tried playing ${card.suit}, face ${card.face}`);
+            throw new Error(`You must follow the trick suit. Trick suit is ${SuitString[this.trickSuit!]} and you tried playing ${FaceString[card.face]} of ${SuitString[card.suit]}`);
         }
         this.cards.push(card);
         this.updatePoints();
