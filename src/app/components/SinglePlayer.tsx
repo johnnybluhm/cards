@@ -10,6 +10,7 @@ import CardPassHand from './CardPassHand';
 import Hand from './HandComponent';
 import OpponentHand from './OpponentHand';
 import Trick from './TrickComponent';
+import useMessageSnackbar from '../hooks/useMessageSnackBar';
 
 const players = [
     new Player("Player 1", "1"),
@@ -25,8 +26,12 @@ game.beginNewRound();
 let botManager;
 
 export default function SinglePlayer() {
+    const {
+        setMessage,
+        MessageSnackBar
+    } = useMessageSnackbar();
     const [gameState, setGameState] = useState<Game>(game);
-    botManager = new BotManager(gameState, setGameState);
+    botManager = new BotManager(gameState, setGameState, setMessage);
     const playerIndex = 0;
     const player = gameState?.players[playerIndex] ?? new Player("No Player", "No Id");
     const player2 = gameState?.players[(playerIndex + 1) % game.players.length] ?? { hand: [] };
@@ -35,7 +40,7 @@ export default function SinglePlayer() {
     console.log(gameState);
     return (
         <div className="playingCards fourColours">
-
+            <MessageSnackBar />
             <Grid container spacing={2}>
 
                 {/*TOP*/}

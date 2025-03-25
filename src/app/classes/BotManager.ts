@@ -3,15 +3,19 @@ import { Face } from "../enums/Face";
 import { Suit } from "../enums/Suits";
 import { Card } from "./Card";
 import Game, { PassType } from "./Game";
+import { Dispatch, SetStateAction } from 'react';
+import Message, { Severity } from './Message';
 
 const moveDelayInMs = 100; //ms
 
 export default class BotManager {
     game: Game;
     setGame: (game: Game) => void;
-    constructor(game: Game, setGame: (game: Game) => void) {
+    setMessage: Dispatch<SetStateAction<Message | null>>;
+    constructor(game: Game, setGame: (game: Game) => void, setMessage: Dispatch<SetStateAction<Message | null>>) {
         this.game = game;
         this.setGame = setGame;
+        this.setMessage = setMessage;
     }
 
     playBotTurn() {
@@ -76,7 +80,14 @@ export default class BotManager {
     }
 
     async updateGame(cardPlayed: Card) {
-        this.game.updateGame(cardPlayed, this.game.players[0].id);
+        try {
+            this.game.updateGame(cardPlayed, this.game.players[0].id);
+        }
+        catch (e) {
+            const error = e as Error;
+            this.setMessage(new Message(Severity.Error, error.message));
+            return;
+        }
         this.setGame(_.cloneDeep(this.game));
         await this.sleep(moveDelayInMs);
         console.log('next player before loop', this.game.players.find(player => player.isTurn));
@@ -104,6 +115,9 @@ export default class BotManager {
                         nextPlayer = this.game.players.find(player => player.isTurn)!;
                     }
                 }
+            }
+            if (this.game.players[0].isTurn) {
+                this.setMessage(new Message(Severity.Info, "It's your turn!"));
             }
             this.setGame(_.cloneDeep(this.game));
         }
