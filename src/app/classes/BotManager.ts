@@ -129,7 +129,16 @@ export default class BotManager {
     }
 
     updateAnimationSpeed(factor: number) {
-        this.moveDelayInMs = 1000 * factor / 100;
+        factor *= 5;
+        if (factor === 0) {
+            factor = 5;
+        }
+        if (factor < 50) {
+            factor = 50 - (.1 * factor);
+        }
+        this.moveDelayInMs = 1000 * 100 / factor;
+
+        console.log('move delay', this.moveDelayInMs);
     }
 
     private sleep(ms: number) {
