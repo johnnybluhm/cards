@@ -15,8 +15,9 @@ export default class BotManager {
     }
 
     playBotTurn() {
-        console.log('Playing bot turn')
+
         const nextPlayer = this.game.players.find(player => player.isTurn)!;
+        console.log('Playing bot turn for player', nextPlayer)
         if (!nextPlayer.isBot) {
             throw new Error("Calling play bot turn but its the humans turn!");
         }
@@ -26,6 +27,7 @@ export default class BotManager {
         //this logic is fault, I got you must follow trick suit error
         //also need to handle playing hearts after hearts are broken
         if (this.game.round.completedTricks.length === 0) {
+            console.log('Completed trick is 0 if')
             if (deuceOfClubs) {
                 this.game.updateGame(deuceOfClubs, nextPlayer.id);
             }
@@ -40,12 +42,12 @@ export default class BotManager {
             }
             return;
         }
-        else if (!this.game.round.isHeartsBroken) {
-            this.game.updateGame(nonHeartCard ?? nextPlayer.hand[0], nextPlayer.id);
-        }
-        if (this.game.round.currentTrick.trickSuit) {
+        if (this.game.round.currentTrick.trickSuit != null) {
             const cardOfTrickSuit = nextPlayer.hand.find(card => card.suit === this.game.round.currentTrick.trickSuit);
             this.game.updateGame(cardOfTrickSuit ?? nextPlayer.hand[0], nextPlayer.id);
+        }
+        else if (!this.game.round.isHeartsBroken && this.game.round.currentTrick.cards.length === 0) {
+            this.game.updateGame(nonHeartCard ?? nextPlayer.hand[0], nextPlayer.id);
         }
         else {
             this.game.updateGame(nextPlayer.hand[0], nextPlayer.id);
@@ -61,13 +63,14 @@ export default class BotManager {
         });
         this.game.completeCardPassing();
         this.setGame(_.cloneDeep(this.game));
-        const nextPlayer = this.game.players.find(player => player.isTurn)!;
+        let nextPlayer = this.game.players.find(player => player.isTurn)!;
         await this.sleep(moveDelayInMs);
         if (nextPlayer.isBot) {
             while (nextPlayer.isBot) {
                 this.playBotTurn();
                 this.setGame(_.cloneDeep(this.game));
                 await this.sleep(moveDelayInMs);
+                nextPlayer = this.game.players.find(player => player.isTurn)!;
             }
         }
     }
@@ -76,12 +79,14 @@ export default class BotManager {
         this.game.updateGame(cardPlayed, this.game.players[0].id);
         this.setGame(_.cloneDeep(this.game));
         await this.sleep(moveDelayInMs);
+        console.log('next player before loop', this.game.players.find(player => player.isTurn));
         let nextPlayer = this.game.players.find(player => player.isTurn)!;
         while (nextPlayer.isBot) {
             this.playBotTurn();
             this.setGame(_.cloneDeep(this.game));
             await this.sleep(moveDelayInMs);
             nextPlayer = this.game.players.find(player => player.isTurn)!;
+            console.log('next player in loop-------------', nextPlayer);
         }
     }
 
