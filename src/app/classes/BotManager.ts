@@ -18,7 +18,7 @@ export default class BotManager {
         console.log('Playing bot turn')
         const nextPlayer = this.game.players.find(player => player.isTurn)!;
         if (!nextPlayer.isBot) {
-            throw new Error("It's not a bot's turn!");
+            throw new Error("Calling play bot turn but its the humans turn!");
         }
         const deuceOfClubs = nextPlayer.hand.find(card => card.suit === Suit.Clubs && card.face === Face.Two);
         const nonHeartCard = nextPlayer.hand.find(card => card.suit !== Suit.Hearts);
