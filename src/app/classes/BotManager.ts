@@ -6,9 +6,8 @@ import Game, { PassType } from "./Game";
 import { Dispatch, SetStateAction } from 'react';
 import Message, { Severity } from './Message';
 
-const moveDelayInMs = 100; //ms
-
 export default class BotManager {
+    moveDelayInMs = 500;
     game: Game;
     setGame: (game: Game) => void;
     setMessage: Dispatch<SetStateAction<Message | null>>;
@@ -68,12 +67,12 @@ export default class BotManager {
         this.game.completeCardPassing();
         this.setGame(_.cloneDeep(this.game));
         let nextPlayer = this.game.players.find(player => player.isTurn)!;
-        await this.sleep(moveDelayInMs);
+        await this.sleep(this.moveDelayInMs);
         if (nextPlayer.isBot) {
             while (nextPlayer.isBot) {
                 this.playBotTurn();
                 this.setGame(_.cloneDeep(this.game));
-                await this.sleep(moveDelayInMs);
+                await this.sleep(this.moveDelayInMs);
                 nextPlayer = this.game.players.find(player => player.isTurn)!;
             }
         }
@@ -92,13 +91,13 @@ export default class BotManager {
             return;
         }
         this.setGame(_.cloneDeep(this.game));
-        await this.sleep(moveDelayInMs);
+        await this.sleep(this.moveDelayInMs);
         console.log('next player before loop', this.game.players.find(player => player.isTurn));
         let nextPlayer = this.game.players.find(player => player.isTurn)!;
         while (nextPlayer.isBot && !this.game.round.isComplete) {
             this.playBotTurn();
             this.setGame(_.cloneDeep(this.game));
-            await this.sleep(moveDelayInMs);
+            await this.sleep(this.moveDelayInMs);
             nextPlayer = this.game.players.find(player => player.isTurn)!;
             console.log('next player in loop-------------', nextPlayer);
         }
@@ -120,12 +119,12 @@ export default class BotManager {
         if (this.game.currentPassType === PassType.NoPass) {
             let nextPlayer = this.game.players.find(player => player.isTurn)!;
             console.log('No pass nexrt player', nextPlayer);
-            await this.sleep(moveDelayInMs);
+            await this.sleep(this.moveDelayInMs);
             if (nextPlayer.isBot) {
                 while (nextPlayer.isBot) {
                     this.playBotTurn();
                     this.setGame(_.cloneDeep(this.game));
-                    await this.sleep(moveDelayInMs);
+                    await this.sleep(this.moveDelayInMs);
                     nextPlayer = this.game.players.find(player => player.isTurn)!;
                 }
             }
@@ -133,6 +132,11 @@ export default class BotManager {
         if (this.game.players[0].isTurn) {
             this.setMessage(new Message(Severity.Info, "It's your turn!"));
         }
+    }
+
+    updateAnimationSpeed(factor: number) {
+        this.moveDelayInMs = 1000 * factor / 100;
+        console.log('move delay in ms', this.moveDelayInMs);
     }
 
     private sleep(ms: number) {

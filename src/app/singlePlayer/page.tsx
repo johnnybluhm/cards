@@ -3,9 +3,17 @@
 import { Box, Button, Slider } from "@mui/material";
 import SinglePlayer from "../components/SinglePlayer";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function SinglePlayerPage() {
     const router = useRouter();
+
+    const [sliderValue, setSliderValue] = useState(50);
+    console.log(sliderValue);
+    const handleSliderChange = (event, newValue) => {
+        setSliderValue(newValue);
+        // Perform any additional actions based on the new value
+    };
     return (
         <>
             <div>
@@ -18,10 +26,10 @@ export default function SinglePlayerPage() {
                 <br></br>
                 <Box sx={{ width: 300 }}>
                     <h3>Animation speed</h3>
-                    <Slider defaultValue={50} aria-label="Default" valueLabelDisplay="auto" />
+                    <Slider defaultValue={50} aria-label="Default" valueLabelDisplay="auto" onChange={handleSliderChange} />
                 </Box>
             </div>
-            <SinglePlayer />
+            <SinglePlayer animationSpeed={sliderValue} />
         </>
     );
 }

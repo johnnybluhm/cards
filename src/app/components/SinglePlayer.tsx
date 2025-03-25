@@ -24,8 +24,10 @@ players[0].isBot = false;
 const game = new Game(players);
 game.beginNewRound();
 let botManager;
-
-export default function SinglePlayer() {
+type Props = {
+    animationSpeed: number;
+}
+export default function SinglePlayer({ animationSpeed }: Props) {
     const {
         setMessage,
         MessageSnackBar
@@ -39,6 +41,7 @@ export default function SinglePlayer() {
     const player2 = gameState?.players[(playerIndex + 1) % game.players.length] ?? { hand: [] };
     const player3 = gameState?.players[(playerIndex + 2) % game.players.length] ?? { hand: [] };
     const player4 = gameState?.players[(playerIndex + 3) % game.players.length] ?? { hand: [] };
+    botManager.updateAnimationSpeed(animationSpeed);
     console.log(gameState);
     return (
         <div className="playingCards fourColours">
