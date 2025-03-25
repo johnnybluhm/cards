@@ -29,7 +29,6 @@ export default class BotManager {
         //this logic is fault, I got you must follow trick suit error
         //also need to handle playing hearts after hearts are broken
         if (this.game.round.completedTricks.length === 0) {
-            console.log('Completed trick is 0 if')
             if (deuceOfClubs) {
                 this.game.updateGame(deuceOfClubs, nextPlayer.id);
             }
@@ -57,7 +56,6 @@ export default class BotManager {
     }
 
     async passCards(humanCardsPassed: Card[]) {
-        console.log('passing cards', humanCardsPassed);
         this.game.passCards(humanCardsPassed, this.game.players[0].id);
         const bots = this.game.players.filter(player => player.isBot);
         bots.forEach(bot => {
@@ -92,14 +90,12 @@ export default class BotManager {
         }
         this.setGame(_.cloneDeep(this.game));
         await this.sleep(this.moveDelayInMs);
-        console.log('next player before loop', this.game.players.find(player => player.isTurn));
         let nextPlayer = this.game.players.find(player => player.isTurn)!;
         while (nextPlayer.isBot && !this.game.round.isComplete) {
             this.playBotTurn();
             this.setGame(_.cloneDeep(this.game));
             await this.sleep(this.moveDelayInMs);
             nextPlayer = this.game.players.find(player => player.isTurn)!;
-            console.log('next player in loop-------------', nextPlayer);
         }
         if (this.game.players[0].isTurn) {
             this.setMessage(new Message(Severity.Info, "It's your turn!"));
@@ -108,7 +104,6 @@ export default class BotManager {
             this.game.completeRound();
             this.game.players.forEach(player => player.isReadyForNextRound = true);
             this.game.players[0].isReadyForNextRound = false;
-            console.log('Game after complete round', this.game);
             this.setGame(_.cloneDeep(this.game));
         }
     }
@@ -118,7 +113,6 @@ export default class BotManager {
         this.setGame(_.cloneDeep(this.game));
         if (this.game.currentPassType === PassType.NoPass) {
             let nextPlayer = this.game.players.find(player => player.isTurn)!;
-            console.log('No pass nexrt player', nextPlayer);
             await this.sleep(this.moveDelayInMs);
             if (nextPlayer.isBot) {
                 while (nextPlayer.isBot) {
@@ -136,7 +130,6 @@ export default class BotManager {
 
     updateAnimationSpeed(factor: number) {
         this.moveDelayInMs = 1000 * factor / 100;
-        console.log('move delay in ms', this.moveDelayInMs);
     }
 
     private sleep(ms: number) {

@@ -47,7 +47,6 @@ export default function SinglePlayer({ animationSpeed }: Props) {
     const player3 = gameState?.players[(playerIndex + 2) % game.players.length] ?? { hand: [] };
     const player4 = gameState?.players[(playerIndex + 3) % game.players.length] ?? { hand: [] };
     botManager.updateAnimationSpeed(animationSpeed);
-    console.log(gameState);
     return (
         <div className="playingCards fourColours">
             <MessageSnackBar />
