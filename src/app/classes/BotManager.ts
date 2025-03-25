@@ -99,6 +99,9 @@ export default class BotManager {
             nextPlayer = this.game.players.find(player => player.isTurn)!;
             console.log('next player in loop-------------', nextPlayer);
         }
+        if (this.game.players[0].isTurn) {
+            this.setMessage(new Message(Severity.Info, "It's your turn!"));
+        }
         if (this.game.round.isComplete) {
             this.game.completeRound();
             //show summary in bewteen
