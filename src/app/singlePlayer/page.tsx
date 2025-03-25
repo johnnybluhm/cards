@@ -2,7 +2,7 @@
 
 import SinglePlayer from "../components/SinglePlayer";
 
-export default function Home() {
+export default function SinglePlayerPage() {
     return (
         <>
             <div>
