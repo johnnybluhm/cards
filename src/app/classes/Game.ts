@@ -53,15 +53,19 @@ export default class Game {
         this.round.addCardToTrick(card, player!.hand);
         player!.removeCard(card);
         player!.isTurn = false;
+        if (!this.round.isTrickComplete()) {
+            const nextPlayerIndex = (this.players.indexOf(player!) + 1) % this.players.length;
+            this.players[nextPlayerIndex].isTurn = true;
+        }
 
-        if (this.round.isTrickComplete()) {
+        /*if (this.round.isTrickComplete()) {
             this.addTrickToWinningPlayer();
             this.round.moveToNextTrick();
         }
         else {
             const nextPlayerIndex = (this.players.indexOf(player!) + 1) % this.players.length;
             this.players[nextPlayerIndex].isTurn = true;
-        }
+        }*/
         return this;
     }
 
