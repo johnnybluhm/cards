@@ -68,7 +68,7 @@ const FaceString = {
 
 const SuitString = {
     [Suit.Hearts]: "Hearts",
-    [Suit.Diamonds]: "Diamondss",
+    [Suit.Diamonds]: "Diamonds",
     [Suit.Clubs]: "Clubs",
     [Suit.Spades]: "Spades"
 };
