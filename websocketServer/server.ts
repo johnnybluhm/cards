@@ -101,12 +101,17 @@ io.on('connection', socket => {
     socket.emit(SocketEvent.GetRooms, rooms);
   });
 
-  socket.on(SocketEvent.UpdateGame, (cardPlayed: Card) => {
+  socket.on(SocketEvent.UpdateGame, async (cardPlayed: Card) => {
     const game = gameManager.getGame(socket.id);
     const room = rooms.find(room => room.hasPlayer(socket.id))!;
     try {
       game.updateGame(cardPlayed, socket.id);
       sendMaskedGameToClients(game);
+      if (game.round.isTrickComplete()) {
+        await sleep(1000)
+        game.addTrickToWinningPlayer();
+        game.round.moveToNextTrick();
+      }
       if (game.round.isComplete) {
         game.completeRound();
         const winner = game.getWinnerOfGame();
@@ -175,4 +180,8 @@ io.on('connection', socket => {
 server.listen(3001, () => {
   console.log('> Ready on http://localhost:3001');
 });
+
+function sleep(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
