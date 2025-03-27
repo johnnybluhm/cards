@@ -23,6 +23,9 @@ export class Round {
             if (card.suit === Suit.Hearts) {
                 throw new Error("You cannot play hearts on the first trick");
             }
+            if (card.suit === Suit.Spades && card.face === Face.Queen) {
+                throw new Error("You cannot play the Queen of Spades on the first trick");
+            }
         }
         if (!this.isHeartsBroken && card.suit === Suit.Hearts) {
             if (this.currentTrick.cards.length === 0) {
