@@ -70,6 +70,12 @@ export default class BotManager {
             while (nextPlayer.isBot) {
                 this.playBotTurn();
                 this.setGame(_.cloneDeep(this.game));
+                if (this.game.round.isTrickComplete()) {
+                    await this.sleep(this.moveDelayInMs)
+                    this.game.addTrickToWinningPlayer();
+                    this.game.round.moveToNextTrick();
+                }
+                this.setGame(_.cloneDeep(this.game));
                 await this.sleep(this.moveDelayInMs);
                 nextPlayer = this.game.players.find(player => player.isTurn)!;
             }
@@ -89,10 +95,22 @@ export default class BotManager {
             return;
         }
         this.setGame(_.cloneDeep(this.game));
+        if (this.game.round.isTrickComplete()) {
+            await this.sleep(this.moveDelayInMs)
+            this.game.addTrickToWinningPlayer();
+            this.game.round.moveToNextTrick();
+        }
+        this.setGame(_.cloneDeep(this.game));
         await this.sleep(this.moveDelayInMs);
         let nextPlayer = this.game.players.find(player => player.isTurn)!;
         while (nextPlayer.isBot && !this.game.round.isComplete) {
             this.playBotTurn();
+            this.setGame(_.cloneDeep(this.game));
+            if (this.game.round.isTrickComplete()) {
+                await this.sleep(this.moveDelayInMs)
+                this.game.addTrickToWinningPlayer();
+                this.game.round.moveToNextTrick();
+            }
             this.setGame(_.cloneDeep(this.game));
             await this.sleep(this.moveDelayInMs);
             nextPlayer = this.game.players.find(player => player.isTurn)!;
@@ -117,6 +135,11 @@ export default class BotManager {
             if (nextPlayer.isBot) {
                 while (nextPlayer.isBot) {
                     this.playBotTurn();
+                    if (this.game.round.isTrickComplete()) {
+                        await this.sleep(this.moveDelayInMs)
+                        this.game.addTrickToWinningPlayer();
+                        this.game.round.moveToNextTrick();
+                    }
                     this.setGame(_.cloneDeep(this.game));
                     await this.sleep(this.moveDelayInMs);
                     nextPlayer = this.game.players.find(player => player.isTurn)!;
