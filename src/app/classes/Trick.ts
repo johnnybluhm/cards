@@ -1,4 +1,3 @@
-import { FaceString, SuitString } from "../components/CardComponent";
 import { Face } from "../enums/Face";
 import { Suit } from "../enums/Suits";
 import { Card } from "./Card";
@@ -50,3 +49,26 @@ export class Trick {
         this.points = points;
     }
 }
+
+const FaceString = {
+    [Face.Ace]: "Ace",
+    [Face.Two]: "2",
+    [Face.Three]: "3",
+    [Face.Four]: "4",
+    [Face.Five]: "5",
+    [Face.Six]: "6",
+    [Face.Seven]: "7",
+    [Face.Eight]: "8",
+    [Face.Nine]: "9",
+    [Face.Ten]: "10",
+    [Face.Jack]: "Jack",
+    [Face.Queen]: "Queen",
+    [Face.King]: "King"
+};
+
+const SuitString = {
+    [Suit.Hearts]: "Hearts",
+    [Suit.Diamonds]: "Diamondss",
+    [Suit.Clubs]: "Clubs",
+    [Suit.Spades]: "Spades"
+};

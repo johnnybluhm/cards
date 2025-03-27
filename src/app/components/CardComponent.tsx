@@ -17,7 +17,7 @@ export default function PlayingCard({ card, updateGame }: Readonly<Props>) {
     );
 };
 
-export const FaceString = {
+const FaceString = {
     [Face.Ace]: "A",
     [Face.Two]: "2",
     [Face.Three]: "3",
@@ -33,7 +33,7 @@ export const FaceString = {
     [Face.King]: "K"
 };
 
-export const SuitString = {
+const SuitString = {
     [Suit.Hearts]: "hearts",
     [Suit.Diamonds]: "diams",
     [Suit.Clubs]: "clubs",
