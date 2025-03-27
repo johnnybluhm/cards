@@ -46,7 +46,7 @@ export default function GameComponent({ game, updateGame, passCards, socketId }:
                 </Grid>
                 <Grid size={2}>
 
-                    {!game?.isCardPassingComplete && <p style={{ fontSize: 50 }}>Pass {game?.currentPassType}!</p>}
+                    {!game?.isCardPassingComplete && <p style={{ fontSize: 50, justifyContent:'center' }}>Pass {game?.currentPassType}!</p>}
                     <Trick trick={game?.round?.currentTrick} />
                 </Grid>
 

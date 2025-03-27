@@ -13,6 +13,7 @@ export class Player {
     isReadyForNextRound: boolean;
     cardsPassed: Card[] = [];
     cardsReceived: Card[] = [];
+    isBot: boolean = false;
 
     constructor(name: string, id: string) {
         this.name = name;

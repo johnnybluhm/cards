@@ -13,7 +13,7 @@ export class Trick {
         if (this.cards.length > 0 &&
             card.suit !== this.trickSuit &&
             playerCardsInHand.some(c => c.suit === this.trickSuit)) {
-            throw new Error("You must follow the trick suit");
+            throw new Error(`You must follow the trick suit. Trick suit is ${SuitString[this.trickSuit!]} and you tried playing ${FaceString[card.face]} of ${SuitString[card.suit]}`);
         }
         this.cards.push(card);
         this.updatePoints();
@@ -49,3 +49,26 @@ export class Trick {
         this.points = points;
     }
 }
+
+const FaceString = {
+    [Face.Ace]: "Ace",
+    [Face.Two]: "2",
+    [Face.Three]: "3",
+    [Face.Four]: "4",
+    [Face.Five]: "5",
+    [Face.Six]: "6",
+    [Face.Seven]: "7",
+    [Face.Eight]: "8",
+    [Face.Nine]: "9",
+    [Face.Ten]: "10",
+    [Face.Jack]: "Jack",
+    [Face.Queen]: "Queen",
+    [Face.King]: "King"
+};
+
+const SuitString = {
+    [Suit.Hearts]: "Hearts",
+    [Suit.Diamonds]: "Diamonds",
+    [Suit.Clubs]: "Clubs",
+    [Suit.Spades]: "Spades"
+};

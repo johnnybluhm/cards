@@ -1,6 +1,7 @@
 import { Button, Dialog, DialogContent, DialogTitle, FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, SelectChangeEvent, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import SocketRoom from '../classes/SocketRoom';
+import { useRouter } from 'next/navigation';
 
 interface RoomFormProps {
     createRoom: (roomName: string, password: string, playerName: string) => void;
@@ -9,6 +10,7 @@ interface RoomFormProps {
 }
 
 const RoomForm: React.FC<RoomFormProps> = ({ createRoom, joinRoom, availableRooms }) => {
+    const router = useRouter();
     const [selectedRoom, setSelectedRoom] = React.useState('');
     const [isJoinRoom, setIsJoinRoom] = useState(false);
     const [roomName, setRoomName] = useState('');
@@ -102,6 +104,9 @@ const RoomForm: React.FC<RoomFormProps> = ({ createRoom, joinRoom, availableRoom
                                 <Button type="submit" variant="contained" color="primary">
                                     Join Room
                                 </Button>
+                                <Button variant="contained" color="secondary" onClick={() => router.push('/singlePlayer')}>
+                                    Single Player
+                                </Button>
                             </FormControl>}
 
                         {!isJoinRoom &&
@@ -132,6 +137,9 @@ const RoomForm: React.FC<RoomFormProps> = ({ createRoom, joinRoom, availableRoom
                                 />
                                 <Button type="submit" variant="contained" color="primary">
                                     Create Room
+                                </Button>
+                                <Button variant="contained" color="secondary" onClick={() => router.push('/singlePlayer')}>
+                                    Single Player
                                 </Button>
                             </>}
                     </FormControl>
