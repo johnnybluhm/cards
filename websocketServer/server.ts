@@ -111,6 +111,7 @@ io.on('connection', socket => {
         await sleep(1000)
         game.addTrickToWinningPlayer();
         game.round.moveToNextTrick();
+        sendMaskedGameToClients(game);
       }
       if (game.round.isComplete) {
         game.completeRound();
