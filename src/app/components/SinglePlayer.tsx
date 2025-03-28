@@ -56,20 +56,21 @@ export default function SinglePlayer({ animationSpeed }: Props) {
                 players={gameState?.players ?? []}
                 onRoundCompleted={botManager.completeRound.bind(botManager)} />
             <div className="container">
+
                 <div className="topPlayer" style={{ background: 'white', paddingLeft: '4em' }}>
                     <OpponentHand numberOfCards={player3.hand.length} />
                 </div>
-                <div className="leftPlayer" style={{ background: 'blue', rotate: '270deg', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <div className="leftPlayer" style={{ background: 'blue', display: 'flex', justifyContent: 'right' }}>
                     <OpponentHand numberOfCards={player2.hand.length} shouldBeVertical={true} />
                 </div>
 
-                <div className="trickArea" style={{ background: 'yellow' }}>
+                <div className="trickArea" style={{ background: 'yellow', display: 'flex', justifyContent: 'center' }}>
                     {!gameState?.isCardPassingComplete && <p style={{ fontSize: 50 }}>Pass {gameState?.currentPassType}!</p>}
                     <Trick trick={gameState?.round?.currentTrick} />
                 </div>
 
 
-                <div className="rightPlayer" style={{ background: 'green', rotate: '-90deg', display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
+                <div className="rightPlayer" style={{ background: 'green', display: 'flex', justifyContent: 'left' }} >
                     <OpponentHand numberOfCards={player4.hand.length} shouldBeVertical={true} />
                 </div>
 
@@ -82,6 +83,6 @@ export default function SinglePlayer({ animationSpeed }: Props) {
                 </div>
 
             </div>
-        </div >
+        </div>
     );
 }

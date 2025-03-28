@@ -8,7 +8,7 @@ type Props = {
 
 export default function Trick({ trick }: Readonly<Props>) {
     return (
-        <ul className="hand">
+        <ul className="hand" style={{marginRight:'8em'}}>
             {trick?.cards.map((card, cardIndex) => (
                 <li key={cardIndex}>
                     <PlayingCard card={card} updateGame={() => { }} />
