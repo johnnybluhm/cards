@@ -160,8 +160,6 @@ export default class BotManager {
             factor = 50 - (.1 * factor);
         }
         this.moveDelayInMs = 1000 * 100 / factor;
-
-        console.log('move delay', this.moveDelayInMs);
     }
 
     private sleep(ms: number) {
