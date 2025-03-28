@@ -110,7 +110,7 @@
 
 .playingCards ul.hand {
     list-style-type: none;
-    height: 8em;
+    height: 10em;
     position: relative; /* for absolute positioning of cards */
 }
 
