@@ -20,9 +20,9 @@ export default function CardPassHand({ player, passCards, passType }: Readonly<P
     }
     return (
         <>
-            <ul className="hand">
+            <ul className="hand" style={{cursor: 'pointer' }}>
                 {player.hand.map((card, cardIndex) => (
-                    <li key={`${cardIndex}-${card.ownerId}`}>
+                    <li key={`${cardIndex}-${card.ownerId}`} >
                         <PassingCard cardToPass={card} passedCards={cardsPassed} setCardsPassed={setCardsPassed} />
                     </li>
                 ))
