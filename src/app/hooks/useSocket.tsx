@@ -17,25 +17,22 @@ export const useSocket = () => {
             socket.connect();
         }
         socket.on('connect', () => {
-            console.log('Connected to server');
+            console.log('Connected to socket server');
+            getRooms(); // Fetch available rooms when connected
         });
         socket.on(SocketEvent.Message, (message: Message) => {
-            console.log('Message from server', message);
             messages.push(message);
             setMessages((prevMessages) => [...prevMessages, message])
         });
         socket.on(SocketEvent.JoinRoom, (roomName) => {
-            console.log('JoinRoom event emitted by server', roomName);
             setChosenRoom(roomName);
         });
         socket.on(SocketEvent.GetRooms, (rooms) => {
-            console.log('Seeting rooms on client', rooms);
             setAvailableRooms(rooms);
         });
 
         socket.on(SocketEvent.UpdateGame, (updatedGame: string) => {
             const game = JSON.parse(updatedGame) as Game;
-            console.log('Got game', game);
             setGame(game);
         });
         setSocket(socket);
@@ -51,7 +48,6 @@ export const useSocket = () => {
     }
 
     function getRooms() {
-        console.log('client socket id', socket.id);
         if (socket) {
             socket.emit(SocketEvent.GetRooms);
         }
