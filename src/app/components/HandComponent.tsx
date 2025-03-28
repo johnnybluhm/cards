@@ -10,7 +10,7 @@ type Props = {
 export default function Hand({ cards, updateGame }: Readonly<Props>) {
     sortHand(cards);
     return (
-        <ul className="hand">
+        <ul className="hand" style={{ cursor: 'pointer' }}>
             {cards.map((card, cardIndex) => (
                 <li key={`${cardIndex}-${card.ownerId}`}>
                     <PlayingCard card={card} updateGame={updateGame} />
