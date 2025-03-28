@@ -1,38 +1,41 @@
-
-.parent {
-    display: grid;
-    grid-template-columns: repeat(5, .1fr);
-    grid-template-rows: repeat(5, .1fr);
-    gap: 100px;
-    justify-content: center;
-}
-    
-.div1 {
-    grid-column-start: 3;
-    grid-row-start: 3;
-}
-
-.div2 {
-    grid-row: span 3 / span 3;
-    grid-column-start: 2;
-    grid-row-start: 2;
-}
-
-.div3 {
-    grid-column: span 3 / span 3;
-    grid-column-start: 2;
-    grid-row-start: 5;
-}
-
-.div4 {
-    grid-column: span 3 / span 3;
-    grid-column-start: 2;
-    grid-row-start: 1;
-}
-
-.div5 {
-    grid-row: span 3 / span 3;
-    grid-column-start: 4;
-    grid-row-start: 2;
-}
-        
+.container {  display: grid;
+    grid-template-columns: 0.3fr .4fr 0.3fr;
+    grid-template-rows: 0.1fr .1fr 0.1fr;
+    gap: 0px 20px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      ". topPlayer ."
+      "leftPlayer trickArea rightPlayer"
+      ". bottomPlayer .";
+  }
+  
+  .leftPlayer { grid-area: leftPlayer; }
+  
+  .trickArea { grid-area: trickArea; }
+  
+  .topPlayer {  display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: .1fr .2fr .2fr;
+    gap: 9px 8px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      ". . ."
+      ". . ."
+      ". . .";
+    grid-area: topPlayer;
+  }
+  
+  .rightPlayer { grid-area: rightPlayer; }
+  
+  .bottomPlayer {  display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: .1fr .1fr .1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      ". . ."
+      ". . ."
+      ". . .";
+    grid-area: bottomPlayer;
+  }
+  

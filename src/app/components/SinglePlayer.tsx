@@ -55,26 +55,26 @@ export default function SinglePlayer({ animationSpeed }: Props) {
                 open={gameState?.round?.isComplete ?? false}
                 players={gameState?.players ?? []}
                 onRoundCompleted={botManager.completeRound.bind(botManager)} />
-            <div className="parent">
-                <div className="div4" style={{ background: 'white' }}>
+            <div className="container">
+                <div className="topPlayer" style={{ background: 'white', paddingLeft: '4em' }}>
                     <OpponentHand numberOfCards={player3.hand.length} />
                 </div>
-                <div className="div2" style={{ background: 'blue' }}>
+                <div className="leftPlayer" style={{ background: 'blue', rotate: '270deg', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <OpponentHand numberOfCards={player2.hand.length} shouldBeVertical={true} />
                 </div>
 
-                <div className="div1" style={{ background: 'yellow' }}>
+                <div className="trickArea" style={{ background: 'yellow' }}>
                     {!gameState?.isCardPassingComplete && <p style={{ fontSize: 50 }}>Pass {gameState?.currentPassType}!</p>}
                     <Trick trick={gameState?.round?.currentTrick} />
                 </div>
 
 
-                <div className="div5" style={{ background: 'green' }}>
+                <div className="rightPlayer" style={{ background: 'green', rotate: '-90deg', display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
                     <OpponentHand numberOfCards={player4.hand.length} shouldBeVertical={true} />
                 </div>
 
                 {/*BOTTOM and actual players hand*/}
-                <div className="div3" style={{ background: 'purple'}}>
+                <div className="bottomPlayer" style={{ background: 'purple', paddingLeft: '4em' }}>
                     {gameState?.isCardPassingComplete ?
                         <Hand cards={player?.hand} updateGame={botManager.updateGame.bind(botManager)} />
                         : <CardPassHand player={player} passCards={botManager.passCards.bind(botManager)} passType={gameState?.currentPassType ?? PassType.NoPass} />
