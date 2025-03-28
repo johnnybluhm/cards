@@ -3,6 +3,7 @@
 import Grid from '@mui/material/Grid2';
 import { useEffect, useState } from 'react';
 import '../card-styles/cards.css';
+import '../card-styles/grid.css'; // Import the grid CSS for MUI Grid2
 import BotManager from '../classes/BotManager';
 import Game, { PassType } from '../classes/Game';
 import { Player } from '../classes/Player';
@@ -54,47 +55,33 @@ export default function SinglePlayer({ animationSpeed }: Props) {
                 open={gameState?.round?.isComplete ?? false}
                 players={gameState?.players ?? []}
                 onRoundCompleted={botManager.completeRound.bind(botManager)} />
-            <Grid container spacing={2}>
-
-                {/*TOP*/}
-                <Grid size={5}>
-                </Grid>
-                <Grid size={4}>
+            <div className="parent">
+                <div className="div4" style={{ background: 'white' }}>
                     <OpponentHand numberOfCards={player3.hand.length} />
-                </Grid>
-                <Grid size={3}>
-                </Grid>
-
-                {/*LEFT*/}
-                <Grid size={2}>
-
-                </Grid>
-                <Grid size={4}>
+                </div>
+                <div className="div2" style={{ background: 'blue' }}>
                     <OpponentHand numberOfCards={player2.hand.length} shouldBeVertical={true} />
-                </Grid>
-                <Grid size={1}>
+                </div>
 
+                <div className="div1" style={{ background: 'yellow' }}>
                     {!gameState?.isCardPassingComplete && <p style={{ fontSize: 50 }}>Pass {gameState?.currentPassType}!</p>}
                     <Trick trick={gameState?.round?.currentTrick} />
-                </Grid>
+                </div>
 
-                {/*RIGHT*/}
-                <Grid size={4}>
+
+                <div className="div5" style={{ background: 'green' }}>
                     <OpponentHand numberOfCards={player4.hand.length} shouldBeVertical={true} />
-                </Grid>
+                </div>
 
                 {/*BOTTOM and actual players hand*/}
-                <Grid size={5}>
-                </Grid>
-                <Grid size={4}>
+                <div className="div3" style={{ background: 'purple'}}>
                     {gameState?.isCardPassingComplete ?
                         <Hand cards={player?.hand} updateGame={botManager.updateGame.bind(botManager)} />
                         : <CardPassHand player={player} passCards={botManager.passCards.bind(botManager)} passType={gameState?.currentPassType ?? PassType.NoPass} />
                     }
-                </Grid>
-                <Grid size={3}>
-                </Grid>
-            </Grid>
+                </div>
+
+            </div>
         </div >
     );
 }
