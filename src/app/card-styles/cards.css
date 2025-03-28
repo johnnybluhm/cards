@@ -110,11 +110,8 @@
 
 .playingCards ul.hand {
     list-style-type: none;
-    display: flex;
     height: 8em;
-    padding: 0;  /* Remove default ul padding */
-    margin: 0; /* Remove default ul margins */
-    bottom: 0;
+    position: relative; /* for absolute positioning of cards */
 }
 
 .playingCards ul.hand li {
