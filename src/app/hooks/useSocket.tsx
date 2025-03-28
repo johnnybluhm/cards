@@ -13,7 +13,7 @@ export const useSocket = () => {
     const [game, setGame] = useState<Game | null>(null);
     const socketId = socket.id;
     useEffect(() => {
-        if (!socket.id) {
+        if (!socket.connected) {
             socket.connect();
         }
         socket.on('connect', () => {
@@ -42,7 +42,7 @@ export const useSocket = () => {
         return () => {
             socket.disconnect();
         };
-    });
+    }, []);
 
     function joinRoom(roomName: string, password: string, playerName: string) {
         if (socket) {
