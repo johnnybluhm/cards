@@ -123,7 +123,16 @@ export default class BotManager {
             this.game.players.forEach(player => player.isReadyForNextRound = true);
             this.game.players[0].isReadyForNextRound = false;
             this.setGame(_.cloneDeep(this.game));
+            const winner = this.game.getWinnerOfGame();
+            if (winner) {
+                this.setMessage(new Message(Severity.Success, `${winner.name} has won the game!`));
+                await this.sleep(5000); // wait for 5 seconds before resetting the game
+                const newGame = new Game(this.game.players);
+                newGame.beginNewRound();
+                this.setGame(newGame);
+            }
         }
+
     }
 
     async completeRound() {
