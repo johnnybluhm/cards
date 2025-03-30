@@ -28,15 +28,7 @@ export default function CardPassHand({ player, passCards, passType }: Readonly<P
                 ))
                 }
             </ul >
-
-            <Button sx={{
-                color: 'black',
-                fontSize: 50,
-                ':hover': {
-                    bgcolor: 'primary.main', // theme.palette.primary.main
-                    color: 'white',
-                }
-            }} onClick={handleCardPass}> Pass Cards</Button>
+            <Button variant="contained" sx={{ width: '34em' }} onClick={handleCardPass}> Pass Cards</Button>
         </>
     );
 };
