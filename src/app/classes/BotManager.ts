@@ -56,32 +56,39 @@ export default class BotManager {
     }
 
     async passCards(humanCardsPassed: Card[]) {
-        this.game.passCards(humanCardsPassed, this.game.players[0].id);
-        const bots = this.game.players.filter(player => player.isBot);
-        bots.forEach(bot => {
-            const cardsToPass = bot.hand.slice(0, 3);
-            this.game.passCards(cardsToPass, bot.id);
-        });
-        this.game.completeCardPassing();
-        this.setGame(_.cloneDeep(this.game));
-        let nextPlayer = this.game.players.find(player => player.isTurn)!;
-        await this.sleep(this.moveDelayInMs);
-        if (nextPlayer.isBot) {
-            while (nextPlayer.isBot) {
-                this.playBotTurn();
-                this.setGame(_.cloneDeep(this.game));
-                if (this.game.round.isTrickComplete()) {
-                    await this.sleep(this.moveDelayInMs)
-                    this.game.addTrickToWinningPlayer();
-                    this.game.round.moveToNextTrick();
+        try {
+            this.game.passCards(humanCardsPassed, this.game.players[0].id);
+            const bots = this.game.players.filter(player => player.isBot);
+            bots.forEach(bot => {
+                const cardsToPass = bot.hand.slice(0, 3);
+                this.game.passCards(cardsToPass, bot.id);
+            });
+            this.game.completeCardPassing();
+            this.setGame(_.cloneDeep(this.game));
+            let nextPlayer = this.game.players.find(player => player.isTurn)!;
+            await this.sleep(this.moveDelayInMs);
+            if (nextPlayer.isBot) {
+                while (nextPlayer.isBot) {
+                    this.playBotTurn();
+                    this.setGame(_.cloneDeep(this.game));
+                    if (this.game.round.isTrickComplete()) {
+                        await this.sleep(this.moveDelayInMs)
+                        this.game.addTrickToWinningPlayer();
+                        this.game.round.moveToNextTrick();
+                    }
+                    this.setGame(_.cloneDeep(this.game));
+                    await this.sleep(this.moveDelayInMs);
+                    nextPlayer = this.game.players.find(player => player.isTurn)!;
                 }
-                this.setGame(_.cloneDeep(this.game));
-                await this.sleep(this.moveDelayInMs);
-                nextPlayer = this.game.players.find(player => player.isTurn)!;
+            }
+            if (this.game.players[0].isTurn) {
+                this.setMessage(new Message(Severity.Info, "It's your turn!"));
             }
         }
-        if (this.game.players[0].isTurn) {
-            this.setMessage(new Message(Severity.Info, "It's your turn!"));
+        catch (e) {
+            const error = e as Error;
+            this.setMessage(new Message(Severity.Error, error.message));
+            return;
         }
     }
 
