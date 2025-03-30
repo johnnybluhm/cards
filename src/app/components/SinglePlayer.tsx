@@ -57,10 +57,10 @@ export default function SinglePlayer({ animationSpeed }: Props) {
                 onRoundCompleted={botManager.completeRound.bind(botManager)} />
             <div className="container">
 
-                <div className="topPlayer" style={{ background: 'white', paddingLeft: '4em' }}>
+                <div className="topPlayer" style={{ background: 'white' }}>
                     <OpponentHand numberOfCards={player3.hand.length} />
                 </div>
-                <div className="leftPlayer" style={{ background: 'blue', display: 'flex', justifyContent: 'right' }}>
+                <div className="leftPlayer" style={{ background: 'blue', display: 'flex', justifyContent: 'right'}} >
                     <OpponentHand numberOfCards={player2.hand.length} shouldBeVertical={true} />
                 </div>
 
@@ -75,7 +75,7 @@ export default function SinglePlayer({ animationSpeed }: Props) {
                 </div>
 
                 {/*BOTTOM and actual players hand*/}
-                <div className="bottomPlayer" style={{ background: 'purple', paddingLeft: '4em' }}>
+                <div className="bottomPlayer" style={{ background: 'purple' }}>
                     {gameState?.isCardPassingComplete ?
                         <Hand cards={player?.hand} updateGame={botManager.updateGame.bind(botManager)} />
                         : <CardPassHand player={player} passCards={botManager.passCards.bind(botManager)} passType={gameState?.currentPassType ?? PassType.NoPass} />

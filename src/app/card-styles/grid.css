@@ -1,5 +1,5 @@
 .container {  display: grid;
-    grid-template-columns: 0.4fr 0.4fr 0.3fr;
+    grid-template-columns: 0.4fr 0.3fr 0.3fr;
     grid-template-rows: 0.6fr 0.6fr 0.6fr;
     gap: 20px 20px;
     grid-template-areas:
@@ -8,7 +8,10 @@
       ". bottomPlayer .";
   }
   
-  .leftPlayer { grid-area: leftPlayer; }
+  .leftPlayer { grid-area: leftPlayer; 
+    grid-row-start: 2;
+    grid-row-end: 4;
+  }
   
   .trickArea { grid-area: trickArea; }
   
@@ -16,9 +19,12 @@
     grid-area: topPlayer;
   }
   
-  .rightPlayer { grid-area: rightPlayer; }
+  .rightPlayer { grid-area: rightPlayer; 
+    grid-row-start: 2;
+    grid-row-end: 4;}
   
   .bottomPlayer { 
     grid-area: bottomPlayer;
   }
+
   
