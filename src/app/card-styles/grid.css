@@ -1,4 +1,4 @@
-.container {  display: grid;
+.cardGrid {  display: grid;
     grid-template-columns: 0.4fr 0.3fr 0.3fr;
     grid-template-rows: 0.6fr 0.6fr 0.6fr;
     gap: 20px 20px;

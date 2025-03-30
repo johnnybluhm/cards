@@ -1,18 +1,17 @@
 'use client';
 //https://www.pedroalonso.net/blog/websockets-nextjs-part-1/
-import Grid from '@mui/material/Grid2';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import '../card-styles/cards.css';
 import '../card-styles/grid.css'; // Import the grid CSS for MUI Grid2
 import BotManager from '../classes/BotManager';
 import Game, { PassType } from '../classes/Game';
 import { Player } from '../classes/Player';
+import useMessageSnackbar from '../hooks/useMessageSnackBar';
 import CardPassHand from './CardPassHand';
 import Hand from './HandComponent';
 import OpponentHand from './OpponentHand';
-import Trick from './TrickComponent';
-import useMessageSnackbar from '../hooks/useMessageSnackBar';
 import RoundCompleteDialog from './RoundCompleteDialog';
+import Trick from './TrickComponent';
 
 const players = [
     new Player("Player 1", "1"),
@@ -36,10 +35,6 @@ export default function SinglePlayer({ animationSpeed }: Props) {
         MessageSnackBar
     } = useMessageSnackbar();
 
-    useEffect(() => {
-    }, []);
-
-
     const [gameState, setGameState] = useState<Game>(game);
     botManager = new BotManager(gameState, setGameState, setMessage);
     const playerIndex = 0;
@@ -55,27 +50,26 @@ export default function SinglePlayer({ animationSpeed }: Props) {
                 open={gameState?.round?.isComplete ?? false}
                 players={gameState?.players ?? []}
                 onRoundCompleted={botManager.completeRound.bind(botManager)} />
-            <div className="container">
+            <div className="cardGrid">
 
-                <div className="topPlayer" style={{ background: 'white' }}>
+                <div className="topPlayer" style={{}}>
                     <OpponentHand numberOfCards={player3.hand.length} />
                 </div>
-                <div className="leftPlayer" style={{ background: 'blue', display: 'flex', justifyContent: 'right'}} >
+                <div className="leftPlayer" style={{ display: 'flex', justifyContent: 'right' }} >
                     <OpponentHand numberOfCards={player2.hand.length} shouldBeVertical={true} />
                 </div>
 
-                <div className="trickArea" style={{ background: 'yellow', display: 'flex', justifyContent: 'center' }}>
+                <div className="trickArea" style={{ display: 'flex', justifyContent: 'center' }}>
                     {!gameState?.isCardPassingComplete && <p style={{ fontSize: 50 }}>Pass {gameState?.currentPassType}!</p>}
                     <Trick trick={gameState?.round?.currentTrick} />
                 </div>
 
-
-                <div className="rightPlayer" style={{ background: 'green', display: 'flex', justifyContent: 'left' }} >
+                <div className="rightPlayer" style={{ display: 'flex', justifyContent: 'left' }} >
                     <OpponentHand numberOfCards={player4.hand.length} shouldBeVertical={true} />
                 </div>
 
                 {/*BOTTOM and actual players hand*/}
-                <div className="bottomPlayer" style={{ background: 'purple' }}>
+                <div className="bottomPlayer" style={{}}>
                     {gameState?.isCardPassingComplete ?
                         <Hand cards={player?.hand} updateGame={botManager.updateGame.bind(botManager)} />
                         : <CardPassHand player={player} passCards={botManager.passCards.bind(botManager)} passType={gameState?.currentPassType ?? PassType.NoPass} />
