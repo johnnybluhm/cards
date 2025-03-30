@@ -70,9 +70,9 @@ export default function SinglePlayer({ animationSpeed }: Props) {
 
                 </Grid>
                 <Grid size={4}>
-                    <OpponentHand numberOfCards={player2.hand.length} shouldBeVertical={true} />
+                    <OpponentHand numberOfCards={player2.hand.length} />
                 </Grid>
-                <Grid size={1}>
+                <Grid size={2}>
 
                     {!gameState?.isCardPassingComplete && <p style={{ fontSize: 50 }}>Pass {gameState?.currentPassType}!</p>}
                     <Trick trick={gameState?.round?.currentTrick} />
@@ -80,7 +80,7 @@ export default function SinglePlayer({ animationSpeed }: Props) {
 
                 {/*RIGHT*/}
                 <Grid size={4}>
-                    <OpponentHand numberOfCards={player4.hand.length} shouldBeVertical={true} />
+                    <OpponentHand numberOfCards={player4.hand.length} />
                 </Grid>
 
                 {/*BOTTOM and actual players hand*/}
