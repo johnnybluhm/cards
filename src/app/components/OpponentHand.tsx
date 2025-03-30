@@ -9,7 +9,7 @@ export default function OpponentHand({ numberOfCards, shouldBeVertical = false }
     const cards = new Array(numberOfCards).fill(null);
     return (
         <>
-            {shouldBeVertical ? <ul className="hand" style={{ width: `${13 * 2}em`, rotate: '-90deg' }}>
+            {shouldBeVertical ? <ul className="hand" style={{ width: `${13 * 2 + 4}em` }}>
                 {
                     cards.map((card, cardIndex) => (
                         <li key={cardIndex}>
